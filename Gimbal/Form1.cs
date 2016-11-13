@@ -1,0 +1,942 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Threading;
+using System.IO.Ports;
+
+using System.Runtime.InteropServices;
+using HalconDotNet;
+
+namespace Gimbal
+{
+    public partial class Form1 : Form
+    {
+
+        [DllImport("GimbalDll.dll")]
+        extern static int MTCP_OPEN(string ip, int port, int timeout);
+
+        [DllImport("GimbalDll.dll")]
+        extern static int MTCP_TSCR(string dutsn, string socketsn, string sw, int mode, int slotid, int station);
+
+        [DllImport("GimbalDll.dll")]
+        extern static int MTCP_INIT(string sw, string tn, string lot, int v);
+
+        [DllImport("GimbalDll.dll")]
+        extern static int MTCP_VDCR(float[] rsp);
+
+        [DllImport("GimbalDll.dll")]
+        extern static int MTCP_ALPR(float[] rsp);
+
+        [DllImport("GimbalDll.dll")]
+        extern static int MTCP_ALPH(string[] path, ushort img_cnt, ushort width, ushort height, uint size, float i_dr, float v_for);
+
+        [DllImport("GimbalDll.dll")]
+        extern static int MTCP_POST();
+
+        [DllImport("GimbalDll.dll")]
+        extern static int MTCP_TSED();
+
+        [DllImport("GimbalDll.dll")]
+        extern static int MTCP_CLOSE();
+
+        public Form1()
+        {
+            InitializeComponent();
+            btnsnap.Enabled = true;
+            btnlive.Text = "Live";
+
+            Control.CheckForIllegalCrossThreadCalls = false;
+            comboProduct.SelectedIndex = 0;
+            comboCamera.SelectedIndex = 0;
+            BM.Initialize();
+            BM.Play();
+
+            Com.serial_open(comtec, TecCom, 115200);  //打开TEC
+            // Com.serial_send(comtec, openTEC);
+            //Com.serial_send(comtec, TECTemp);
+            //Thread.Sleep(500);
+            //txtTECTemp.Text = Com.serial_read(comtec);
+            //Com.serial_close(comtec);
+
+            Com.serial_open(comscan, barcodeCom, 115200);
+
+            string IP = file.ReadXmlFile("IP");
+            string Port = file.ReadXmlFile("Port");
+
+            Tcp.tcpconnect(IP, Port);
+
+            string IP1 = "169.254.1.99";
+            string Port1 = "49211";
+            Tcp1.tcpconnect(IP1, Port1);
+
+            Process = new Thread(new ThreadStart(Processthread));
+            Process.IsBackground = true;
+            Process.Start();
+
+            TecP = new Thread(new ThreadStart(ReadTecTemp));
+            TecP.IsBackground = true;
+            TecP.Start();
+
+
+
+            //AVT Read image
+            /*
+            HTuple hv_Window = hWindowControl1.HalconWindow;
+            HObject ho_image;
+            HTuple width, height;
+            HOperatorSet.GenEmptyObj(out ho_image);
+            Avt.Open();
+            Avt.OneShot(ref ho_image);
+            HOperatorSet.GetImageSize(ho_image, out width, out height);
+            HOperatorSet.SetPart(hv_Window, 0, 0, width - 1, height - 1);
+            HOperatorSet.DispObj(ho_image, hv_Window);
+            Avt.Close();
+             * */
+        }
+        private SerialPort commcu = new SerialPort();
+        private SerialPort comtec = new SerialPort();
+        private SerialPort comscan = new SerialPort();
+        AvtCam Avt = new AvtCam();
+        Serial Com = new Serial();
+        ImageProcess pro = new ImageProcess();
+        TCPClient Tcp = new TCPClient();
+        TCPClient Tcp1 = new TCPClient();
+        BaumerSDK BM = new BaumerSDK();
+        ProcessTif tif = new ProcessTif();
+        Operxml file = new Operxml();
+        HObject ho_Image;
+        string basepath = System.IO.Directory.GetCurrentDirectory();
+        Thread live;
+        Thread Process, TecP;
+        bool livestate = false;
+        bool exit = false;
+        string barcode = null;
+        Int32 X;   //X轴旋转角度
+        Int32 Y;   //Y轴旋转角度
+        String I;  //SMU电流值
+        Int32 T;   //等待TEC稳定时间
+        double meani;  //smu回采电流平均值
+        double meanv;  //smu回采电压平均值
+        string barcodeCom = "com1";
+        string SourceCom = "com8";
+        string TecCom = "com5";
+        string power = @"reset()
+                        smua.source.output = smua.OUTPUT_OFF
+                        digio.writebit(2, 1)
+                        period_timer = trigger.timer[1]
+                        pulse_timer = trigger.timer[2]
+                        smua.trigger.source.listi({1})    
+                        smua.source.rangei = 1
+                        smua.source.limitv = 3
+                        smua.trigger.measure.action = smua.DISABLE
+                        period_timer.delay = 0.033
+                        period_timer.count = 10 
+                        period_timer.stimulus = smua.trigger.ARMED_EVENT_ID
+                        period_timer.passthrough = true
+                        pulse_timer.delay = 0.0036
+                        pulse_timer.stimulus = period_timer.EVENT_ID
+                        pulse_timer.count = 1
+                        pulse_timer.passthrough=false
+                        digio.trigger[1].mode = digio.TRIG_FALLING
+                        digio.trigger[1].pulsewidth = 0.0006
+                        digio.trigger[1].stimulus =  smua.trigger.ARMED_EVENT_ID
+                        smua.trigger.count = 1
+                        smua.trigger.arm.count = 200
+                        smua.trigger.arm.stimulus = 0
+                        smua.trigger.source.stimulus = period_timer.EVENT_ID
+                        smua.trigger.source.action = smua.ENABLE
+                        smua.trigger.endpulse.stimulus = pulse_timer.EVENT_ID
+                        smua.trigger.endpulse.action = smua.SOURCE_IDLE
+                        smua.trigger.endsweep.action = smua.SOURCE_IDLE
+                        smua.source.output = smua.OUTPUT_ON
+                        smua.trigger.initiate()
+                        waitcomplete()";
+        string openTEC = @"$W"+"\r\n";
+        string closeTEC = @"$Q"+"\r\n";
+        string TECTemp = @"$R100?"+"\r\n";
+
+
+
+
+        private void Processthread()
+        {
+            while(true)
+            {
+                switch(Tcp.result)
+                {
+                    //产品上料防呆
+                    case("0100bb00bb000000"):
+                        Tcp.result = null;
+                        HTuple hv_window = hWindowControl1.HalconWindow;
+                        Thread.Sleep(200);
+                      //  string result = action_Diffuser(hv_window);
+                        string result = "1";
+                        if (result == "1")
+                        {
+                            byte[] data = { 0x02, 0x00, 0xdd, 0x00, 0xdd, 0x00, 0x00, 0x00 };
+                            Tcp.sendbytes(data);
+                        }
+                        else if (result == "-1")
+                        {
+                            byte[] data = { 0x02, 0x00, 0xde, 0x00, 0xde, 0x00, 0x00, 0x00 };
+                            Tcp.sendbytes(data);
+                            MessageBox.Show("Product is not correct in DUT", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        }
+                        break;
+                    //产品扫条码
+                    case("0300bb00bb000000"):
+                        Tcp.result = null;
+                        Thread.Sleep(200);
+                      //  Com.serial_send(comscan,"S");
+                        Tcp1.tcpsend("T");
+                        Thread.Sleep(1500);
+                      //  string barcode = null;
+                        barcode = Tcp1.result;
+                      //  barcode = Com.serial_read(comscan);
+                        txtBarcode.Text = barcode;
+                        if(barcode=="NOREAD\r\n")
+                        {
+                            byte[] data = { 0x03, 0x00, 0xee, 0x00, 0xee, 0x00, 0x00, 0x00 };
+                            Tcp.sendbytes(data);
+                            MessageBox.Show("Barcode is invalid", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        }
+                        else
+                        {
+                            //与MTCP通讯
+                            try
+                            {
+                                MTCP_OPEN("169.254.1.111", 61808, 5000);
+                                string barcodecut;
+                                barcodecut = barcode.Replace("\r", "").Replace("\n", "");
+                                MTCP_TSCR(barcodecut, "123456", "1.0", 0, 1, 1);
+                                MTCP_INIT("1.0", "GimbalTest", "Gimballot", 10);
+                                float[] vdcr_rsp = new float[2];
+                                MTCP_VDCR(vdcr_rsp);
+                                I = vdcr_rsp[0].ToString();      //SMU电流值
+                                T = (Int32)vdcr_rsp[1];          //等待TEC稳定时间
+                                float[] alpr_rsp = new float[2];
+                                MTCP_ALPR(alpr_rsp);
+                                X = (Int32)(alpr_rsp[0] * 1000);    //X轴旋转角度
+                                Y = (Int32)(alpr_rsp[1] * 1000);    //Y轴旋转角度
+                            }
+                            catch
+                            {
+                                I = "1";
+                                T = 5;
+                                X = 0;
+                                Y = 0;
+                            }
+                            //与beckhoff通讯
+                            byte[] data = { 0x03, 0x00, 0xdd, 0x00, 0xdd, 0x00, 0x00, 0x00 };
+                            Tcp.sendbytes(data);
+                        }
+                        break;
+
+                    //发送X、Y坐标
+                    case ("1000dd00dd000000"):
+                        Tcp.result = null;
+                        //send position x
+                        //Int32 X=002000;           //前3位是角度整数部分，后3位是角度小数部分
+                        X = GetPosition(xpos.Value);
+                        byte[] arryX2=new byte[4];
+                        ConvertIntToByteArray(X,ref arryX2);             //整数转字节数组
+                        byte[] arryX1={ 0x20, 0x00, 0x00, 0x00 };        //定义第一个字节数组
+                        byte[] dataX = arryX1.Concat(arryX2).ToArray();  //连接两个字节数组
+                        // byte[] dataX = { 0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };  //最终发送数据形式
+                        Tcp.sendbytes(dataX);
+                        //send position y
+                        //Int32 Y=002000;         //前3位是角度整数部分，后3位是角度小数部分
+                        Y = GetPosition(ypos.Value);
+                        byte[] arryY2=new byte[4];
+                        ConvertIntToByteArray(Y,ref arryY2);             //整数转字节数组
+                        byte[] arryY1={ 0x20, 0x00, 0x01, 0x00 };        //定义第一个字节数组
+                        byte[] dataY = arryY1.Concat(arryY2).ToArray();  //连接两个字节数组
+                        // byte[] dataY = { 0x20, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00 };   //最终发送数据形式
+                        Tcp.sendbytes(dataY);                        
+                        break;
+                     //X坐标超出范围报警
+                    case("20000000ee000000"):
+                        Tcp.result = null;
+                        MessageBox.Show("X angle out of range", "Alarm", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        break;
+                    //Y坐标超出范围报警
+                    case ("20000100ee000000"):
+                        Tcp.result = null;
+                        MessageBox.Show("Y angle out of range", "Alarm", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        break;
+                    //AVT相机采集数据
+                    case ("2000dd00dd000000"):
+                        Tcp.result = null;
+                                                  
+                        HTuple hv_Window = hWindowControl1.HalconWindow;
+                        HObject ho_image;
+                        HTuple width, height;
+                        HOperatorSet.GenEmptyObj(out ho_image);
+
+                        double exposureTimeAbs = 500000;
+                        Avt.Open(exposureTimeAbs);
+                        ushort[,] rawdata = new ushort[tif.height, tif.width];
+                        //rawdata = Avt.OneShot2(basepath + @"\tiff\" + barcode + @".tiff");
+
+                        //打开TEC
+                        Com.serial_send(comtec, openTEC);
+                        Thread.Sleep(T*1000);   //TEC稳定时间
+
+                        Process = new Thread(new ThreadStart(OperateMCU));
+                        Process.IsBackground = true;
+                        Process.Start();
+
+                        Avt.OneShot(ref ho_image);
+
+                        //关闭TEC
+                        Com.serial_send(comtec, closeTEC);
+
+                        string time1;
+                        time1 = DateTime.Now.ToString("yyyyMMddHHmmss");
+                        string Sx, Sy;
+                        float x, y;
+                        x = (float)X / 1000;
+                        y = (float)Y / 1000;
+                        Sx = x.ToString();
+                        Sy = y.ToString();
+                        string PicName;
+                        string cutbarcode;
+                        cutbarcode = barcode.Replace("\r", "").Replace("\n", "");
+                        PicName = cutbarcode + " X" + Sx + " Y" + Sy + " " + time1;
+
+                        HOperatorSet.WriteImage(ho_image, "tiff", 0, basepath + @"\image\Product\" + PicName);
+                        HOperatorSet.GetImageSize(ho_image, out width, out height);
+                        HOperatorSet.SetPart(hv_Window, 0, 0, height - 1, width - 1);
+                        HOperatorSet.DispObj(ho_image, hv_Window);
+                        Avt.Close();   
+                        //与MTCP通讯
+                        Thread.Sleep(2500);//等待smu计算平均电流和电压值
+                        try
+                        {
+                            uint size = (uint)(width * height);
+                            string[] path={basepath + @"\image\Product\" + PicName+".tif"};
+                            ushort img_cnt = 1;
+                            float meaniI = (float)meani;
+                            float meanvV = (float)meanv;
+                            MTCP_ALPH(path, img_cnt, (ushort)width, (ushort)height, 0, meaniI, meanvV);
+                            MTCP_POST();
+                            MTCP_TSED();
+                            MTCP_CLOSE();
+                        }
+                        catch
+                        {
+
+                        }
+                        //与Beckhoff通讯
+                        byte[] dataState = { 0x30, 0x00, 0xdd, 0x00, 0xdd, 0x00, 0x00, 0x00 };
+                        Tcp.sendbytes(dataState);    
+                        break;
+                    //产品下料
+                    case("4000dd00dd000000"):
+                        Tcp.result = null;
+                      //  MessageBox.Show("Test Finished", "State", MessageBoxButtons.OK);
+                        break;
+                    //机器报错
+                    case("ee00ee00ee000000"):
+                        Tcp.result = null;
+                        MessageBox.Show("Machine Error", "Alarm", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        private void OperateMCU()
+        { 
+            Thread.Sleep(1000);
+           /*
+            string para = @"num_of_pulses=10
+                            leveli=1.0
+                            script.user.scripts.smu_pulse()
+                            ";
+            * */
+            string para = "num_of_pulses=10" + "\r\n" + "leveli=" + I + "\r\n" + "script.user.scripts.smu_pulse()" + "\r\n";
+            Com.serial_open(commcu, SourceCom, 9600);  //打开源表
+            Com.serial_send(commcu, para);
+
+            string vi = Com.serial_readmcu(commcu);
+            Com.serial_close(commcu);
+
+            string[] a = vi.Split(':');
+            string[] v = a[18].Split(',');
+            string[] i = a[17].Split(',');
+            v[0] = v[0].Remove(0, 4);
+            v[v.Length - 1] = v[v.Length - 1].Remove(v[v.Length - 1].Length - 6, 6);
+
+            i[0] = i[0].Remove(0, 4);
+            i[i.Length - 1] = i[i.Length - 1].Remove(i[i.Length - 1].Length - 9, 9);
+
+            Decimal[] vData = new Decimal[v.Length];
+            Decimal[] iData = new Decimal[i.Length];
+            try
+            {
+                for (int j = 0; j < v.Length; j++)
+                {
+                    if (v[j].Contains("e"))
+                    {
+                        vData[j] = Convert.ToDecimal(Convert.ToDouble(v[j]));
+                        iData[j] = Convert.ToDecimal(Convert.ToDouble(i[j]));
+                    }
+                }
+                 meanv = (double)vData.Average();
+                 meani = (double)iData.Average();
+            }
+            catch
+            {
+
+            }
+            
+        }
+
+        private Int32 GetPosition(decimal pos)
+        {
+            double p = (double)pos;
+            string s_p = p.ToString("f3");
+            p = Convert.ToDouble(s_p)*1000;
+            Int32 result = (Int32)p;
+            return result;
+        }
+
+
+        private void btnReadimage_Click(object sender, EventArgs e)
+        {
+            HTuple hv_window = hWindowControl1.HalconWindow;
+            string result = action_Diffuser(hv_window);
+        }
+
+  
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            exit = true;
+            BM.Exit();
+            Avt.Close();
+            //Com.serial_open(comtec, TecCom, 115200);  //关闭TEC
+           // Com.serial_send(comtec, closeTEC);
+            Com.serial_close(comtec);
+            Com.serial_close(comscan);
+        }
+
+        private void livethread()
+        {
+            HTuple hv_Subsampling = new HTuple(), hv_Sharpness = new HTuple();
+            hv_Subsampling = 3;
+            if(comboCamera.SelectedIndex==0)
+            {
+                HTuple hv_window = hWindowControl1.HalconWindow;
+                HTuple hv_WidthWin, hv_HeightWin;
+                while(livestate)
+                {
+                    BM.SwTrigger();
+                    Thread.Sleep(100);
+                    int n = 0;
+                    while (true)
+                    {
+                        if (n >= 500)
+                            break;
+                        else if (BM.j)
+                        {
+                            break;
+                        }
+                        n++;
+                        Thread.Sleep(10);
+                    }
+                    HOperatorSet.GetImageSize(BM.ho_image, out hv_WidthWin, out hv_HeightWin);
+                    HOperatorSet.SetPart(hv_window, 0, 0, hv_HeightWin - 1, hv_WidthWin - 1);
+                    HOperatorSet.DispObj(BM.ho_image, hv_window);
+                    try
+                    {
+                        pro.action_calculate_auto_correlation(BM.ho_image, hv_Subsampling, out hv_Sharpness);
+                        pro.disp_message(hv_window, hv_Sharpness, "window", 12, 12, "black", "true");
+                    }
+                    catch
+                    { }
+                }
+            }
+            else
+            {
+                HObject ho_image;
+                HTuple hv_window = hWindowControl1.HalconWindow;
+                HTuple hv_WidthWin, hv_HeightWin;
+                bool AVTOpen;
+                if (livestate)
+                {
+                    Avt.Open_NoTrigger();
+                    AVTOpen = true;
+                }
+                else
+                    AVTOpen = false;
+                while(livestate)
+                {
+                    HOperatorSet.GenEmptyObj(out ho_image);
+                    Avt.OneShot(ref ho_image);
+                    HOperatorSet.GetImageSize(ho_image, out hv_WidthWin, out hv_HeightWin);
+                    HOperatorSet.SetPart(hv_window, 0, 0, hv_HeightWin - 1, hv_WidthWin - 1);
+                    HOperatorSet.DispObj(ho_image, hv_window);
+                    try
+                    {
+                        pro.action_calculate_auto_correlation(ho_image, hv_Subsampling, out hv_Sharpness);
+                        pro.disp_message(hv_window, hv_Sharpness, "window", 12, 12, "black", "true");
+                    }
+                    catch
+                    { }
+                }
+                if(AVTOpen)
+                    Avt.Close();
+            }
+            //实时拍照结束后使能按钮
+            //btnsnap.Enabled = true;
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void tCPSettingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Tcpsetting T_form = new Tcpsetting();
+            T_form.Show();
+        }
+
+        static bool ConvertIntToByteArray(Int32 m, ref byte[] arry)
+        {
+            if (arry == null) return false;
+            if (arry.Length < 4) return false;
+
+            arry[0] = (byte)(m & 0xFF);
+            arry[1] = (byte)((m & 0xFF00) >> 8);
+            arry[2] = (byte)((m & 0xFF0000) >> 16);
+            arry[3] = (byte)((m >> 24) & 0xFF);
+
+            return true;
+        }
+
+        private void ReadTecTemp()
+        {
+            while(!exit)
+            {
+                try
+                {
+                    //Com.serial_open(comtec, TecCom, 115200);  //读取TEC温度
+                    Com.serial_send(comtec, TECTemp);
+                    Thread.Sleep(500);
+                    string temp = Com.serial_read(comtec);
+                    temp = temp.Substring(9, 5);
+                    double t = Convert.ToDouble(temp) * 10;
+
+                    txtTECTemp.Text = t.ToString();
+                    //Com.serial_close(comtec);
+                }
+                catch
+                {
+                    txtTECTemp.Text = "0";
+                }
+                Thread.Sleep(500);
+            }
+        }
+
+        private void btnsnap_Click(object sender, EventArgs e)
+        {
+            if (comboCamera.SelectedIndex == 0)
+            {
+                HObject ho_image;
+                HTuple hv_WidthWin, hv_HeightWin;
+                HOperatorSet.GenEmptyObj(out ho_image);
+                HTuple hv_Window = hWindowControl1.HalconWindow;
+
+                BM.SwTrigger();
+                Thread.Sleep(100);
+                int k = 0;
+                while (true)
+                {
+                    if (k >= 500)
+                        break;
+                    else if (BM.j)
+                    {
+                        ho_Image = BM.ho_image;
+                        break;
+                    }
+                    k++;
+                    Thread.Sleep(10);
+                }
+                //write image
+                HOperatorSet.WriteImage(ho_Image, "png", -1, basepath + @"\product");
+                //Display image
+                HOperatorSet.GetImageSize(ho_Image, out hv_WidthWin, out hv_HeightWin);
+                HOperatorSet.SetPart(hv_Window, 0, 0, hv_HeightWin - 1, hv_WidthWin - 1);
+                HOperatorSet.DispObj(ho_Image, hv_Window);
+
+            }
+            else
+            {
+                Avt.Open_NoTrigger();
+                HObject ho_image;
+                HTuple width, height;
+                HOperatorSet.GenEmptyObj(out ho_image);
+                HTuple hv_Window = hWindowControl1.HalconWindow;
+
+                Avt.OneShot(ref ho_image);
+
+                HOperatorSet.WriteImage(ho_image, "tiff", 0, basepath + @"\image\Product\" + @"snap.tiff");
+                HOperatorSet.GetImageSize(ho_image, out width, out height);
+                HOperatorSet.SetPart(hv_Window, 0, 0, height - 1, width - 1);
+                HOperatorSet.DispObj(ho_image, hv_Window);
+
+                Avt.Close();
+            }
+
+        }
+
+        private void btnlive_Click(object sender, EventArgs e)
+        {
+            livestate = !livestate;
+            live = new Thread(new ThreadStart(livethread));
+            live.IsBackground = true;
+            live.Start();
+            if(livestate)
+            {
+                btnsnap.Enabled = false;
+                btnlive.Text = "Stop";
+            }
+            else
+            {
+                btnsnap.Enabled = true;
+                btnlive.Text = "Live";
+            }
+        }
+
+        private void btnTECTemp_Click(object sender, EventArgs e)
+        {
+            string para = @"num_of_pulses=10
+                            leveli=1.0
+                            script.user.scripts.smu_pulse()
+                            ";
+            Com.serial_open(commcu, SourceCom, 9600);  //打开源表
+            Com.serial_send(commcu, para);
+            string result = Com.serial_readmcu(commcu);
+            Com.serial_close(commcu);
+        }
+
+        public void disp_message(HTuple hv_WindowHandle, HTuple hv_String, HTuple hv_CoordSystem, HTuple hv_Row, HTuple hv_Column, HTuple hv_Color, HTuple hv_Box)
+        {
+
+
+
+            // Local iconic variables 
+
+            // Local control variables 
+
+            HTuple hv_Red = null, hv_Green = null, hv_Blue = null;
+            HTuple hv_Row1Part = null, hv_Column1Part = null, hv_Row2Part = null;
+            HTuple hv_Column2Part = null, hv_RowWin = null, hv_ColumnWin = null;
+            HTuple hv_WidthWin = null, hv_HeightWin = null, hv_MaxAscent = null;
+            HTuple hv_MaxDescent = null, hv_MaxWidth = null, hv_MaxHeight = null;
+            HTuple hv_R1 = new HTuple(), hv_C1 = new HTuple(), hv_FactorRow = new HTuple();
+            HTuple hv_FactorColumn = new HTuple(), hv_UseShadow = null;
+            HTuple hv_ShadowColor = null, hv_Exception = new HTuple();
+            HTuple hv_Width = new HTuple(), hv_Index = new HTuple();
+            HTuple hv_Ascent = new HTuple(), hv_Descent = new HTuple();
+            HTuple hv_W = new HTuple(), hv_H = new HTuple(), hv_FrameHeight = new HTuple();
+            HTuple hv_FrameWidth = new HTuple(), hv_R2 = new HTuple();
+            HTuple hv_C2 = new HTuple(), hv_DrawMode = new HTuple();
+            HTuple hv_CurrentColor = new HTuple();
+            HTuple hv_Box_COPY_INP_TMP = hv_Box.Clone();
+            HTuple hv_Color_COPY_INP_TMP = hv_Color.Clone();
+            HTuple hv_Column_COPY_INP_TMP = hv_Column.Clone();
+            HTuple hv_Row_COPY_INP_TMP = hv_Row.Clone();
+            HTuple hv_String_COPY_INP_TMP = hv_String.Clone();
+            //
+            //Prepare window
+            HOperatorSet.GetRgb(hv_WindowHandle, out hv_Red, out hv_Green, out hv_Blue);
+            HOperatorSet.GetPart(hv_WindowHandle, out hv_Row1Part, out hv_Column1Part, out hv_Row2Part,
+                out hv_Column2Part);
+            HOperatorSet.GetWindowExtents(hv_WindowHandle, out hv_RowWin, out hv_ColumnWin,
+                out hv_WidthWin, out hv_HeightWin);
+            HOperatorSet.SetPart(hv_WindowHandle, 0, 0, hv_HeightWin - 1, hv_WidthWin - 1);
+            //
+            //default settings
+            if ((int)(new HTuple(hv_Row_COPY_INP_TMP.TupleEqual(-1))) != 0)
+            {
+                hv_Row_COPY_INP_TMP = 12;
+            }
+            if ((int)(new HTuple(hv_Column_COPY_INP_TMP.TupleEqual(-1))) != 0)
+            {
+                hv_Column_COPY_INP_TMP = 12;
+            }
+            if ((int)(new HTuple(hv_Color_COPY_INP_TMP.TupleEqual(new HTuple()))) != 0)
+            {
+                hv_Color_COPY_INP_TMP = "";
+            }
+            //
+            hv_String_COPY_INP_TMP = ((("" + hv_String_COPY_INP_TMP) + "")).TupleSplit("\n");
+            //
+            //Estimate extentions of text depending on font size.
+            HOperatorSet.GetFontExtents(hv_WindowHandle, out hv_MaxAscent, out hv_MaxDescent,
+                out hv_MaxWidth, out hv_MaxHeight);
+            if ((int)(new HTuple(hv_CoordSystem.TupleEqual("window"))) != 0)
+            {
+                hv_R1 = hv_Row_COPY_INP_TMP.Clone();
+                hv_C1 = hv_Column_COPY_INP_TMP.Clone();
+            }
+            else
+            {
+                //Transform image to window coordinates
+                hv_FactorRow = (1.0 * hv_HeightWin) / ((hv_Row2Part - hv_Row1Part) + 1);
+                hv_FactorColumn = (1.0 * hv_WidthWin) / ((hv_Column2Part - hv_Column1Part) + 1);
+                hv_R1 = ((hv_Row_COPY_INP_TMP - hv_Row1Part) + 0.5) * hv_FactorRow;
+                hv_C1 = ((hv_Column_COPY_INP_TMP - hv_Column1Part) + 0.5) * hv_FactorColumn;
+            }
+            //
+            //Display text box depending on text size
+            hv_UseShadow = 1;
+            hv_ShadowColor = "gray";
+            if ((int)(new HTuple(((hv_Box_COPY_INP_TMP.TupleSelect(0))).TupleEqual("true"))) != 0)
+            {
+                if (hv_Box_COPY_INP_TMP == null)
+                    hv_Box_COPY_INP_TMP = new HTuple();
+                hv_Box_COPY_INP_TMP[0] = "#fce9d4";
+                hv_ShadowColor = "#f28d26";
+            }
+            if ((int)(new HTuple((new HTuple(hv_Box_COPY_INP_TMP.TupleLength())).TupleGreater(
+                1))) != 0)
+            {
+                if ((int)(new HTuple(((hv_Box_COPY_INP_TMP.TupleSelect(1))).TupleEqual("true"))) != 0)
+                {
+                    //Use default ShadowColor set above
+                }
+                else if ((int)(new HTuple(((hv_Box_COPY_INP_TMP.TupleSelect(1))).TupleEqual(
+                    "false"))) != 0)
+                {
+                    hv_UseShadow = 0;
+                }
+                else
+                {
+                    hv_ShadowColor = hv_Box_COPY_INP_TMP[1];
+                    //Valid color?
+                    try
+                    {
+                        HOperatorSet.SetColor(hv_WindowHandle, hv_Box_COPY_INP_TMP.TupleSelect(
+                            1));
+                    }
+                    // catch (Exception) 
+                    catch (HalconException HDevExpDefaultException1)
+                    {
+                        HDevExpDefaultException1.ToHTuple(out hv_Exception);
+                        hv_Exception = "Wrong value of control parameter Box[1] (must be a 'true', 'false', or a valid color string)";
+                        throw new HalconException(hv_Exception);
+                    }
+                }
+            }
+            if ((int)(new HTuple(((hv_Box_COPY_INP_TMP.TupleSelect(0))).TupleNotEqual("false"))) != 0)
+            {
+                //Valid color?
+                try
+                {
+                    HOperatorSet.SetColor(hv_WindowHandle, hv_Box_COPY_INP_TMP.TupleSelect(0));
+                }
+                // catch (Exception) 
+                catch (HalconException HDevExpDefaultException1)
+                {
+                    HDevExpDefaultException1.ToHTuple(out hv_Exception);
+                    hv_Exception = "Wrong value of control parameter Box[0] (must be a 'true', 'false', or a valid color string)";
+                    throw new HalconException(hv_Exception);
+                }
+                //Calculate box extents
+                hv_String_COPY_INP_TMP = (" " + hv_String_COPY_INP_TMP) + " ";
+                hv_Width = new HTuple();
+                for (hv_Index = 0; (int)hv_Index <= (int)((new HTuple(hv_String_COPY_INP_TMP.TupleLength()
+                    )) - 1); hv_Index = (int)hv_Index + 1)
+                {
+                    HOperatorSet.GetStringExtents(hv_WindowHandle, hv_String_COPY_INP_TMP.TupleSelect(
+                        hv_Index), out hv_Ascent, out hv_Descent, out hv_W, out hv_H);
+                    hv_Width = hv_Width.TupleConcat(hv_W);
+                }
+                hv_FrameHeight = hv_MaxHeight * (new HTuple(hv_String_COPY_INP_TMP.TupleLength()
+                    ));
+                hv_FrameWidth = (((new HTuple(0)).TupleConcat(hv_Width))).TupleMax();
+                hv_R2 = hv_R1 + hv_FrameHeight;
+                hv_C2 = hv_C1 + hv_FrameWidth;
+                //Display rectangles
+                HOperatorSet.GetDraw(hv_WindowHandle, out hv_DrawMode);
+                HOperatorSet.SetDraw(hv_WindowHandle, "fill");
+                //Set shadow color
+                HOperatorSet.SetColor(hv_WindowHandle, hv_ShadowColor);
+                if ((int)(hv_UseShadow) != 0)
+                {
+                    HOperatorSet.DispRectangle1(hv_WindowHandle, hv_R1 + 1, hv_C1 + 1, hv_R2 + 1, hv_C2 + 1);
+                }
+                //Set box color
+                HOperatorSet.SetColor(hv_WindowHandle, hv_Box_COPY_INP_TMP.TupleSelect(0));
+                HOperatorSet.DispRectangle1(hv_WindowHandle, hv_R1, hv_C1, hv_R2, hv_C2);
+                HOperatorSet.SetDraw(hv_WindowHandle, hv_DrawMode);
+            }
+            //Write text.
+            for (hv_Index = 0; (int)hv_Index <= (int)((new HTuple(hv_String_COPY_INP_TMP.TupleLength()
+                )) - 1); hv_Index = (int)hv_Index + 1)
+            {
+                hv_CurrentColor = hv_Color_COPY_INP_TMP.TupleSelect(hv_Index % (new HTuple(hv_Color_COPY_INP_TMP.TupleLength()
+                    )));
+                if ((int)((new HTuple(hv_CurrentColor.TupleNotEqual(""))).TupleAnd(new HTuple(hv_CurrentColor.TupleNotEqual(
+                    "auto")))) != 0)
+                {
+                    HOperatorSet.SetColor(hv_WindowHandle, hv_CurrentColor);
+                }
+                else
+                {
+                    HOperatorSet.SetRgb(hv_WindowHandle, hv_Red, hv_Green, hv_Blue);
+                }
+                hv_Row_COPY_INP_TMP = hv_R1 + (hv_MaxHeight * hv_Index);
+                HOperatorSet.SetTposition(hv_WindowHandle, hv_Row_COPY_INP_TMP, hv_C1);
+                HOperatorSet.WriteString(hv_WindowHandle, hv_String_COPY_INP_TMP.TupleSelect(
+                    hv_Index));
+            }
+            //Reset changed window settings
+            HOperatorSet.SetRgb(hv_WindowHandle, hv_Red, hv_Green, hv_Blue);
+            HOperatorSet.SetPart(hv_WindowHandle, hv_Row1Part, hv_Column1Part, hv_Row2Part,
+                hv_Column2Part);
+
+            return;
+        }
+
+        public string action_Normal(HTuple hv_window)
+        {
+            HTuple hv_WidthWin, hv_HeightWin, hv_Number_1 = null;
+            HObject ROI1, ho_ImageReduced_1, ho_Region_1, ho_RegionFillUp1, ho_RegionOpening_1, ho_SelectedRegions_1, ho_ConnectedRegions_1;
+            //读取图像
+            BM.SwTrigger();
+            Thread.Sleep(100);
+            int k = 0;
+            while (true)
+            {
+                if (k >= 500)
+                    break;
+                else if (BM.j)
+                {
+                    ho_Image = BM.ho_image;
+                    break;
+                }
+                k++;
+                Thread.Sleep(10);
+            }
+            //write image
+            HOperatorSet.WriteImage(ho_Image, "png", -1, basepath + @"\image\product");
+          //  string time;
+          //  time = DateTime.Now.ToString("yyyyMMddHHmmss");
+          //  HOperatorSet.WriteImage(ho_Image, "png", -1, basepath + @"\image\" + time);
+            //read image
+            HOperatorSet.ReadImage(out ho_Image, basepath + @"\image\product");
+            //Display image
+            HOperatorSet.GetImageSize(ho_Image, out hv_WidthWin, out hv_HeightWin);
+            HOperatorSet.SetPart(hv_window, 0, 0, hv_HeightWin - 1, hv_WidthWin - 1);
+            HOperatorSet.DispObj(ho_Image, hv_window);
+            //读取ROI文件
+            HOperatorSet.ReadRegion(out ROI1, basepath + @"\ROI_Normal_Pass.reg");
+            //blob分析Pass
+            HOperatorSet.ReduceDomain(ho_Image, ROI1, out ho_ImageReduced_1);
+            HOperatorSet.Threshold(ho_ImageReduced_1, out ho_Region_1, 50, 255);
+            HOperatorSet.FillUp(ho_Region_1, out ho_RegionFillUp1);
+            HOperatorSet.OpeningCircle(ho_RegionFillUp1, out ho_RegionOpening_1, 35);
+            HOperatorSet.SelectShape(ho_RegionOpening_1, out ho_SelectedRegions_1, "area", "and", 3000, 10000);
+            HOperatorSet.Connection(ho_SelectedRegions_1, out ho_ConnectedRegions_1);
+            HOperatorSet.CountObj(ho_ConnectedRegions_1, out hv_Number_1);
+            //分析并返回结果
+            if (hv_Number_1 == 1)
+            {
+                disp_message(hv_window, "pass", hv_window, 100, hv_WidthWin - 500, "red", "false");
+                return "1";
+            }
+            else
+            {
+                disp_message(hv_window, "fail", hv_window, 100, hv_WidthWin - 500, "red", "false");
+                return "-1";
+            }
+        }
+
+        public string action_Diffuser(HTuple hv_window)
+        {
+            HTuple hv_WidthWin, hv_HeightWin, hv_Number_1 = null;
+            HObject ROI1, ho_ImageReduced_1, ho_Region_1, ho_RegionFillUp1, ho_RegionOpening_1, ho_SelectedRegions_1, ho_ConnectedRegions_1;
+            //读取图像
+            BM.SwTrigger();
+            Thread.Sleep(100);
+            int k = 0;
+            while (true)
+            {
+                if (k >= 500)
+                    break;
+                else if (BM.j)
+                {
+                    ho_Image = BM.ho_image;
+                    break;
+                }
+                k++;
+                Thread.Sleep(10);
+            }
+            //write image
+            HOperatorSet.WriteImage(ho_Image, "png", -1, basepath + @"\image\product");
+           // string time;
+           // time = DateTime.Now.ToString("yyyyMMddHHmmss");
+           // HOperatorSet.WriteImage(ho_Image, "png", -1, basepath + @"\image\" + time);
+            //read image
+            HOperatorSet.ReadImage(out ho_Image, basepath + @"\image\product");
+            //Display image
+            HOperatorSet.GetImageSize(ho_Image, out hv_WidthWin, out hv_HeightWin);
+            HOperatorSet.SetPart(hv_window, 0, 0, hv_HeightWin - 1, hv_WidthWin - 1);
+            HOperatorSet.DispObj(ho_Image, hv_window);
+            //读取ROI文件
+            HOperatorSet.ReadRegion(out ROI1, basepath + @"\ROI_Diffuser_Pass.reg");
+            //blob分析Pass
+            HOperatorSet.ReduceDomain(ho_Image, ROI1, out ho_ImageReduced_1);
+            HOperatorSet.Threshold(ho_ImageReduced_1, out ho_Region_1, 50, 255);
+            HOperatorSet.FillUp(ho_Region_1, out ho_RegionFillUp1);
+            HOperatorSet.OpeningCircle(ho_RegionFillUp1, out ho_RegionOpening_1, 35);
+            HOperatorSet.SelectShape(ho_RegionOpening_1, out ho_SelectedRegions_1, "area", "and", 3000, 10000);
+            HOperatorSet.Connection(ho_SelectedRegions_1, out ho_ConnectedRegions_1);
+            HOperatorSet.CountObj(ho_ConnectedRegions_1, out hv_Number_1);
+            //分析并返回结果
+            if (hv_Number_1 == 1)
+            {
+                disp_message(hv_window, "pass", hv_window, 100, hv_WidthWin - 500, "red", "false");
+                return "1";
+            }
+            else
+            {
+                disp_message(hv_window, "fail", hv_window, 100, hv_WidthWin - 500, "red", "false");
+                return "-1";
+            }
+        }
+
+        private void btnROI_Click(object sender, EventArgs e)
+        {
+            hWindowControl1.Focus();
+            HTuple hv_Window = hWindowControl1.HalconWindow;
+            HTuple hv_row1, hv_column1, hv_row2, hv_column2, hv_WidthWin, hv_HeightWin;
+            HObject ROI;
+            //读取并显示产品
+            HOperatorSet.ReadImage(out ho_Image, basepath + @"\product");
+            HOperatorSet.GetImageSize(ho_Image, out hv_WidthWin, out hv_HeightWin);
+            HOperatorSet.SetPart(hv_Window, 0, 0, hv_HeightWin - 1, hv_WidthWin - 1);
+            HOperatorSet.DispObj(ho_Image, hv_Window);
+            //选择ROI
+            disp_message(hv_Window, "Please Select ROI!", "window", 10, 10, "red", "true");
+            HOperatorSet.DrawRectangle1(hv_Window, out hv_row1, out hv_column1, out hv_row2, out hv_column2);
+            HOperatorSet.GenRectangle1(out ROI, hv_row1, hv_column1, hv_row2, hv_column2);
+            //保存ROI文件
+            HOperatorSet.WriteRegion(ROI, basepath + @"\ROI_Diffuser_Pass.reg");
+            disp_message(hv_Window, "Save ROI Success!", "window", 10, 10, "red", "true");
+        }
+
+    }
+}

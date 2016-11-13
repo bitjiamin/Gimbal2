@@ -1,0 +1,125 @@
+C:\Users\Administrator\Desktop\Gimbal\Gimbal\bin\Debug\Gimbal.exe.config
+C:\Users\Administrator\Desktop\Gimbal\Gimbal\bin\Debug\Gimbal.exe
+C:\Users\Administrator\Desktop\Gimbal\Gimbal\bin\Debug\Gimbal.pdb
+C:\Users\Administrator\Desktop\Gimbal\Gimbal\obj\Debug\Gimbal.Form1.resources
+C:\Users\Administrator\Desktop\Gimbal\Gimbal\obj\Debug\Gimbal.Properties.Resources.resources
+C:\Users\Administrator\Desktop\Gimbal\Gimbal\obj\Debug\Gimbal.csproj.GenerateResource.Cache
+C:\Users\Administrator\Desktop\Gimbal\Gimbal\obj\Debug\Gimbal.exe
+C:\Users\Administrator\Desktop\Gimbal\Gimbal\obj\Debug\Gimbal.pdb
+C:\Users\Administrator\Desktop\Gimbal\Gimbal\obj\Debug\Gimbal.csprojResolveAssemblyReference.cache
+D:\桌面2\Gimbal\Gimbal\bin\Debug\Gimbal.exe.config
+D:\桌面2\Gimbal\Gimbal\obj\Debug\Gimbal.exe
+D:\桌面2\Gimbal\Gimbal\obj\Debug\Gimbal.pdb
+C:\Users\Administrator\Desktop\Gimbal V2.0\Gimbal\bin\Debug\Gimbal.exe.config
+C:\Users\Administrator\Desktop\Gimbal V2.0\Gimbal\obj\Debug\Gimbal.exe
+C:\Users\Administrator\Desktop\Gimbal V2.0\Gimbal\obj\Debug\Gimbal.pdb
+C:\Users\Administrator\Desktop\Gimbal V2.0\Gimbal\bin\Debug\Gimbal.exe
+C:\Users\Administrator\Desktop\Gimbal V2.0\Gimbal\bin\Debug\Gimbal.pdb
+C:\Users\Administrator\Desktop\Gimbal V2.0\Gimbal\obj\Debug\Gimbal.Form1.resources
+C:\Users\Administrator\Desktop\Gimbal V2.0\Gimbal\obj\Debug\Gimbal.Properties.Resources.resources
+C:\Users\Administrator\Desktop\Gimbal V2.0\Gimbal\obj\Debug\Gimbal.csproj.GenerateResource.Cache
+C:\Users\Administrator\Desktop\Gimbal V2.0\Gimbal\obj\Debug\Gimbal.csprojResolveAssemblyReference.cache
+C:\Users\Administrator\Desktop\Gimbal V2.0\Gimbal\obj\Debug\Gimbal.Tcpsetting.resources
+D:\软件包\Gimbal V2.0\Gimbal\bin\Debug\Gimbal.exe.config
+D:\软件包\Gimbal V2.0\Gimbal\obj\Debug\Gimbal.exe
+D:\软件包\Gimbal V2.0\Gimbal\obj\Debug\Gimbal.pdb
+D:\软件包\Gimbal V2.0\Gimbal\bin\Debug\Gimbal.exe
+D:\软件包\Gimbal V2.0\Gimbal\bin\Debug\Gimbal.pdb
+D:\软件包\Gimbal V2.0\Gimbal\obj\Debug\Gimbal.csprojResolveAssemblyReference.cache
+D:\软件包\Gimbal V2.0\Gimbal\obj\Debug\Gimbal.Form1.resources
+D:\软件包\Gimbal V2.0\Gimbal\obj\Debug\Gimbal.Properties.Resources.resources
+D:\软件包\Gimbal V2.0\Gimbal\obj\Debug\Gimbal.Tcpsetting.resources
+D:\软件包\Gimbal V2.0\Gimbal\obj\Debug\Gimbal.csproj.GenerateResource.Cache
+C:\Users\n\Desktop\Gimbal V2.0\Gimbal\bin\Debug\Gimbal.exe.config
+C:\Users\n\Desktop\Gimbal V2.0\Gimbal\obj\Debug\Gimbal.exe
+C:\Users\n\Desktop\Gimbal V2.0\Gimbal\obj\Debug\Gimbal.pdb
+C:\Users\n\Desktop\Gimbal V2.0\Gimbal\bin\Debug\Gimbal.exe
+C:\Users\n\Desktop\Gimbal V2.0\Gimbal\bin\Debug\Gimbal.pdb
+C:\Users\n\Desktop\Gimbal V2.0\Gimbal\obj\Debug\Gimbal.Form1.resources
+C:\Users\n\Desktop\Gimbal V2.0\Gimbal\obj\Debug\Gimbal.Properties.Resources.resources
+C:\Users\n\Desktop\Gimbal V2.0\Gimbal\obj\Debug\Gimbal.Tcpsetting.resources
+C:\Users\n\Desktop\Gimbal V2.0\Gimbal\obj\Debug\Gimbal.csproj.GenerateResource.Cache
+C:\Users\n\Desktop\Gimbal V2.0\Gimbal\obj\Debug\Gimbal.csprojResolveAssemblyReference.cache
+C:\Users\n\Desktop\Gimbal V2.0\Gimbal\bin\Debug\halcondotnet.dll
+C:\Users\n\Desktop\Gimbal V2.0\Gimbal\bin\Debug\halcondotnet.xml
+F:\项目\项目\978\Gimbal\Gimbal new\Gimbal V2.1\Gimbal\bin\Debug\Gimbal.exe.config
+F:\项目\项目\978\Gimbal\Gimbal new\Gimbal V2.1\Gimbal\obj\Debug\Gimbal.exe
+F:\项目\项目\978\Gimbal\Gimbal new\Gimbal V2.1\Gimbal\obj\Debug\Gimbal.pdb
+F:\项目\项目\978\Gimbal\Gimbal new\Gimbal V2.1 - 1\Gimbal\bin\Debug\Gimbal.exe.config
+F:\项目\项目\978\Gimbal\Gimbal new\Gimbal V2.1 - 1\Gimbal\obj\Debug\Gimbal.exe
+F:\项目\项目\978\Gimbal\Gimbal new\Gimbal V2.1 - 1\Gimbal\obj\Debug\Gimbal.pdb
+F:\项目\项目\978\Gimbal\Gimbal new\Gimbal V2.1 - 1\Gimbal\bin\Debug\Gimbal.exe
+F:\项目\项目\978\Gimbal\Gimbal new\Gimbal V2.1 - 1\Gimbal\bin\Debug\Gimbal.pdb
+F:\项目\项目\978\Gimbal\Gimbal new\Gimbal V2.1 - 1\Gimbal\bin\Debug\halcondotnet.xml
+F:\项目\项目\978\Gimbal\Gimbal new\Gimbal V2.1 - 1\Gimbal\obj\Debug\Gimbal.csprojResolveAssemblyReference.cache
+F:\项目\项目\978\Gimbal\Gimbal new\Gimbal V2.1 - 1\Gimbal\obj\Debug\Gimbal.Form1.resources
+F:\项目\项目\978\Gimbal\Gimbal new\Gimbal V2.1 - 1\Gimbal\obj\Debug\Gimbal.Properties.Resources.resources
+F:\项目\项目\978\Gimbal\Gimbal new\Gimbal V2.1 - 1\Gimbal\obj\Debug\Gimbal.Tcpsetting.resources
+F:\项目\项目\978\Gimbal\Gimbal new\Gimbal V2.1 - 1\Gimbal\obj\Debug\Gimbal.csproj.GenerateResource.Cache
+C:\Users\n\Desktop\Gimbal V2.1 - 1\Gimbal\bin\Debug\Gimbal.exe.config
+C:\Users\n\Desktop\Gimbal V2.1 - 1\Gimbal\obj\Debug\Gimbal.exe
+C:\Users\n\Desktop\Gimbal V2.1 - 1\Gimbal\obj\Debug\Gimbal.pdb
+C:\Users\n\Desktop\Gimbal V2.1 - 1\Gimbal\bin\Debug\Gimbal.exe
+C:\Users\n\Desktop\Gimbal V2.1 - 1\Gimbal\bin\Debug\Gimbal.pdb
+C:\Users\n\Desktop\Gimbal V2.1 - 1\Gimbal\bin\Debug\halcondotnet.dll
+C:\Users\n\Desktop\Gimbal V2.1 - 1\Gimbal\bin\Debug\halcondotnet.xml
+C:\Users\n\Desktop\Gimbal V2.1 - 1\Gimbal\obj\Debug\Gimbal.Form1.resources
+C:\Users\n\Desktop\Gimbal V2.1 - 1\Gimbal\obj\Debug\Gimbal.Properties.Resources.resources
+C:\Users\n\Desktop\Gimbal V2.1 - 1\Gimbal\obj\Debug\Gimbal.Tcpsetting.resources
+C:\Users\n\Desktop\Gimbal V2.1 - 1\Gimbal\obj\Debug\Gimbal.csproj.GenerateResource.Cache
+F:\项目\项目\978\Gimbal\Gimbal new\Gimbal V2.2 - 1\Gimbal\bin\Debug\Gimbal.exe.config
+F:\项目\项目\978\Gimbal\Gimbal new\Gimbal V2.2 - 1\Gimbal\obj\Debug\Gimbal.exe
+F:\项目\项目\978\Gimbal\Gimbal new\Gimbal V2.2 - 1\Gimbal\obj\Debug\Gimbal.pdb
+F:\项目\项目\978\Gimbal\Gimbal new\Gimbal V2.2 - 1\Gimbal\bin\Debug\Gimbal.exe
+F:\项目\项目\978\Gimbal\Gimbal new\Gimbal V2.2 - 1\Gimbal\bin\Debug\Gimbal.pdb
+F:\项目\项目\978\Gimbal\Gimbal new\Gimbal V2.2 - 1\Gimbal\obj\Debug\Gimbal.Form1.resources
+F:\项目\项目\978\Gimbal\Gimbal new\Gimbal V2.2 - 1\Gimbal\obj\Debug\Gimbal.Properties.Resources.resources
+F:\项目\项目\978\Gimbal\Gimbal new\Gimbal V2.2 - 1\Gimbal\obj\Debug\Gimbal.Tcpsetting.resources
+F:\项目\项目\978\Gimbal\Gimbal new\Gimbal V2.2 - 1\Gimbal\obj\Debug\Gimbal.csproj.GenerateResource.Cache
+C:\Users\n\Desktop\Gimbal V2.2 - 1\Gimbal\bin\Debug\Gimbal.exe.config
+C:\Users\n\Desktop\Gimbal V2.2 - 1\Gimbal\obj\Debug\Gimbal.exe
+C:\Users\n\Desktop\Gimbal V2.2 - 1\Gimbal\obj\Debug\Gimbal.pdb
+C:\Users\n\Desktop\Gimbal V2.2 - 1\Gimbal\bin\Debug\Gimbal.exe
+C:\Users\n\Desktop\Gimbal V2.2 - 1\Gimbal\bin\Debug\Gimbal.pdb
+C:\Users\n\Desktop\Gimbal V2.2 - 1\Gimbal\bin\Debug\halcondotnet.dll
+C:\Users\n\Desktop\Gimbal V2.2 - 1\Gimbal\bin\Debug\halcondotnet.xml
+C:\Users\n\Desktop\Gimbal V2.2 - 1\Gimbal\obj\Debug\Gimbal.Form1.resources
+C:\Users\n\Desktop\Gimbal V2.2 - 1\Gimbal\obj\Debug\Gimbal.Properties.Resources.resources
+C:\Users\n\Desktop\Gimbal V2.2 - 1\Gimbal\obj\Debug\Gimbal.Tcpsetting.resources
+C:\Users\n\Desktop\Gimbal V2.2 - 1\Gimbal\obj\Debug\Gimbal.csproj.GenerateResource.Cache
+F:\项目\项目\978\Gimbal\Gimbal new\Gimbal V2.2 - 1\Gimbal\obj\Debug\Gimbal.csprojResolveAssemblyReference.cache
+F:\项目\项目\978\Gimbal\Gimbal new\Gimbal V2.2 - 2\Gimbal\bin\Debug\Gimbal.exe.config
+F:\项目\项目\978\Gimbal\Gimbal new\Gimbal V2.2 - 2\Gimbal\obj\Debug\Gimbal.exe
+F:\项目\项目\978\Gimbal\Gimbal new\Gimbal V2.2 - 2\Gimbal\obj\Debug\Gimbal.pdb
+F:\项目\项目\978\Gimbal\Gimbal new\Gimbal V2.2 - 2\Gimbal\bin\Debug\Gimbal.exe
+F:\项目\项目\978\Gimbal\Gimbal new\Gimbal V2.2 - 2\Gimbal\bin\Debug\Gimbal.pdb
+F:\项目\项目\978\Gimbal\Gimbal new\Gimbal V2.2 - 2\Gimbal\obj\Debug\Gimbal.Form1.resources
+F:\项目\项目\978\Gimbal\Gimbal new\Gimbal V2.2 - 2\Gimbal\obj\Debug\Gimbal.Properties.Resources.resources
+F:\项目\项目\978\Gimbal\Gimbal new\Gimbal V2.2 - 2\Gimbal\obj\Debug\Gimbal.Tcpsetting.resources
+F:\项目\项目\978\Gimbal\Gimbal new\Gimbal V2.2 - 2\Gimbal\obj\Debug\Gimbal.csproj.GenerateResource.Cache
+F:\项目\项目\978\Gimbal\Gimbal new\Gimbal V2.2 - 2\Gimbal\obj\Debug\Gimbal.csprojResolveAssemblyReference.cache
+E:\DLLImplemented\Gimbal\Gimbal\G2\Gimbal\bin\Debug\Gimbal.exe.config
+E:\DLLImplemented\Gimbal\Gimbal\G2\Gimbal\obj\Debug\Gimbal.exe
+E:\DLLImplemented\Gimbal\Gimbal\G2\Gimbal\obj\Debug\Gimbal.pdb
+G:\DLLImplemented\Gimbal\Gimbal\G2\Gimbal\bin\Debug\Gimbal.exe.config
+G:\DLLImplemented\Gimbal\Gimbal\G2\Gimbal\obj\Debug\Gimbal.exe
+G:\DLLImplemented\Gimbal\Gimbal\G2\Gimbal\obj\Debug\Gimbal.pdb
+G:\DLLImplemented\Gimbal\Gimbal\G2\Gimbal\bin\Debug\Gimbal.exe
+G:\DLLImplemented\Gimbal\Gimbal\G2\Gimbal\bin\Debug\Gimbal.pdb
+G:\DLLImplemented\Gimbal\Gimbal\G2\Gimbal\obj\Debug\Gimbal.csprojResolveAssemblyReference.cache
+G:\DLLImplemented\Gimbal\Gimbal\G2\Gimbal\obj\Debug\Gimbal.Form1.resources
+G:\DLLImplemented\Gimbal\Gimbal\G2\Gimbal\obj\Debug\Gimbal.Properties.Resources.resources
+G:\DLLImplemented\Gimbal\Gimbal\G2\Gimbal\obj\Debug\Gimbal.Tcpsetting.resources
+G:\DLLImplemented\Gimbal\Gimbal\G2\Gimbal\obj\Debug\Gimbal.csproj.GenerateResource.Cache
+C:\Users\n\Desktop\G2\Gimbal\bin\Debug\Gimbal.exe.config
+C:\Users\n\Desktop\G2\Gimbal\obj\Debug\Gimbal.exe
+C:\Users\n\Desktop\G2\Gimbal\obj\Debug\Gimbal.pdb
+C:\Users\n\Desktop\G2\Gimbal\bin\Debug\Gimbal.exe
+C:\Users\n\Desktop\G2\Gimbal\bin\Debug\Gimbal.pdb
+C:\Users\n\Desktop\G2\Gimbal\bin\Debug\halcondotnet.dll
+C:\Users\n\Desktop\G2\Gimbal\bin\Debug\halcondotnet.xml
+C:\Users\n\Desktop\G2\Gimbal\obj\Debug\Gimbal.Form1.resources
+C:\Users\n\Desktop\G2\Gimbal\obj\Debug\Gimbal.Properties.Resources.resources
+C:\Users\n\Desktop\G2\Gimbal\obj\Debug\Gimbal.Tcpsetting.resources
+C:\Users\n\Desktop\G2\Gimbal\obj\Debug\Gimbal.csproj.GenerateResource.Cache
+C:\Users\n\Desktop\G2\Gimbal\obj\Debug\Gimbal.csprojResolveAssemblyReference.cache

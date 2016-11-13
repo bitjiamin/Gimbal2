@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<config>
+  <IP>169.254.1.112</IP>
+  <Port>5000</Port>
+  <Tcp />
+</config>

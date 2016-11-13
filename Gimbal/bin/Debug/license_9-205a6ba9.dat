@@ -1,0 +1,8 @@
+#######################################################################################
+# Shenzhen Tianyunda Science & Technology Co. Ltd (Thendol)  (Id:  FLEXID=9-205a6ba9) #
+# HALCON 12 RTL (Bundle)                                                              #
+#######################################################################################
+FEATURE MVTec_HALCON mvtecd 12.0 01-jan-0000 uncounted VENDOR_STRING=511 \
+	HOSTID=FLEXID=9-205a6ba9 ONE_TS_OK SIGN="161F 3D16 1817 52FA 0BCA \
+	CF64 AD7F D1A0 1F0D 03AC B280 4BD9 A74F 4F65 8D97 1797 6C4A 6CA1 \
+	D4A0 0F20 9656 B772 6696 9C80 27D8 290E 0179 9E0A E57E 95AC"

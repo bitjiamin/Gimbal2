@@ -1,0 +1,13 @@
+C:\Users\n\Desktop\Gimbal V2.0\Gimbal\bin\x64\Debug\Gimbal.exe.config
+C:\Users\n\Desktop\Gimbal V2.0\Gimbal\bin\x64\Debug\Gimbal.exe
+C:\Users\n\Desktop\Gimbal V2.0\Gimbal\bin\x64\Debug\Gimbal.pdb
+C:\Users\n\Desktop\Gimbal V2.0\Gimbal\bin\x64\Debug\BitMiracle.LibTiff.NET.dll
+C:\Users\n\Desktop\Gimbal V2.0\Gimbal\bin\x64\Debug\bonetwrap.dll
+C:\Users\n\Desktop\Gimbal V2.0\Gimbal\bin\x64\Debug\halcondotnet.dll
+C:\Users\n\Desktop\Gimbal V2.0\Gimbal\bin\x64\Debug\halcondotnet.xml
+C:\Users\n\Desktop\Gimbal V2.0\Gimbal\obj\x64\Debug\Gimbal.Form1.resources
+C:\Users\n\Desktop\Gimbal V2.0\Gimbal\obj\x64\Debug\Gimbal.Properties.Resources.resources
+C:\Users\n\Desktop\Gimbal V2.0\Gimbal\obj\x64\Debug\Gimbal.Tcpsetting.resources
+C:\Users\n\Desktop\Gimbal V2.0\Gimbal\obj\x64\Debug\Gimbal.csproj.GenerateResource.Cache
+C:\Users\n\Desktop\Gimbal V2.0\Gimbal\obj\x64\Debug\Gimbal.exe
+C:\Users\n\Desktop\Gimbal V2.0\Gimbal\obj\x64\Debug\Gimbal.pdb
