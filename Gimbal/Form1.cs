@@ -45,11 +45,16 @@ namespace Gimbal
         [DllImport("GimbalDll.dll")]
         extern static int MTCP_CLOSE();
 
+        DriverBoard __DriverBoard = new DriverBoard();
+
         public Form1()
         {
             InitializeComponent();
             btnsnap.Enabled = true;
             btnlive.Text = "Live";
+
+           
+            __DriverBoard.Connect("192.168.0.66", "7600");
 
             Control.CheckForIllegalCrossThreadCalls = false;
             comboProduct.SelectedIndex = 0;
@@ -71,9 +76,13 @@ namespace Gimbal
 
             Tcp.tcpconnect(IP, Port);
 
-            string IP1 = "169.254.1.99";
-            string Port1 = "49211";
-            Tcp1.tcpconnect(IP1, Port1);
+            //string IP1 = "169.254.1.99";
+            //string Port1 = "49211";
+            //Tcp1.tcpconnect(IP1, Port1);
+            
+            string IPScanner = "169.254.1.99";
+            string PortScanner = "49211";
+            scanner.Connect(IPScanner, PortScanner);
 
             Process = new Thread(new ThreadStart(Processthread));
             Process.IsBackground = true;
@@ -107,6 +116,7 @@ namespace Gimbal
         ImageProcess pro = new ImageProcess();
         TCPClient Tcp = new TCPClient();
         TCPClient Tcp1 = new TCPClient();
+        ScannerCommunications scanner = new ScannerCommunications();
         BaumerSDK BM = new BaumerSDK();
         ProcessTif tif = new ProcessTif();
         Operxml file = new Operxml();
@@ -163,6 +173,10 @@ namespace Gimbal
 
 
 
+        void Log(string msg)
+        {
+            Console.WriteLine("################:" + msg);
+        }
 
         private void Processthread()
         {
@@ -181,6 +195,7 @@ namespace Gimbal
                         {
                             byte[] data = { 0x02, 0x00, 0xdd, 0x00, 0xdd, 0x00, 0x00, 0x00 };
                             Tcp.sendbytes(data);
+                            
                         }
                         else if (result == "-1")
                         {
@@ -188,19 +203,24 @@ namespace Gimbal
                             Tcp.sendbytes(data);
                             MessageBox.Show("Product is not correct in DUT", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         }
+                        Log("Loading DUT" + Tcp.result);
                         break;
                     //产品扫条码
                     case("0300bb00bb000000"):
+                        Log("Start to scan SN!");
                         Tcp.result = null;
                         Thread.Sleep(200);
                       //  Com.serial_send(comscan,"S");
-                        Tcp1.tcpsend("T");
+                       // Tcp1.tcpsend("T");
+                        scanner.Send("T");
                         Thread.Sleep(1500);
                       //  string barcode = null;
-                        barcode = Tcp1.result;
+                        //barcode = Tcp1.result;
+                        barcode = scanner.result();
                       //  barcode = Com.serial_read(comscan);
                         txtBarcode.Text = barcode;
-                        if(barcode=="NOREAD\r\n")
+                        Log("Scan Finished!");
+                        if (barcode.ToUpper() == "ERROR") //"ERROR"\r\n
                         {
                             byte[] data = { 0x03, 0x00, 0xee, 0x00, 0xee, 0x00, 0x00, 0x00 };
                             Tcp.sendbytes(data);
@@ -232,6 +252,9 @@ namespace Gimbal
                                 X = 0;
                                 Y = 0;
                             }
+
+                            string msg = string.Format("MTCP Response:T={0},I={1},X={2},Y={3}",I,T,X,Y);
+                            Log(msg);
                             //与beckhoff通讯
                             byte[] data = { 0x03, 0x00, 0xdd, 0x00, 0xdd, 0x00, 0x00, 0x00 };
                             Tcp.sendbytes(data);
@@ -258,7 +281,8 @@ namespace Gimbal
                         byte[] arryY1={ 0x20, 0x00, 0x01, 0x00 };        //定义第一个字节数组
                         byte[] dataY = arryY1.Concat(arryY2).ToArray();  //连接两个字节数组
                         // byte[] dataY = { 0x20, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00 };   //最终发送数据形式
-                        Tcp.sendbytes(dataY);                        
+                        Tcp.sendbytes(dataY);
+                        Log("Send x,y to PLC");
                         break;
                      //X坐标超出范围报警
                     case("20000000ee000000"):
@@ -272,6 +296,7 @@ namespace Gimbal
                         break;
                     //AVT相机采集数据
                     case ("2000dd00dd000000"):
+                        Log("Start to capture...");
                         Tcp.result = null;
                                                   
                         HTuple hv_Window = hWindowControl1.HalconWindow;
@@ -287,6 +312,14 @@ namespace Gimbal
                         //打开TEC
                         Com.serial_send(comtec, openTEC);
                         Thread.Sleep(T*1000);   //TEC稳定时间
+
+                        Log("Enable DUT Yogi...");
+                        __DriverBoard.PowerVDD();
+                        __DriverBoard.InitYogi();
+                        __DriverBoard.BypassYogi();
+                        __DriverBoard.ReadYogi();
+                        Log("Enable Yogi finished!");
+
 
                         Process = new Thread(new ThreadStart(OperateMCU));
                         Process.IsBackground = true;
@@ -314,11 +347,13 @@ namespace Gimbal
                         HOperatorSet.GetImageSize(ho_image, out width, out height);
                         HOperatorSet.SetPart(hv_Window, 0, 0, height - 1, width - 1);
                         HOperatorSet.DispObj(ho_image, hv_Window);
-                        Avt.Close();   
+                        Avt.Close();
+                        Log("Capture finished!...");
                         //与MTCP通讯
-                        Thread.Sleep(2500);//等待smu计算平均电流和电压值
+                        Thread.Sleep(2500);//等待smu计算平均电流和电压值3
                         try
                         {
+                            Log("Send data to MTCP...");
                             uint size = (uint)(width * height);
                             string[] path={basepath + @"\image\Product\" + PicName+".tif"};
                             ushort img_cnt = 1;
@@ -328,10 +363,13 @@ namespace Gimbal
                             MTCP_POST();
                             MTCP_TSED();
                             MTCP_CLOSE();
-                        }
-                        catch
-                        {
 
+                            __DriverBoard.Reset();
+                            Log("MTCP Send Completed!");
+                        }
+                        catch(Exception exp)
+                        {
+                            MessageBox.Show(exp.Message);
                         }
                         //与Beckhoff通讯
                         byte[] dataState = { 0x30, 0x00, 0xdd, 0x00, 0xdd, 0x00, 0x00, 0x00 };
