@@ -119,6 +119,10 @@ namespace Gimbal
 
 
 
+        string __pathLogDir = "Log";
+        string __pathBlackImagePath = "BlackImage";
+        string __pathNormalImagePath = "NormalImage";
+
         public Form1()
         {
             InitializeComponent();
@@ -248,6 +252,7 @@ namespace Gimbal
 
         void InitialTest()
         {
+            InitialLogPath();
             Log("Initial Testing...");
             
             txtBarcode.Text = "";
@@ -266,7 +271,6 @@ namespace Gimbal
             try
             {
                 Log("Black image capturing...");
-                string pathimage;
                 HTuple hv_Window = hWindowControl1.HalconWindow;
                 HObject ho_image;
                 HTuple width, height;
@@ -283,11 +287,9 @@ namespace Gimbal
                 string cutbarcode;
                 cutbarcode = barcode.Replace("\r", "").Replace("\n", "");
                 PicName = cutbarcode + " X" + Sx + " Y" + Sy + " " + time + "Black";
-                pathimage = basepath + @"\image\Product\" + time + "_" + this.barcode + @"\";
-                if (!File.Exists(pathimage))
-                    Directory.CreateDirectory(pathimage);
-                imagefile = pathimage + PicName + ".tiff";
-                HOperatorSet.WriteImage(ho_image, "tiff", 0, pathimage + PicName);
+
+                imagefile = __pathLogDir + PicName + ".tif";
+                HOperatorSet.WriteImage(ho_image, "tiff", 0, imagefile);
                 HOperatorSet.GetImageSize(ho_image, out width, out height);
                 HOperatorSet.SetPart(hv_Window, 0, 0, height - 1, width - 1);
                 HOperatorSet.DispObj(ho_image, hv_Window);
@@ -502,11 +504,7 @@ namespace Gimbal
                         string cutbarcode;
                         cutbarcode = barcode.Replace("\r", "").Replace("\n", "");
                         PicName = cutbarcode + " X" + Sx + " Y" + Sy + " " + time1;
-                        string pathimage = basepath + @"\image\Product\" + time1 + "_" + this.barcode+@"\";
-                        if (!File.Exists(pathimage))
-                            Directory.CreateDirectory(pathimage);
-                        
-                        HOperatorSet.WriteImage(ho_image, "tiff", 0, pathimage+PicName);
+                        HOperatorSet.WriteImage(ho_image, "tiff", 0, __pathLogDir+PicName);
                         HOperatorSet.GetImageSize(ho_image, out width, out height);
                         HOperatorSet.SetPart(hv_Window, 0, 0, height - 1, width - 1);
                         HOperatorSet.DispObj(ho_image, hv_Window);
@@ -521,8 +519,8 @@ namespace Gimbal
                         {
                             Log("Send data to MTCP...");
                             uint size = (uint)(width * height);
-                            string[] path = { pathimage + PicName + ".tif" };//{ pathimage + PicName + ".tif", pathblack };
-                            ushort img_cnt = 1;//2;
+                            string[] path = { __pathLogDir + PicName + ".tif", pathblack};//{ pathimage + PicName + ".tif", pathblack };
+                            ushort img_cnt = 2;//2;
                             float meaniI = (float)meani;
                             float meanvV = (float)meanv;
                             int ret = MTCP_ALPH(path, img_cnt, (ushort)width, (ushort)height, 0, meaniI, meanvV);
@@ -1174,16 +1172,25 @@ namespace Gimbal
             disp_message(hv_Window, "Save ROI Success!", "window", 10, 10, "red", "true");
         }
 
+        void InitialLogPath()
+        {
+            try
+            {
+                this.folderName = DateTime.Now.ToString("yyyyMMdd-hhmmss");
+
+                __pathLogDir = Application.StartupPath + "\\Log\\" + this.folderName+"\\";
+                if (!File.Exists(__pathLogDir))
+                    Directory.CreateDirectory(__pathLogDir);
+            }
+            catch (Exception exp)
+            {
+                MessageBox.Show(exp.Message, "Create Log Directory", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            
+        }
         private void SaveLog(string msg)
         {
-            this.folderName = DateTime.Now.ToString("yyyyMMdd-hhmmss");
-            if (this.barcode == null)
-                this.barcode = "NULL";
-            if (!File.Exists(Application.StartupPath + "//Log//" + this.barcode + "_" + this.folderName))
-                Directory.CreateDirectory(Application.StartupPath + "//Log//" + this.barcode + "_" + this.folderName);
-
-            txtHelper.WriteText(Application.StartupPath + "\\Log\\" + this.barcode + "_" + this.folderName + "\\Gimbal.log", msg);
-
+            txtHelper.WriteText(__pathLogDir + "\\Gimbal.log", msg);
         }
 
         private void timer1_Tick(object sender, EventArgs e)
