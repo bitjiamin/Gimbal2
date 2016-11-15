@@ -105,6 +105,7 @@
     <Compile Include="Tcpsetting.designer.cs">
       <DependentUpon>Tcpsetting.cs</DependentUpon>
     </Compile>
+    <Compile Include="TxtHelper.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

@@ -12,6 +12,7 @@ using System.IO.Ports;
 
 using System.Runtime.InteropServices;
 using HalconDotNet;
+using System.IO;
 
 namespace Gimbal
 {
@@ -108,6 +109,8 @@ namespace Gimbal
             Avt.Close();
              * */
         }
+        TxtHelper txtHelper = new TxtHelper();
+        private string folderName = string.Empty;
         private SerialPort commcu = new SerialPort();
         private SerialPort comtec = new SerialPort();
         private SerialPort comscan = new SerialPort();
@@ -176,6 +179,7 @@ namespace Gimbal
         void Log(string msg)
         {
             Console.WriteLine("################:" + msg);
+            SaveLog(msg);
         }
 
         private void Processthread()
@@ -210,6 +214,7 @@ namespace Gimbal
                         Log("Start to scan SN!");
                         Tcp.result = null;
                         Thread.Sleep(200);
+#if false
                       //  Com.serial_send(comscan,"S");
                        // Tcp1.tcpsend("T");
                         scanner.Send("T");
@@ -218,6 +223,9 @@ namespace Gimbal
                         //barcode = Tcp1.result;
                         barcode = scanner.result();
                       //  barcode = Com.serial_read(comscan);
+#else
+                        barcode = "FWP638701S2H6CWC5";
+#endif
                         txtBarcode.Text = barcode;
                         Log("Scan Finished!");
                         if (barcode.ToUpper() == "ERROR") //"ERROR"\r\n
@@ -313,12 +321,14 @@ namespace Gimbal
                         Com.serial_send(comtec, openTEC);
                         Thread.Sleep(T*1000);   //TEC稳定时间
 
+#if true
                         Log("Enable DUT Yogi...");
                         __DriverBoard.PowerVDD();
                         __DriverBoard.InitYogi();
                         __DriverBoard.BypassYogi();
                         __DriverBoard.ReadYogi();
                         Log("Enable Yogi finished!");
+#endif
 
 
                         Process = new Thread(new ThreadStart(OperateMCU));
@@ -400,7 +410,7 @@ namespace Gimbal
                             script.user.scripts.smu_pulse()
                             ";
             * */
-            string para = "num_of_pulses=10" + "\r\n" + "leveli=" + I + "\r\n" + "script.user.scripts.smu_pulse()" + "\r\n";
+            string para = "num_of_pulses=50" + "\r\n" + "leveli=" + I + "\r\n" + "script.user.scripts.smu_pulse()" + "\r\n";
             Com.serial_open(commcu, SourceCom, 9600);  //打开源表
             Com.serial_send(commcu, para);
 
@@ -976,5 +986,16 @@ namespace Gimbal
             disp_message(hv_Window, "Save ROI Success!", "window", 10, 10, "red", "true");
         }
 
+        private void SaveLog(string msg)
+        {
+            this.folderName = DateTime.Now.ToString("yyyyMMdd-hhmmss");
+            if (this.barcode == null)
+                this.barcode = "NULL";
+            if (!File.Exists(Application.StartupPath + "//Log//" + this.barcode + "_" + this.folderName))
+                Directory.CreateDirectory(Application.StartupPath + "//Log//" + this.barcode + "_" + this.folderName);
+
+            txtHelper.WriteText(Application.StartupPath + "\\Log\\" + this.barcode + "_" + this.folderName + "\\Gimbal.log", msg);
+
+        }
     }
 }
