@@ -15,6 +15,9 @@ using HalconDotNet;
 using System.IO;
 using System.Diagnostics;
 
+using System.Text.RegularExpressions;
+using System.Collections;
+
 namespace Gimbal
 {
     public partial class Form1 : Form
@@ -189,6 +192,7 @@ namespace Gimbal
             AddRow("MTCP Steady Time");
             AddRow("MTCP Position X");
             AddRow("MTCP Position Y");
+            AddRow("Black Image Capture");
             AddRow("SMU Power On");
             AddRow("Image Capture");
             AddRow("SMU Current");
@@ -199,7 +203,7 @@ namespace Gimbal
 
         void ResetListView()
         {
-            foreach (ListViewItem lvi in listView1.SelectedItems)  //选中项遍历 
+            foreach (ListViewItem lvi in listView1.Items)  //选中项遍历 
             {
                 lvi.SubItems[2].Text = " ";
                 lvi.SubItems[3].Text = " ";
@@ -245,21 +249,57 @@ namespace Gimbal
         void InitialTest()
         {
             Log("Initial Testing...");
-            listView1.BeginUpdate();
-
-            ListViewItem item = new ListViewItem();
-            item.Text = "index";
-            item.SubItems.Add("Hi");
-            item.SubItems.Add("salut");
-            item.SubItems.Add("ca va");
-            listView1.Items.Add(item);
-            listView1.EndUpdate();
+            
             txtBarcode.Text = "";
             stopwatch.Reset();
+            
             HTuple hv_Window = hWindowControl1.HalconWindow;
             HObject ho_image;
             HOperatorSet.GenEmptyObj(out ho_image);
             HOperatorSet.DispObj(ho_image, hv_Window);
+            ResetListView();
+        }
+
+        void CaptureImage(string time, ref string imagefile)
+        {
+            string CaptureBlackstatus = "failed";
+            try
+            {
+                Log("Black image capturing...");
+                string pathimage;
+                HTuple hv_Window = hWindowControl1.HalconWindow;
+                HObject ho_image;
+                HTuple width, height;
+                HOperatorSet.GenEmptyObj(out ho_image);
+                Avt.OneShot(ref ho_image);
+
+                string Sx, Sy;
+                float x, y;
+                x = (float)X / 1000;
+                y = (float)Y / 1000;
+                Sx = x.ToString();
+                Sy = y.ToString();
+                string PicName;
+                string cutbarcode;
+                cutbarcode = barcode.Replace("\r", "").Replace("\n", "");
+                PicName = cutbarcode + " X" + Sx + " Y" + Sy + " " + time + "Black";
+                pathimage = basepath + @"\image\Product\" + time + "_" + this.barcode + @"\";
+                if (!File.Exists(pathimage))
+                    Directory.CreateDirectory(pathimage);
+                imagefile = pathimage + PicName + ".tiff";
+                HOperatorSet.WriteImage(ho_image, "tiff", 0, pathimage + PicName);
+                HOperatorSet.GetImageSize(ho_image, out width, out height);
+                HOperatorSet.SetPart(hv_Window, 0, 0, height - 1, width - 1);
+                HOperatorSet.DispObj(ho_image, hv_Window);
+                CaptureBlackstatus = "pass";
+                Log("Black image capture finished!");
+            }
+            catch (Exception ex)
+            {
+                CaptureBlackstatus = "failed";
+            }
+            AddValueAndStatus(5, 2, "");
+            AddValueAndStatus(5, 3, CaptureBlackstatus);
         }
 
         private void Processthread()
@@ -309,7 +349,7 @@ namespace Gimbal
 #endif
                         string statusBarcode = "pass";
                         string statusMTCP = "failed";
-                        string statusSMU = "failed";
+                       
                         if (barcode.ToUpper() == "<ERROR>") //"ERROR"\r\n
                         {
                             statusBarcode = "failed";
@@ -339,7 +379,7 @@ namespace Gimbal
                                 X = (Int32)(alpr_rsp[0] * 1000);    //X轴旋转角度
                                 Y = (Int32)(alpr_rsp[1] * 1000);    //Y轴旋转角度
                                 statusMTCP = "pass";
-                                statusSMU = "pass";
+                                
                             }
                             catch
                             {
@@ -348,7 +388,6 @@ namespace Gimbal
                                 X = 0;
                                 Y = 0;
                                 statusMTCP = "failed";
-                                statusSMU = "failed";
                             }
 
                             string msg = string.Format("MTCP Response:T={0},I={1},X={2},Y={3}",I,T,X,Y);
@@ -370,8 +409,7 @@ namespace Gimbal
                         AddValueAndStatus(3, 3, statusMTCP);
                         AddValueAndStatus(4, 2, Y.ToString());
                         AddValueAndStatus(4, 3, statusMTCP);
-                        AddValueAndStatus(4, 2, "");
-                        AddValueAndStatus(4, 3, statusSMU);
+                       
                         break;
 
                     //发送X、Y坐标
@@ -426,7 +464,7 @@ namespace Gimbal
                         Com.serial_send(comtec, openTEC);
                         Thread.Sleep(T*1000);   //TEC稳定时间
 
-#if false
+#if true
                         Log("Enable DUT Yogi...");
                         __DriverBoard.PowerVDD();
                         __DriverBoard.InitYogi();
@@ -434,19 +472,26 @@ namespace Gimbal
                         __DriverBoard.ReadYogi();
                         Log("Enable Yogi finished!");
 #endif
+                        string time1;
+                        time1 = DateTime.Now.ToString("yyyyMMddHHmmss");
+                        //Capture black image
+                        string pathblack = string.Empty;
+                        CaptureImage(time1, ref pathblack);
 
-
+                        Log("Turn on unit...");
+                        AddValueAndStatus(6, 2, "");
+                        AddValueAndStatus(6, 3, "pass");
                         Process = new Thread(new ThreadStart(OperateMCU));
                         Process.IsBackground = true;
                         Process.Start();
 
+                        Log("Start to capture image with unit power on...");
                         Avt.OneShot(ref ho_image);
 
                         //关闭TEC
                         Com.serial_send(comtec, closeTEC);
 
-                        string time1;
-                        time1 = DateTime.Now.ToString("yyyyMMddHHmmss");
+                        
                         string Sx, Sy;
                         float x, y;
                         x = (float)X / 1000;
@@ -457,15 +502,18 @@ namespace Gimbal
                         string cutbarcode;
                         cutbarcode = barcode.Replace("\r", "").Replace("\n", "");
                         PicName = cutbarcode + " X" + Sx + " Y" + Sy + " " + time1;
-
-                        HOperatorSet.WriteImage(ho_image, "tiff", 0, basepath + @"\image\Product\" + PicName);
+                        string pathimage = basepath + @"\image\Product\" + time1 + "_" + this.barcode+@"\";
+                        if (!File.Exists(pathimage))
+                            Directory.CreateDirectory(pathimage);
+                        
+                        HOperatorSet.WriteImage(ho_image, "tiff", 0, pathimage+PicName);
                         HOperatorSet.GetImageSize(ho_image, out width, out height);
                         HOperatorSet.SetPart(hv_Window, 0, 0, height - 1, width - 1);
                         HOperatorSet.DispObj(ho_image, hv_Window);
                         Avt.Close();
                         Log("Capture finished!...");
-                        AddValueAndStatus(6, 2, "");
-                        AddValueAndStatus(6, 3, "pass");
+                        AddValueAndStatus(7, 2, "");
+                        AddValueAndStatus(7, 3, "pass");
                         //与MTCP通讯
                         Thread.Sleep(2500);//等待smu计算平均电流和电压值3
                         string statusMTCPSendData = "failed";
@@ -473,11 +521,12 @@ namespace Gimbal
                         {
                             Log("Send data to MTCP...");
                             uint size = (uint)(width * height);
-                            string[] path={basepath + @"\image\Product\" + PicName+".tif"};
-                            ushort img_cnt = 1;
+                            string[] path = { pathimage + PicName + ".tif" };//{ pathimage + PicName + ".tif", pathblack };
+                            ushort img_cnt = 1;//2;
                             float meaniI = (float)meani;
                             float meanvV = (float)meanv;
-                            MTCP_ALPH(path, img_cnt, (ushort)width, (ushort)height, 0, meaniI, meanvV);
+                            int ret = MTCP_ALPH(path, img_cnt, (ushort)width, (ushort)height, 0, meaniI, meanvV);
+                            Log(string.Format("ALPH Return Value : {0}", ret));
                             MTCP_POST();
                             MTCP_TSED();
                             MTCP_CLOSE();
@@ -492,12 +541,12 @@ namespace Gimbal
                             statusMTCPSendData = "failed";
                             MessageBox.Show(exp.Message);
                         }
-                        AddValueAndStatus(7, 2, meani.ToString());
-                        AddValueAndStatus(7, 3, statusMTCPSendData);
-                        AddValueAndStatus(8, 2, meanv.ToString());
+                        AddValueAndStatus(8, 2, meani.ToString());
                         AddValueAndStatus(8, 3, statusMTCPSendData);
-                        AddValueAndStatus(8, 2, " ");
-                        AddValueAndStatus(8, 3, "OK");
+                        AddValueAndStatus(9, 2, meanv.ToString());
+                        AddValueAndStatus(9, 3, statusMTCPSendData);
+                        AddValueAndStatus(10, 2, " ");
+                        AddValueAndStatus(10, 3, "OK");
                         //与Beckhoff通讯
                         byte[] dataState = { 0x30, 0x00, 0xdd, 0x00, 0xdd, 0x00, 0x00, 0x00 };
                         Tcp.sendbytes(dataState);    
@@ -520,6 +569,48 @@ namespace Gimbal
             }
         }
 
+
+        void ParseMCUResponse(string vi, out double meanC, out double meanV)
+        {
+            string match_current = "Current:(.*)Voltage";
+            string match_volt = "Voltage:(.*)Time";
+
+            Regex regexCurrent = new Regex(match_current, RegexOptions.Singleline);
+
+            //current
+            Match mc = regexCurrent.Match(vi);
+            string vc = mc.Groups[1].ToString();
+            vc = vc.Trim();
+            string[] arr = vc.Split(",".ToCharArray());
+            ArrayList arrayCurrent = new ArrayList();
+
+            double sumC = 0;
+            foreach (var i in arr)
+            {
+                var value = Convert.ToDouble(i);
+                arrayCurrent.Add(value);
+                sumC = sumC + value;
+            }
+            meanC = sumC / arrayCurrent.Count;
+
+            //voltage
+            Regex regexVolt = new Regex(match_volt, RegexOptions.Singleline);
+            Match mv = regexVolt.Match(vi);
+            string vv = mv.Groups[1].ToString();
+            vv = vv.Trim();
+            string[] arr1 = vv.Split(",".ToCharArray());
+            ArrayList arrayVolt = new ArrayList();
+            double sumV = 0;
+            foreach (var i in arr1)
+            {
+                var value = Convert.ToDouble(i);
+                arrayVolt.Add(Convert.ToDouble(i));
+                sumV = sumV + value;
+            }
+            meanV = sumV / arrayVolt.Count;
+
+        }
+
         private void OperateMCU()
         { 
             Thread.Sleep(1000);
@@ -534,37 +625,14 @@ namespace Gimbal
             Com.serial_send(commcu, para);
 
             string vi = Com.serial_readmcu(commcu);
+            Console.WriteLine("~~~~~~~~~~~~~~~SMU Response:");
+            Console.WriteLine(vi);
+           
+
             Com.serial_close(commcu);
 
-            string[] a = vi.Split(':');
-            string[] v = a[18].Split(',');
-            string[] i = a[17].Split(',');
-            v[0] = v[0].Remove(0, 4);
-            v[v.Length - 1] = v[v.Length - 1].Remove(v[v.Length - 1].Length - 6, 6);
-
-            i[0] = i[0].Remove(0, 4);
-            i[i.Length - 1] = i[i.Length - 1].Remove(i[i.Length - 1].Length - 9, 9);
-
-            Decimal[] vData = new Decimal[v.Length];
-            Decimal[] iData = new Decimal[i.Length];
-            try
-            {
-                for (int j = 0; j < v.Length; j++)
-                {
-                    if (v[j].Contains("e"))
-                    {
-                        vData[j] = Convert.ToDecimal(Convert.ToDouble(v[j]));
-                        iData[j] = Convert.ToDecimal(Convert.ToDouble(i[j]));
-                    }
-                }
-                 meanv = (double)vData.Average();
-                 meani = (double)iData.Average();
-            }
-            catch
-            {
-
-            }
-            
+            ParseMCUResponse(vi, out meani, out meanv);
+            Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         }
 
         private Int32 GetPosition(decimal pos)
@@ -593,6 +661,7 @@ namespace Gimbal
            // Com.serial_send(comtec, closeTEC);
             Com.serial_close(comtec);
             Com.serial_close(comscan);
+            txtTECTemp.Dispose();
         }
 
         private void livethread()
