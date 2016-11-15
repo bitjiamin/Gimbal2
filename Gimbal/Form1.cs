@@ -13,6 +13,7 @@ using System.IO.Ports;
 using System.Runtime.InteropServices;
 using HalconDotNet;
 using System.IO;
+using System.Diagnostics;
 
 namespace Gimbal
 {
@@ -109,6 +110,7 @@ namespace Gimbal
             Avt.Close();
              * */
         }
+        Stopwatch stopwatch = new Stopwatch();
         TxtHelper txtHelper = new TxtHelper();
         private string folderName = string.Empty;
         private SerialPort commcu = new SerialPort();
@@ -182,6 +184,17 @@ namespace Gimbal
             SaveLog(msg);
         }
 
+        void InitialTest()
+        {
+            Log("Initial Testing...");
+            txtBarcode.Text = "";
+            stopwatch.Reset();
+            HTuple hv_Window = hWindowControl1.HalconWindow;
+            HObject ho_image;
+            HOperatorSet.GenEmptyObj(out ho_image);
+            HOperatorSet.DispObj(ho_image, hv_Window);
+        }
+
         private void Processthread()
         {
             while(true)
@@ -190,6 +203,8 @@ namespace Gimbal
                 {
                     //产品上料防呆
                     case("0100bb00bb000000"):
+                        InitialTest();
+                        stopwatch.Start();
                         Tcp.result = null;
                         HTuple hv_window = hWindowControl1.HalconWindow;
                         Thread.Sleep(200);
@@ -214,7 +229,7 @@ namespace Gimbal
                         Log("Start to scan SN!");
                         Tcp.result = null;
                         Thread.Sleep(200);
-#if false
+#if true
                       //  Com.serial_send(comscan,"S");
                        // Tcp1.tcpsend("T");
                         scanner.Send("T");
@@ -226,13 +241,14 @@ namespace Gimbal
 #else
                         barcode = "FWP638701S2H6CWC5";
 #endif
-                        txtBarcode.Text = barcode;
-                        Log("Scan Finished!");
-                        if (barcode.ToUpper() == "ERROR") //"ERROR"\r\n
+                        
+                        if (barcode.ToUpper() == "<ERROR>") //"ERROR"\r\n
                         {
+                            barcode = "ERROR";
                             byte[] data = { 0x03, 0x00, 0xee, 0x00, 0xee, 0x00, 0x00, 0x00 };
                             Tcp.sendbytes(data);
                             MessageBox.Show("Barcode is invalid", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            stopwatch.Stop();
                         }
                         else
                         {
@@ -267,6 +283,9 @@ namespace Gimbal
                             byte[] data = { 0x03, 0x00, 0xdd, 0x00, 0xdd, 0x00, 0x00, 0x00 };
                             Tcp.sendbytes(data);
                         }
+
+                        txtBarcode.Text = barcode;
+                        Log("Scan Finished!");
                         break;
 
                     //发送X、Y坐标
@@ -321,7 +340,7 @@ namespace Gimbal
                         Com.serial_send(comtec, openTEC);
                         Thread.Sleep(T*1000);   //TEC稳定时间
 
-#if true
+#if false
                         Log("Enable DUT Yogi...");
                         __DriverBoard.PowerVDD();
                         __DriverBoard.InitYogi();
@@ -375,6 +394,7 @@ namespace Gimbal
                             MTCP_CLOSE();
 
                             __DriverBoard.Reset();
+                            stopwatch.Stop();
                             Log("MTCP Send Completed!");
                         }
                         catch(Exception exp)
@@ -393,6 +413,8 @@ namespace Gimbal
                     //机器报错
                     case("ee00ee00ee000000"):
                         Tcp.result = null;
+                        double t = (double)stopwatch.ElapsedMilliseconds/1000.0;
+                        lblTime.Text = t.ToString("f3");
                         MessageBox.Show("Machine Error", "Alarm", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         break;
                     default:
@@ -996,6 +1018,17 @@ namespace Gimbal
 
             txtHelper.WriteText(Application.StartupPath + "\\Log\\" + this.barcode + "_" + this.folderName + "\\Gimbal.log", msg);
 
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            double t = (double)stopwatch.ElapsedMilliseconds/1000.0;
+            lblTime.Text = t.ToString("f3");
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            comboCamera.SelectedIndex = 1;
         }
     }
 }

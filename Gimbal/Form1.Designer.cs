@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.btnReadimage = new System.Windows.Forms.Button();
             this.comboProduct = new System.Windows.Forms.ComboBox();
@@ -57,6 +58,13 @@
             this.ypos = new System.Windows.Forms.NumericUpDown();
             this.hWindowControl1 = new HalconDotNet.HWindowControl();
             this.btnROI = new System.Windows.Forms.Button();
+            this.lblTime = new System.Windows.Forms.Label();
+            this.listView1 = new System.Windows.Forms.ListView();
+            this.Index = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.Description = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.Value = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.Status = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.xpos)).BeginInit();
@@ -92,7 +100,6 @@
             this.btnRealTimeImage.TabIndex = 6;
             this.btnRealTimeImage.Text = "Live";
             this.btnRealTimeImage.UseVisualStyleBackColor = true;
-           // this.btnRealTimeImage.Click += new System.EventHandler(this.btnRealTimeImage_Click);
             // 
             // label1
             // 
@@ -171,7 +178,7 @@
             this.configureToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(998, 25);
+            this.menuStrip1.Size = new System.Drawing.Size(998, 24);
             this.menuStrip1.TabIndex = 14;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -180,13 +187,13 @@
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(39, 21);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(96, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(92, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -195,13 +202,13 @@
             this.configureToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tCPSettingToolStripMenuItem});
             this.configureToolStripMenuItem.Name = "configureToolStripMenuItem";
-            this.configureToolStripMenuItem.Size = new System.Drawing.Size(77, 21);
+            this.configureToolStripMenuItem.Size = new System.Drawing.Size(72, 20);
             this.configureToolStripMenuItem.Text = "Configure";
             // 
             // tCPSettingToolStripMenuItem
             // 
             this.tCPSettingToolStripMenuItem.Name = "tCPSettingToolStripMenuItem";
-            this.tCPSettingToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+            this.tCPSettingToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.tCPSettingToolStripMenuItem.Text = "TCP Setting";
             this.tCPSettingToolStripMenuItem.Click += new System.EventHandler(this.tCPSettingToolStripMenuItem_Click);
             // 
@@ -334,9 +341,9 @@
             this.hWindowControl1.ImagePart = new System.Drawing.Rectangle(0, 0, 640, 480);
             this.hWindowControl1.Location = new System.Drawing.Point(41, 136);
             this.hWindowControl1.Name = "hWindowControl1";
-            this.hWindowControl1.Size = new System.Drawing.Size(640, 405);
+            this.hWindowControl1.Size = new System.Drawing.Size(416, 405);
             this.hWindowControl1.TabIndex = 28;
-            this.hWindowControl1.WindowSize = new System.Drawing.Size(640, 405);
+            this.hWindowControl1.WindowSize = new System.Drawing.Size(416, 405);
             // 
             // btnROI
             // 
@@ -348,11 +355,60 @@
             this.btnROI.UseVisualStyleBackColor = true;
             this.btnROI.Click += new System.EventHandler(this.btnROI_Click);
             // 
+            // lblTime
+            // 
+            this.lblTime.AutoSize = true;
+            this.lblTime.Font = new System.Drawing.Font("SimSun", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lblTime.ForeColor = System.Drawing.Color.Blue;
+            this.lblTime.Location = new System.Drawing.Point(938, 111);
+            this.lblTime.Name = "lblTime";
+            this.lblTime.Size = new System.Drawing.Size(48, 16);
+            this.lblTime.TabIndex = 30;
+            this.lblTime.Text = "0.000";
+            // 
+            // listView1
+            // 
+            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.Index,
+            this.Description,
+            this.Value,
+            this.Status});
+            this.listView1.GridLines = true;
+            this.listView1.Location = new System.Drawing.Point(463, 136);
+            this.listView1.Name = "listView1";
+            this.listView1.Size = new System.Drawing.Size(280, 405);
+            this.listView1.TabIndex = 31;
+            this.listView1.UseCompatibleStateImageBehavior = false;
+            this.listView1.View = System.Windows.Forms.View.Details;
+            // 
+            // Index
+            // 
+            this.Index.Text = "Index";
+            // 
+            // Description
+            // 
+            this.Description.Text = "Description";
+            // 
+            // Value
+            // 
+            this.Value.Text = "Value";
+            // 
+            // Status
+            // 
+            this.Status.Text = "Status";
+            // 
+            // timer1
+            // 
+            this.timer1.Enabled = true;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(998, 572);
+            this.Controls.Add(this.listView1);
+            this.Controls.Add(this.lblTime);
             this.Controls.Add(this.btnROI);
             this.Controls.Add(this.hWindowControl1);
             this.Controls.Add(this.ypos);
@@ -383,6 +439,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
+            this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -423,6 +480,13 @@
         private System.Windows.Forms.NumericUpDown ypos;
         private HalconDotNet.HWindowControl hWindowControl1;
         private System.Windows.Forms.Button btnROI;
+        private System.Windows.Forms.Label lblTime;
+        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.ColumnHeader Index;
+        private System.Windows.Forms.ColumnHeader Description;
+        private System.Windows.Forms.ColumnHeader Value;
+        private System.Windows.Forms.ColumnHeader Status;
+        private System.Windows.Forms.Timer timer1;
     }
 }
 

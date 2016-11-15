@@ -138,16 +138,24 @@ namespace Gimbal
         {
             if (isOpen)
             {
-                Frame frame = null;
-                camera.AcquireSingleImage(ref frame, 6000);
-               // camera.AcquireSingleImage(ref frame, 6000);
-               // camera.AcquireSingleImage(ref frame, 6000);
-                GCHandle hObject = GCHandle.Alloc(frame.Buffer, GCHandleType.Pinned);
-                IntPtr pObject = hObject.AddrOfPinnedObject();
-                HOperatorSet.GenImage1(out image, "uint2", frame.Width, frame.Height, pObject);
-                if (hObject.IsAllocated)
-                    hObject.Free();
-                return true;
+                try
+                {
+                    Frame frame = null;
+                    camera.AcquireSingleImage(ref frame, 6000);
+                    // camera.AcquireSingleImage(ref frame, 6000);
+                    // camera.AcquireSingleImage(ref frame, 6000);
+                    GCHandle hObject = GCHandle.Alloc(frame.Buffer, GCHandleType.Pinned);
+                    IntPtr pObject = hObject.AddrOfPinnedObject();
+                    HOperatorSet.GenImage1(out image, "uint2", frame.Width, frame.Height, pObject);
+                    if (hObject.IsAllocated)
+                        hObject.Free();
+                    return true;
+                }
+                catch (Exception exp)
+                {
+                    MessageBox.Show(exp.Message, "Camera Capture");
+                    return false;
+                }
             }
             else
                 return false;
