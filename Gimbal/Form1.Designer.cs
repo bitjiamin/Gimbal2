@@ -193,7 +193,7 @@
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(92, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -208,7 +208,7 @@
             // tCPSettingToolStripMenuItem
             // 
             this.tCPSettingToolStripMenuItem.Name = "tCPSettingToolStripMenuItem";
-            this.tCPSettingToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.tCPSettingToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.tCPSettingToolStripMenuItem.Text = "TCP Setting";
             this.tCPSettingToolStripMenuItem.Click += new System.EventHandler(this.tCPSettingToolStripMenuItem_Click);
             // 

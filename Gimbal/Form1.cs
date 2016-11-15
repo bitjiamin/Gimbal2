@@ -46,70 +46,8 @@ namespace Gimbal
 
         [DllImport("GimbalDll.dll")]
         extern static int MTCP_CLOSE();
-
+        int ItemIndex = 0;
         DriverBoard __DriverBoard = new DriverBoard();
-
-        public Form1()
-        {
-            InitializeComponent();
-            btnsnap.Enabled = true;
-            btnlive.Text = "Live";
-
-           
-            __DriverBoard.Connect("192.168.0.66", "7600");
-
-            Control.CheckForIllegalCrossThreadCalls = false;
-            comboProduct.SelectedIndex = 0;
-            comboCamera.SelectedIndex = 0;
-            BM.Initialize();
-            BM.Play();
-
-            Com.serial_open(comtec, TecCom, 115200);  //打开TEC
-            // Com.serial_send(comtec, openTEC);
-            //Com.serial_send(comtec, TECTemp);
-            //Thread.Sleep(500);
-            //txtTECTemp.Text = Com.serial_read(comtec);
-            //Com.serial_close(comtec);
-
-            Com.serial_open(comscan, barcodeCom, 115200);
-
-            string IP = file.ReadXmlFile("IP");
-            string Port = file.ReadXmlFile("Port");
-
-            Tcp.tcpconnect(IP, Port);
-
-            //string IP1 = "169.254.1.99";
-            //string Port1 = "49211";
-            //Tcp1.tcpconnect(IP1, Port1);
-            
-            string IPScanner = "169.254.1.99";
-            string PortScanner = "49211";
-            scanner.Connect(IPScanner, PortScanner);
-
-            Process = new Thread(new ThreadStart(Processthread));
-            Process.IsBackground = true;
-            Process.Start();
-
-            TecP = new Thread(new ThreadStart(ReadTecTemp));
-            TecP.IsBackground = true;
-            TecP.Start();
-
-
-
-            //AVT Read image
-            /*
-            HTuple hv_Window = hWindowControl1.HalconWindow;
-            HObject ho_image;
-            HTuple width, height;
-            HOperatorSet.GenEmptyObj(out ho_image);
-            Avt.Open();
-            Avt.OneShot(ref ho_image);
-            HOperatorSet.GetImageSize(ho_image, out width, out height);
-            HOperatorSet.SetPart(hv_Window, 0, 0, width - 1, height - 1);
-            HOperatorSet.DispObj(ho_image, hv_Window);
-            Avt.Close();
-             * */
-        }
         Stopwatch stopwatch = new Stopwatch();
         TxtHelper txtHelper = new TxtHelper();
         private string folderName = string.Empty;
@@ -172,12 +110,132 @@ namespace Gimbal
                         smua.source.output = smua.OUTPUT_ON
                         smua.trigger.initiate()
                         waitcomplete()";
-        string openTEC = @"$W"+"\r\n";
-        string closeTEC = @"$Q"+"\r\n";
-        string TECTemp = @"$R100?"+"\r\n";
+        string openTEC = @"$W" + "\r\n";
+        string closeTEC = @"$Q" + "\r\n";
+        string TECTemp = @"$R100?" + "\r\n";
 
 
 
+        public Form1()
+        {
+            InitializeComponent();
+            btnsnap.Enabled = true;
+            btnlive.Text = "Live";
+
+            ListViewItem item = new ListViewItem();
+            item.SubItems.Add("Hi");
+            __DriverBoard.Connect("192.168.0.66", "7600");
+
+            Control.CheckForIllegalCrossThreadCalls = false;
+            comboProduct.SelectedIndex = 0;
+            comboCamera.SelectedIndex = 0;
+            BM.Initialize();
+            BM.Play();
+
+            Com.serial_open(comtec, TecCom, 115200);  //打开TEC
+            // Com.serial_send(comtec, openTEC);
+            //Com.serial_send(comtec, TECTemp);
+            //Thread.Sleep(500);
+            //txtTECTemp.Text = Com.serial_read(comtec);
+            //Com.serial_close(comtec);
+
+            Com.serial_open(comscan, barcodeCom, 115200);
+
+            string IP = file.ReadXmlFile("IP");
+            string Port = file.ReadXmlFile("Port");
+
+            Tcp.tcpconnect(IP, Port);
+
+            //string IP1 = "169.254.1.99";
+            //string Port1 = "49211";
+            //Tcp1.tcpconnect(IP1, Port1);
+            
+            string IPScanner = "169.254.1.99";
+            string PortScanner = "49211";
+            scanner.Connect(IPScanner, PortScanner);
+
+            Process = new Thread(new ThreadStart(Processthread));
+            Process.IsBackground = true;
+            Process.Start();
+
+            TecP = new Thread(new ThreadStart(ReadTecTemp));
+            TecP.IsBackground = true;
+            TecP.Start();
+
+
+
+            //AVT Read image
+            /*
+            HTuple hv_Window = hWindowControl1.HalconWindow;
+            HObject ho_image;
+            HTuple width, height;
+            HOperatorSet.GenEmptyObj(out ho_image);
+            Avt.Open();
+            Avt.OneShot(ref ho_image);
+            HOperatorSet.GetImageSize(ho_image, out width, out height);
+            HOperatorSet.SetPart(hv_Window, 0, 0, width - 1, height - 1);
+            HOperatorSet.DispObj(ho_image, hv_Window);
+            Avt.Close();
+             * */
+        }
+
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            comboCamera.SelectedIndex = 1;
+            //Add item
+            AddRow("Scan Barcode");
+            AddRow("MTCP Current");
+            AddRow("MTCP Steady Time");
+            AddRow("MTCP Position X");
+            AddRow("MTCP Position Y");
+            AddRow("SMU Power On");
+            AddRow("Image Capture");
+            AddRow("SMU Current");
+            AddRow("SMU Voltage");
+            AddRow("MTCP Post");
+        }
+
+
+        void ResetListView()
+        {
+            foreach (ListViewItem lvi in listView1.SelectedItems)  //选中项遍历 
+            {
+                lvi.SubItems[2].Text = " ";
+                lvi.SubItems[3].Text = " ";
+            }
+            ItemIndex = 0;
+        }
+
+        void AddValueAndStatus(int rowIndex, int colIndex, string value)
+        {
+            listView1.BeginUpdate();
+
+            ListViewItem item = listView1.Items[rowIndex];
+
+            item.SubItems[colIndex].Text = value;
+
+            listView1.EndUpdate();
+
+        }
+
+        void AddRow(string name)
+        {
+            listView1.BeginUpdate();
+
+            ListViewItem lvi = new ListViewItem();
+
+            lvi.Text = ItemIndex.ToString();
+            lvi.SubItems.Add(name);
+            lvi.SubItems.Add("");
+            lvi.SubItems.Add("");
+
+            this.listView1.Items.Add(lvi);
+
+            listView1.EndUpdate();
+
+            ItemIndex++;
+        }
         void Log(string msg)
         {
             Console.WriteLine("################:" + msg);
@@ -187,6 +245,15 @@ namespace Gimbal
         void InitialTest()
         {
             Log("Initial Testing...");
+            listView1.BeginUpdate();
+
+            ListViewItem item = new ListViewItem();
+            item.Text = "index";
+            item.SubItems.Add("Hi");
+            item.SubItems.Add("salut");
+            item.SubItems.Add("ca va");
+            listView1.Items.Add(item);
+            listView1.EndUpdate();
             txtBarcode.Text = "";
             stopwatch.Reset();
             HTuple hv_Window = hWindowControl1.HalconWindow;
@@ -231,19 +298,21 @@ namespace Gimbal
                         Thread.Sleep(200);
 #if true
                       //  Com.serial_send(comscan,"S");
-                       // Tcp1.tcpsend("T");
                         scanner.Send("T");
                         Thread.Sleep(1500);
-                      //  string barcode = null;
-                        //barcode = Tcp1.result;
+                     
                         barcode = scanner.result();
+                        
                       //  barcode = Com.serial_read(comscan);
 #else
                         barcode = "FWP638701S2H6CWC5";
 #endif
-                        
+                        string statusBarcode = "pass";
+                        string statusMTCP = "failed";
+                        string statusSMU = "failed";
                         if (barcode.ToUpper() == "<ERROR>") //"ERROR"\r\n
                         {
+                            statusBarcode = "failed";
                             barcode = "ERROR";
                             byte[] data = { 0x03, 0x00, 0xee, 0x00, 0xee, 0x00, 0x00, 0x00 };
                             Tcp.sendbytes(data);
@@ -253,6 +322,7 @@ namespace Gimbal
                         else
                         {
                             //与MTCP通讯
+                            statusBarcode = "pass";
                             try
                             {
                                 MTCP_OPEN("169.254.1.111", 61808, 5000);
@@ -268,6 +338,8 @@ namespace Gimbal
                                 MTCP_ALPR(alpr_rsp);
                                 X = (Int32)(alpr_rsp[0] * 1000);    //X轴旋转角度
                                 Y = (Int32)(alpr_rsp[1] * 1000);    //Y轴旋转角度
+                                statusMTCP = "pass";
+                                statusSMU = "pass";
                             }
                             catch
                             {
@@ -275,6 +347,8 @@ namespace Gimbal
                                 T = 5;
                                 X = 0;
                                 Y = 0;
+                                statusMTCP = "failed";
+                                statusSMU = "failed";
                             }
 
                             string msg = string.Format("MTCP Response:T={0},I={1},X={2},Y={3}",I,T,X,Y);
@@ -286,6 +360,18 @@ namespace Gimbal
 
                         txtBarcode.Text = barcode;
                         Log("Scan Finished!");
+                        AddValueAndStatus(0, 2, barcode);
+                        AddValueAndStatus(0, 3, statusBarcode);
+                        AddValueAndStatus(1, 2, I);
+                        AddValueAndStatus(1, 3, statusMTCP);
+                        AddValueAndStatus(2, 2, T.ToString());
+                        AddValueAndStatus(2, 3, statusMTCP);
+                        AddValueAndStatus(3, 2, X.ToString());
+                        AddValueAndStatus(3, 3, statusMTCP);
+                        AddValueAndStatus(4, 2, Y.ToString());
+                        AddValueAndStatus(4, 3, statusMTCP);
+                        AddValueAndStatus(4, 2, "");
+                        AddValueAndStatus(4, 3, statusSMU);
                         break;
 
                     //发送X、Y坐标
@@ -293,7 +379,7 @@ namespace Gimbal
                         Tcp.result = null;
                         //send position x
                         //Int32 X=002000;           //前3位是角度整数部分，后3位是角度小数部分
-                        X = GetPosition(xpos.Value);
+                        //X = GetPosition(xpos.Value);
                         byte[] arryX2=new byte[4];
                         ConvertIntToByteArray(X,ref arryX2);             //整数转字节数组
                         byte[] arryX1={ 0x20, 0x00, 0x00, 0x00 };        //定义第一个字节数组
@@ -302,7 +388,7 @@ namespace Gimbal
                         Tcp.sendbytes(dataX);
                         //send position y
                         //Int32 Y=002000;         //前3位是角度整数部分，后3位是角度小数部分
-                        Y = GetPosition(ypos.Value);
+                        //Y = GetPosition(ypos.Value);
                         byte[] arryY2=new byte[4];
                         ConvertIntToByteArray(Y,ref arryY2);             //整数转字节数组
                         byte[] arryY1={ 0x20, 0x00, 0x01, 0x00 };        //定义第一个字节数组
@@ -378,8 +464,11 @@ namespace Gimbal
                         HOperatorSet.DispObj(ho_image, hv_Window);
                         Avt.Close();
                         Log("Capture finished!...");
+                        AddValueAndStatus(6, 2, "");
+                        AddValueAndStatus(6, 3, "pass");
                         //与MTCP通讯
                         Thread.Sleep(2500);//等待smu计算平均电流和电压值3
+                        string statusMTCPSendData = "failed";
                         try
                         {
                             Log("Send data to MTCP...");
@@ -396,11 +485,19 @@ namespace Gimbal
                             __DriverBoard.Reset();
                             stopwatch.Stop();
                             Log("MTCP Send Completed!");
+                            statusMTCPSendData = "pass";
                         }
                         catch(Exception exp)
                         {
+                            statusMTCPSendData = "failed";
                             MessageBox.Show(exp.Message);
                         }
+                        AddValueAndStatus(7, 2, meani.ToString());
+                        AddValueAndStatus(7, 3, statusMTCPSendData);
+                        AddValueAndStatus(8, 2, meanv.ToString());
+                        AddValueAndStatus(8, 3, statusMTCPSendData);
+                        AddValueAndStatus(8, 2, " ");
+                        AddValueAndStatus(8, 3, "OK");
                         //与Beckhoff通讯
                         byte[] dataState = { 0x30, 0x00, 0xdd, 0x00, 0xdd, 0x00, 0x00, 0x00 };
                         Tcp.sendbytes(dataState);    
@@ -1026,9 +1123,5 @@ namespace Gimbal
             lblTime.Text = t.ToString("f3");
         }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            comboCamera.SelectedIndex = 1;
-        }
     }
 }
