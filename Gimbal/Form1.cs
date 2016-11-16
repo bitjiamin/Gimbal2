@@ -39,7 +39,7 @@ namespace Gimbal
         extern static int MTCP_ALPR(float[] rsp);
 
         [DllImport("GimbalDll.dll")]
-        extern static int MTCP_ALPH(string[] path, ushort img_cnt, ushort width, ushort height, uint size, float i_dr, float v_for);
+        extern static int MTCP_ALPH(string[] path, ushort img_cnt, ushort width, ushort height, uint size, string i_dr, string v_for);
 
         [DllImport("GimbalDll.dll")]
         extern static int MTCP_POST();
@@ -77,6 +77,8 @@ namespace Gimbal
         Int32 Y;   //Y轴旋转角度
         String I;  //SMU电流值
         Int32 T;   //等待TEC稳定时间
+        string voltage;
+        string current;
         double meani;  //smu回采电流平均值
         double meanv;  //smu回采电压平均值
         string barcodeCom = "com1";
@@ -523,7 +525,7 @@ namespace Gimbal
                             ushort img_cnt = 2;//2;
                             float meaniI = (float)meani;
                             float meanvV = (float)meanv;
-                            int ret = MTCP_ALPH(path, img_cnt, (ushort)width, (ushort)height, 0, meaniI, meanvV);
+                            int ret = MTCP_ALPH(path, img_cnt, (ushort)width, (ushort)height, 0, current, voltage);
                             Log(string.Format("ALPH Return Value : {0}", ret));
                             MTCP_POST();
                             MTCP_TSED();
@@ -575,7 +577,7 @@ namespace Gimbal
         }
 
 
-        void ParseMCUResponse(string vi, out double meanC, out double meanV)
+        void ParseMCUResponse(string vi, out double meanC, out double meanV,out string voltage, out string current)
         {
             string match_current = "Current:(.*)Voltage";
             string match_volt = "Voltage:(.*)Time";
@@ -587,6 +589,7 @@ namespace Gimbal
             string vc = mc.Groups[1].ToString();
             vc = vc.Trim();
             string[] arr = vc.Split(",".ToCharArray());
+            current = vc;
             ArrayList arrayCurrent = new ArrayList();
 
             double sumC = 0;
@@ -604,6 +607,7 @@ namespace Gimbal
             string vv = mv.Groups[1].ToString();
             vv = vv.Trim();
             string[] arr1 = vv.Split(",".ToCharArray());
+            voltage = vv;
             ArrayList arrayVolt = new ArrayList();
             double sumV = 0;
             foreach (var i in arr1)
@@ -653,7 +657,7 @@ namespace Gimbal
 
             Com.serial_close(commcu);
 
-            ParseMCUResponse(vi, out meani, out meanv);
+            ParseMCUResponse(vi, out meani, out meanv,out voltage, out current);
             Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
             AddValueAndStatus(6, 2, "");
             AddValueAndStatus(6, 3, "pass");
