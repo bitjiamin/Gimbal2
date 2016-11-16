@@ -294,7 +294,7 @@ namespace Gimbal
                 HOperatorSet.SetPart(hv_Window, 0, 0, height - 1, width - 1);
                 HOperatorSet.DispObj(ho_image, hv_Window);
                 CaptureBlackstatus = "pass";
-                Log("Black image capture finished!");
+                Log("Black image capture finished!\r\n"+"X="+Sx+"\r\n"+"Y=" +Sy+"\r\n");
             }
             catch (Exception ex)
             {
@@ -481,12 +481,12 @@ namespace Gimbal
                         CaptureImage(time1, ref pathblack);
 
                         Log("Turn on unit...");
-                        AddValueAndStatus(6, 2, "");
-                        AddValueAndStatus(6, 3, "pass");
+                        
                         Process = new Thread(new ThreadStart(OperateMCU));
                         Process.IsBackground = true;
                         Process.Start();
 
+                        Thread.Sleep(300);
                         Log("Start to capture image with unit power on...");
                         Avt.OneShot(ref ho_image);
 
@@ -530,8 +530,9 @@ namespace Gimbal
                             MTCP_CLOSE();
 
                             __DriverBoard.Reset();
+                            SMU_PowerOff();
                             stopwatch.Stop();
-                            Log("MTCP Send Completed!");
+                            Log("MTCP Send Completed!\r\n"+"meanI="+meani+"\r\n"+"meanV="+meanvV+"\r\n");
                             statusMTCPSendData = "pass";
                         }
                         catch(Exception exp)
@@ -552,10 +553,16 @@ namespace Gimbal
                     //产品下料
                     case("4000dd00dd000000"):
                         Tcp.result = null;
+                         __DriverBoard.Reset();
+                         SMU_PowerOff();
+                         stopwatch.Stop();
                       //  MessageBox.Show("Test Finished", "State", MessageBoxButtons.OK);
                         break;
                     //机器报错
                     case("ee00ee00ee000000"):
+                         __DriverBoard.Reset();
+                         SMU_PowerOff();
+                         stopwatch.Stop();
                         Tcp.result = null;
                         double t = (double)stopwatch.ElapsedMilliseconds/1000.0;
                         lblTime.Text = t.ToString("f3");
@@ -607,18 +614,35 @@ namespace Gimbal
             }
             meanV = sumV / arrayVolt.Count;
 
+            Log(vi+"\r\n");
         }
 
+
+        void SMU_PowerOff()
+        {
+            Com.serial_open(commcu, SourceCom, 9600);  //打开源表
+            Com.serial_send(commcu, "*RST\r\n");
+            Com.serial_send(commcu, "abort\r\n");
+            Com.serial_send(commcu, "smua.reset()\r\n");
+            Com.serial_send(commcu, "smub.reset()\r\n");
+
+            string vi = Com.serial_readmcu(commcu);
+            Console.WriteLine("~~~~~~~~~~~~~~~SMU Response:");
+            Console.WriteLine(vi);
+
+
+            Com.serial_close(commcu);
+        }
         private void OperateMCU()
         { 
-            Thread.Sleep(1000);
+           // Thread.Sleep(1000);
            /*
             string para = @"num_of_pulses=10
                             leveli=1.0
                             script.user.scripts.smu_pulse()
                             ";
             * */
-            string para = "num_of_pulses=50" + "\r\n" + "leveli=" + I + "\r\n" + "script.user.scripts.smu_pulse()" + "\r\n";
+            string para = "num_of_pulses=100" + "\r\n" + "leveli=" + I + "\r\n" + "script.user.scripts.smu_pulse()" + "\r\n";
             Com.serial_open(commcu, SourceCom, 9600);  //打开源表
             Com.serial_send(commcu, para);
 
@@ -631,6 +655,9 @@ namespace Gimbal
 
             ParseMCUResponse(vi, out meani, out meanv);
             Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+            AddValueAndStatus(6, 2, "");
+            AddValueAndStatus(6, 3, "pass");
+            Log(para);
         }
 
         private Int32 GetPosition(decimal pos)
