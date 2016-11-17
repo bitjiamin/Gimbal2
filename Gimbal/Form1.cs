@@ -256,8 +256,12 @@ namespace Gimbal
         {
             InitialLogPath();
             Log("Initial Testing...");
-            
-            txtBarcode.Text = "";
+
+            if (checkboxScan.Checked)
+            {
+                txtBarcode.Text = "";
+            }
+
             stopwatch.Reset();
             
             HTuple hv_Window = hWindowControl1.HalconWindow;
@@ -340,17 +344,24 @@ namespace Gimbal
                         Log("Start to scan SN!");
                         Tcp.result = null;
                         Thread.Sleep(200);
-#if true
-                      //  Com.serial_send(comscan,"S");
-                        scanner.Send("T");
-                        Thread.Sleep(1500);
-                     
-                        barcode = scanner.result();
-                        
-                      //  barcode = Com.serial_read(comscan);
-#else
-                        barcode = "FWP638701S2H6CWC5";
-#endif
+
+                        if (checkboxScan.Checked)
+                        {
+                            //scan from camera
+                            //  Com.serial_send(comscan,"S");
+                            scanner.Send("T");
+                            Thread.Sleep(1500);
+
+                            barcode = scanner.result();
+
+                            //  barcode = Com.serial_read(comscan);
+                        }
+                        else
+                        {
+                            //barcode = "FWP638701S2H6CWC5";
+                            barcode = txtBarcode.Text;
+                        }
+
                         string statusBarcode = "pass";
                         string statusMTCP = "failed";
                        
@@ -459,7 +470,7 @@ namespace Gimbal
                         HTuple width, height;
                         HOperatorSet.GenEmptyObj(out ho_image);
 
-                        double exposureTimeAbs = 500000;
+                        double exposureTimeAbs = 3.6*1000;//500000;
                         Avt.Open(exposureTimeAbs);
                         ushort[,] rawdata = new ushort[tif.height, tif.width];
                         //rawdata = Avt.OneShot2(basepath + @"\tiff\" + barcode + @".tiff");
@@ -482,8 +493,7 @@ namespace Gimbal
                         string pathblack = string.Empty;
                         CaptureImage(time1, ref pathblack);
 
-                        Log("Turn on unit...");
-                        
+                        Log("Turn on unit...");     
                         Process = new Thread(new ThreadStart(OperateMCU));
                         Process.IsBackground = true;
                         Process.Start();
