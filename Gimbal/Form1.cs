@@ -464,13 +464,13 @@ namespace Gimbal
                     case ("2000dd00dd000000"):
                         Log("Start to capture...");
                         Tcp.result = null;
-                                                  
+                
                         HTuple hv_Window = hWindowControl1.HalconWindow;
                         HObject ho_image;
                         HTuple width, height;
                         HOperatorSet.GenEmptyObj(out ho_image);
 
-                        double exposureTimeAbs = 3.6*1000;//500000;
+                        double exposureTimeAbs = Convert.ToInt32(ExposureTime.Text);//500000;
                         Avt.Open(exposureTimeAbs);
                         ushort[,] rawdata = new ushort[tif.height, tif.width];
                         //rawdata = Avt.OneShot2(basepath + @"\tiff\" + barcode + @".tiff");
@@ -1238,6 +1238,31 @@ namespace Gimbal
         {
             double t = (double)stopwatch.ElapsedMilliseconds/1000.0;
             lblTime.Text = t.ToString("f3");
+        }
+
+        private void label6_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtBarcode_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtTECTemp_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
         }
 
     }
