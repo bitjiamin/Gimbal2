@@ -9,14 +9,21 @@ namespace Gimbal
 {
     public class AvtCam
     {
-        
+        Vimba sys = new Vimba();
+        CameraCollection cameras = null;
         private Camera camera;
+        
         //private API.IniHelper IniHelper = new API.IniHelper();
         private bool isOpen = false;
-        private double exposureTimeAbs=500000;
+        private double exposureTimeAbs = 500 * 1000;//500000;
      //   private double gain;
         public delegate void ErrorHandle();
        // public event ErrorHandle OnErrorHandle;
+        public AvtCam()
+        {
+            sys.Startup();
+            //cameras = sys.Cameras;
+        }
         public void LoadCameraSettings(string path)
         {
             this.camera.LoadCameraSettings(path);
@@ -51,22 +58,21 @@ namespace Gimbal
         public bool Open(double exposureTimeAbs)
         {
             isOpen = false;
-            Vimba sys = new Vimba();
-            CameraCollection cameras = null;
 
-            sys.Startup();
             cameras = sys.Cameras;
             try
             {
                 camera = cameras[0];
-                camera.Open(VmbAccessModeType.VmbAccessModeFull);
+                //camera.Open(VmbAccessModeType.VmbAccessModeFull);
                 camera.Features["PixelFormat"].EnumValue = "Mono14";
                 camera.Features["ExposureTimeAbs"].FloatValue = exposureTimeAbs;
+
+                camera.Features["TriggerDelayAbs"].FloatValue = 1000;
                 camera.Features["TriggerActivation"].EnumIntValue = 0;
                 camera.Features["TriggerMode"].EnumIntValue = 1;
                 camera.Features["TriggerSource"].EnumIntValue = 2;
-                camera.Features["SyncInGlitchFilter"].IntValue = 500;
-                camera.Features ["SyncInSelector"].EnumIntValue = 1;
+                camera.Features["SyncInSelector"].EnumIntValue = 1;
+                camera.Features["SyncInGlitchFilter"].IntValue = 1000;
                 
                 //camera.OnFrameReceived+=camera_OnFrameReceived;
 
@@ -81,7 +87,7 @@ namespace Gimbal
             }
             return isOpen;
         }
-        public bool Open_NoTrigger()
+        public bool Open_NoTrigger(double exposureTimeAbs)
         {
             isOpen = false;
             Vimba sys = new Vimba();
@@ -131,7 +137,11 @@ namespace Gimbal
         public void Close()
         {
             if (isOpen)
+            {
                 this.camera.Close();
+                sys.Shutdown();
+            }
+                
         }
 
         public bool OneShot(ref HObject image)
@@ -142,8 +152,7 @@ namespace Gimbal
                 {
                     Frame frame = null;
                     camera.AcquireSingleImage(ref frame, 6000);
-                    // camera.AcquireSingleImage(ref frame, 6000);
-                    // camera.AcquireSingleImage(ref frame, 6000);
+
                     GCHandle hObject = GCHandle.Alloc(frame.Buffer, GCHandleType.Pinned);
                     IntPtr pObject = hObject.AddrOfPinnedObject();
                     HOperatorSet.GenImage1(out image, "uint2", frame.Width, frame.Height, pObject);

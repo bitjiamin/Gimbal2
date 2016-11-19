@@ -432,7 +432,7 @@ namespace Gimbal
                         Tcp.result = null;
                         //send position x
                         //Int32 X=002000;           //前3位是角度整数部分，后3位是角度小数部分
-                        //X = GetPosition(xpos.Value);
+                        X = GetPosition(xpos.Value);
                         byte[] arryX2=new byte[4];
                         ConvertIntToByteArray(X,ref arryX2);             //整数转字节数组
                         byte[] arryX1={ 0x20, 0x00, 0x00, 0x00 };        //定义第一个字节数组
@@ -441,7 +441,7 @@ namespace Gimbal
                         Tcp.sendbytes(dataX);
                         //send position y
                         //Int32 Y=002000;         //前3位是角度整数部分，后3位是角度小数部分
-                        //Y = GetPosition(ypos.Value);
+                        Y = GetPosition(ypos.Value);
                         byte[] arryY2=new byte[4];
                         ConvertIntToByteArray(Y,ref arryY2);             //整数转字节数组
                         byte[] arryY1={ 0x20, 0x00, 0x01, 0x00 };        //定义第一个字节数组
@@ -471,10 +471,15 @@ namespace Gimbal
                         HOperatorSet.GenEmptyObj(out ho_image);
 
                         double exposureTimeAbs = Convert.ToInt32(ExposureTime.Text);//500000;
-                        Avt.Open(exposureTimeAbs);
+               
+                        Avt.Open_NoTrigger(exposureTimeAbs);
                         ushort[,] rawdata = new ushort[tif.height, tif.width];
-                        //rawdata = Avt.OneShot2(basepath + @"\tiff\" + barcode + @".tiff");
-
+                      
+                        string time1;
+                        time1 = DateTime.Now.ToString("yyyyMMddHHmmss");
+                        //Capture black image
+                        string pathblack = string.Empty;
+                        CaptureImage(time1, ref pathblack);
                         //打开TEC
                         Com.serial_send(comtec, openTEC);
                         Thread.Sleep(T*1000);   //TEC稳定时间
@@ -487,20 +492,18 @@ namespace Gimbal
                         __DriverBoard.ReadYogi();
                         Log("Enable Yogi finished!");
 #endif
-                        string time1;
-                        time1 = DateTime.Now.ToString("yyyyMMddHHmmss");
-                        //Capture black image
-                        string pathblack = string.Empty;
-                        CaptureImage(time1, ref pathblack);
+                     
 
                         Log("Turn on unit...");     
                         Process = new Thread(new ThreadStart(OperateMCU));
                         Process.IsBackground = true;
                         Process.Start();
-
-                        Thread.Sleep(300);
+                        
+                        Thread.Sleep(400);
+                        Avt.Open(exposureTimeAbs);
                         Log("Start to capture image with unit power on...");
                         Avt.OneShot(ref ho_image);
+                        Tb_graymax.Text=pro.getmax(ho_image).ToString();
 
                         //关闭TEC
                         Com.serial_send(comtec, closeTEC);
@@ -747,7 +750,7 @@ namespace Gimbal
                 bool AVTOpen;
                 if (livestate)
                 {
-                    Avt.Open_NoTrigger();
+                    Avt.Open_NoTrigger(1000);
                     AVTOpen = true;
                 }
                 else
@@ -856,7 +859,7 @@ namespace Gimbal
             }
             else
             {
-                Avt.Open_NoTrigger();
+                Avt.Open_NoTrigger(1000);
                 HObject ho_image;
                 HTuple width, height;
                 HOperatorSet.GenEmptyObj(out ho_image);
@@ -1263,6 +1266,11 @@ namespace Gimbal
         private void label2_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void btDefaultSN_Click(object sender, EventArgs e)
+        {
+            txtBarcode.Text = "FWP638701S2H6CWC5";
         }
 
     }

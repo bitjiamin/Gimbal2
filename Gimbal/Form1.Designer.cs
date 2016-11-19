@@ -68,6 +68,9 @@
             this.checkboxScan = new System.Windows.Forms.CheckBox();
             this.ExposureTime = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
+            this.btDefaultSN = new System.Windows.Forms.Button();
+            this.Tb_graymax = new System.Windows.Forms.TextBox();
+            this.MaxGrayvalue = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.xpos)).BeginInit();
@@ -313,9 +316,9 @@
             this.label8.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.Location = new System.Drawing.Point(736, 264);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(65, 15);
+            this.label8.Size = new System.Drawing.Size(97, 15);
             this.label8.TabIndex = 24;
-            this.label8.Text = "X Position:";
+            this.label8.Text = "X Angle(degree):";
             // 
             // label9
             // 
@@ -324,9 +327,9 @@
             this.label9.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.Location = new System.Drawing.Point(736, 306);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(65, 15);
+            this.label9.Size = new System.Drawing.Size(97, 15);
             this.label9.TabIndex = 25;
-            this.label9.Text = "Y Position:";
+            this.label9.Text = "Y Angle(degree):";
             // 
             // xpos
             // 
@@ -457,9 +460,9 @@
             this.ExposureTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.ExposureTime.Location = new System.Drawing.Point(736, 363);
             this.ExposureTime.Name = "ExposureTime";
-            this.ExposureTime.Size = new System.Drawing.Size(164, 21);
+            this.ExposureTime.Size = new System.Drawing.Size(84, 21);
             this.ExposureTime.TabIndex = 33;
-            this.ExposureTime.Text = "1030";
+            this.ExposureTime.Text = "350";
             // 
             // label10
             // 
@@ -467,15 +470,47 @@
             this.label10.AutoSize = true;
             this.label10.Location = new System.Drawing.Point(736, 348);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(95, 12);
+            this.label10.Size = new System.Drawing.Size(83, 12);
             this.label10.TabIndex = 34;
-            this.label10.Text = "Exposure Time :";
+            this.label10.Text = "Exposure(us):";
+            // 
+            // btDefaultSN
+            // 
+            this.btDefaultSN.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btDefaultSN.Location = new System.Drawing.Point(908, 136);
+            this.btDefaultSN.Name = "btDefaultSN";
+            this.btDefaultSN.Size = new System.Drawing.Size(59, 19);
+            this.btDefaultSN.TabIndex = 35;
+            this.btDefaultSN.Text = "default";
+            this.btDefaultSN.UseVisualStyleBackColor = true;
+            this.btDefaultSN.Click += new System.EventHandler(this.btDefaultSN_Click);
+            // 
+            // Tb_graymax
+            // 
+            this.Tb_graymax.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.Tb_graymax.Location = new System.Drawing.Point(826, 363);
+            this.Tb_graymax.Name = "Tb_graymax";
+            this.Tb_graymax.Size = new System.Drawing.Size(74, 21);
+            this.Tb_graymax.TabIndex = 36;
+            // 
+            // MaxGrayvalue
+            // 
+            this.MaxGrayvalue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.MaxGrayvalue.AutoSize = true;
+            this.MaxGrayvalue.Location = new System.Drawing.Point(827, 348);
+            this.MaxGrayvalue.Name = "MaxGrayvalue";
+            this.MaxGrayvalue.Size = new System.Drawing.Size(53, 12);
+            this.MaxGrayvalue.TabIndex = 37;
+            this.MaxGrayvalue.Text = "MaxGray:";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(982, 572);
+            this.Controls.Add(this.MaxGrayvalue);
+            this.Controls.Add(this.Tb_graymax);
+            this.Controls.Add(this.btDefaultSN);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.ExposureTime);
             this.Controls.Add(this.checkboxScan);
@@ -561,6 +596,9 @@
         private System.Windows.Forms.CheckBox checkboxScan;
         private System.Windows.Forms.TextBox ExposureTime;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Button btDefaultSN;
+        private System.Windows.Forms.TextBox Tb_graymax;
+        private System.Windows.Forms.Label MaxGrayvalue;
     }
 }
 

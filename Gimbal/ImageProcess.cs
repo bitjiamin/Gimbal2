@@ -12,7 +12,25 @@ namespace Gimbal
         BaumerSDK BM = new BaumerSDK();
         HObject ho_Image;
         string basepath = System.IO.Directory.GetCurrentDirectory();
+        public double getmax(HObject img)
+        {
+            HObject ho_ROI_0, ho_ImageReduced;
 
+            // Local control variables 
+
+            HTuple hv_Value = null;
+            // Initialize local and output iconic variables 
+            HOperatorSet.GenEmptyObj(out ho_ROI_0);
+            HOperatorSet.GenEmptyObj(out ho_ImageReduced);
+            ho_ROI_0.Dispose();
+            HOperatorSet.GenRectangle1(out ho_ROI_0, 719.572, 948.489, 1907.32, 2267.81);
+            ho_ImageReduced.Dispose();
+            HOperatorSet.ReduceDomain(img, ho_ROI_0,out ho_ImageReduced);
+            HOperatorSet.GrayFeatures(ho_ROI_0, ho_ImageReduced, "max", out hv_Value);
+            ho_ROI_0.Dispose();
+            ho_ImageReduced.Dispose();
+            return hv_Value;
+        }
         public void disp_message(HTuple hv_WindowHandle, HTuple hv_String, HTuple hv_CoordSystem, HTuple hv_Row, HTuple hv_Column, HTuple hv_Color, HTuple hv_Box)
         {
 
