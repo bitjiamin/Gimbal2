@@ -97,14 +97,14 @@ namespace Gimbal
         public void PowerVDD()
         {
             Send("[123]io set(5,bit1=1,bit2=1,bit7=1,bit8=1,bit9=1)\r\n");
-            Thread.Sleep(100);
+            Thread.Sleep(10);
         }
 
         public void InitYogi()
         {
             Send("[123]i2c read(CH1,0x33,0x37,1)\r\n");
             Send("[123]i2c read(CH1,0x33,0x30,1)\r\n");
-            Thread.Sleep(100);
+            Thread.Sleep(10);
         }
 
         public void BypassYogi()
@@ -118,11 +118,27 @@ namespace Gimbal
         
         public string ReadYogiNVM()
         {
+            //Send("[123]i2c read(CH1,0x33,0x37,1)\r\n");
+            //Send("[123]i2c read(CH1,0x33,0x30,1)\r\n");
+            //Send("[123]i2c read(CH1,0x33,0x39,1)\r\n");
+            //Send("[123]i2c read(CH1,0x33,0x1f,1)\r\n");
+            //Send("[123]i2c read(CH1,0x33,0x38,1)\r\n");
             Send("[123]i2c read(CH1,0x33,0x37,1)\r\n");
             Send("[123]i2c read(CH1,0x33,0x30,1)\r\n");
             Send("[123]i2c read(CH1,0x33,0x39,1)\r\n");
             Send("[123]i2c read(CH1,0x33,0x1f,1)\r\n");
+            string buffer0x1f = ReadString(100);
             Send("[123]i2c read(CH1,0x33,0x38,1)\r\n");
+            Thread.Sleep(500);
+            string buffer = ReadString(100);
+            return "";
+        }
+
+        public string SetYogiActiMode()
+        {
+            Send("[123]fpga io set(1,CH1=1)\r\n");
+            Thread.Sleep(10);
+          //  string buffer = ReadString(100);
             return "";
         }
 
@@ -132,10 +148,10 @@ namespace Gimbal
             Send("[123]i2c read(CH1,0x33,0x10,16)\r\n");
             Send("[123]i2c read(CH1,0x33,0x20,16)\r\n");
             Send("[123]i2c read(CH1,0x33,0x30,16)\r\n");
-            Thread.Sleep(500);
-            string buffer = ReadString(100);
+            Thread.Sleep(10);
+        //    string buffer = ReadString(100);
 
-            return buffer;
+            return "";
         }
 
         public void Reset()

@@ -1,6 +1,36 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <config>
-  <IP>169.254.1.112</IP>
-  <Port>5000</Port>
-  <Tcp />
+  <TCPconfig>
+    <IP>169.254.1.113</IP>
+    <Port>5000</Port>
+  </TCPconfig>
+  <Scannerconfig>
+    <IP>169.254.1.100</IP>
+    <Port>49211</Port>
+  </Scannerconfig>
+  <TcpSMUReset>
+    <IP>192.168.0.2</IP>
+    <Port>5030</Port>
+  </TcpSMUReset>
+  <TcpSMUProcess>
+    <IP>192.168.0.2</IP>
+    <Port>5025</Port>
+  </TcpSMUProcess>
+  <MTCP>
+    <IP>169.254.1.111</IP>
+    <Port>61808</Port>
+  </MTCP>
+  <DriverBoard>
+    <IP>192.168.0.66</IP>
+    <Port>7600</Port>
+  </DriverBoard>
+  <Filepath>
+     <path>d:\\vault\\intelli_Gimbal</path>
+  </Filepath>
+  <Exposetime>
+      <time>1200</time>
+  </Exposetime>
+  <NewLot>
+    <lot>0</lot>
+  </NewLot>
 </config>

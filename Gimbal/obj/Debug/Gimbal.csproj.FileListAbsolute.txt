@@ -123,3 +123,695 @@ C:\Users\n\Desktop\G2\Gimbal\obj\Debug\Gimbal.Properties.Resources.resources
 C:\Users\n\Desktop\G2\Gimbal\obj\Debug\Gimbal.Tcpsetting.resources
 C:\Users\n\Desktop\G2\Gimbal\obj\Debug\Gimbal.csproj.GenerateResource.Cache
 C:\Users\n\Desktop\G2\Gimbal\obj\Debug\Gimbal.csprojResolveAssemblyReference.cache
+E:\newG2works\G2\Gimbal\bin\Debug\Gimbal.exe.config
+E:\newG2works\G2\Gimbal\obj\Debug\Gimbal.exe
+E:\newG2works\G2\Gimbal\obj\Debug\Gimbal.pdb
+G:\newG2works\G2\Gimbal\bin\Debug\Gimbal.exe.config
+G:\newG2works\G2\Gimbal\obj\Debug\Gimbal.exe
+G:\newG2works\G2\Gimbal\obj\Debug\Gimbal.pdb
+G:\newG2works\G2\Gimbal\bin\Debug\Gimbal.exe
+G:\newG2works\G2\Gimbal\bin\Debug\Gimbal.pdb
+G:\newG2works\G2\Gimbal\bin\Debug\halcondotnet.xml
+G:\newG2works\G2\Gimbal\obj\Debug\Gimbal.csprojResolveAssemblyReference.cache
+G:\newG2works\G2\Gimbal\obj\Debug\Gimbal.Form1.resources
+G:\newG2works\G2\Gimbal\obj\Debug\Gimbal.Properties.Resources.resources
+G:\newG2works\G2\Gimbal\obj\Debug\Gimbal.Tcpsetting.resources
+G:\newG2works\G2\Gimbal\obj\Debug\Gimbal.csproj.GenerateResource.Cache
+E:\newG2works\GimbalNewSMU\G2\Gimbal\bin\Debug\Gimbal.exe.config
+E:\newG2works\GimbalNewSMU\G2\Gimbal\obj\Debug\Gimbal.exe
+E:\newG2works\GimbalNewSMU\G2\Gimbal\obj\Debug\Gimbal.pdb
+E:\newG2works\GimbalNewSMU\G2\Gimbal\obj\Debug\Gimbal.csprojResolveAssemblyReference.cache
+E:\newG2works\GimbalNewSMU\G2\Gimbal\obj\Debug\Gimbal.Form1.resources
+E:\newG2works\GimbalNewSMU\G2\Gimbal\obj\Debug\Gimbal.Properties.Resources.resources
+E:\newG2works\GimbalNewSMU\G2\Gimbal\obj\Debug\Gimbal.Tcpsetting.resources
+E:\newG2works\GimbalNewSMU\G2\Gimbal\obj\Debug\Gimbal.csproj.GenerateResource.Cache
+E:\newG2works\GimbalNewSMU\G2\Gimbal\bin\Debug\Gimbal.exe
+E:\newG2works\GimbalNewSMU\G2\Gimbal\bin\Debug\Gimbal.pdb
+E:\newG2works\GimbalNewSMU\G2\Gimbal\bin\Debug\halcondotnet.xml
+G:\newG2works\GimbalNewSMU\G2\Gimbal\bin\Debug\Gimbal.exe.config
+G:\newG2works\GimbalNewSMU\G2\Gimbal\obj\Debug\Gimbal.exe
+G:\newG2works\GimbalNewSMU\G2\Gimbal\obj\Debug\Gimbal.pdb
+G:\newG2works\GimbalNewSMU\G2\Gimbal\bin\Debug\Gimbal.exe
+G:\newG2works\GimbalNewSMU\G2\Gimbal\bin\Debug\Gimbal.pdb
+G:\newG2works\GimbalNewSMU\G2\Gimbal\bin\Debug\halcondotnet.xml
+G:\newG2works\GimbalNewSMU\G2\Gimbal\obj\Debug\Gimbal.csprojResolveAssemblyReference.cache
+G:\newG2works\GimbalNewSMU\G2\Gimbal\obj\Debug\Gimbal.Form1.resources
+G:\newG2works\GimbalNewSMU\G2\Gimbal\obj\Debug\Gimbal.Properties.Resources.resources
+G:\newG2works\GimbalNewSMU\G2\Gimbal\obj\Debug\Gimbal.Tcpsetting.resources
+G:\newG2works\GimbalNewSMU\G2\Gimbal\obj\Debug\Gimbal.csproj.GenerateResource.Cache
+D:\newG2works\GimbalNewSMU\G2\Gimbal\bin\Debug\Gimbal.exe.config
+D:\newG2works\GimbalNewSMU\G2\Gimbal\obj\Debug\Gimbal.exe
+D:\newG2works\GimbalNewSMU\G2\Gimbal\obj\Debug\Gimbal.pdb
+C:\Users\n\Desktop\G2\Gimbal\obj\Debug\Gimbal.LoginForm.resources
+E:\G2\Gimbal\bin\Debug\Gimbal.exe.config
+E:\G2\Gimbal\obj\Debug\Gimbal.exe
+E:\G2\Gimbal\obj\Debug\Gimbal.pdb
+E:\G2\Gimbal\bin\Debug\Gimbal.exe
+E:\G2\Gimbal\bin\Debug\Gimbal.pdb
+E:\G2\Gimbal\obj\Debug\Gimbal.Form1.resources
+E:\G2\Gimbal\obj\Debug\Gimbal.LoginForm.resources
+E:\G2\Gimbal\obj\Debug\Gimbal.Properties.Resources.resources
+E:\G2\Gimbal\obj\Debug\Gimbal.Tcpsetting.resources
+E:\G2\Gimbal\obj\Debug\Gimbal.csproj.GenerateResource.Cache
+G:\newG2works\Gimbal01122016\G2\Gimbal\bin\Debug\Gimbal.exe.config
+G:\newG2works\Gimbal01122016\G2\Gimbal\obj\Debug\Gimbal.exe
+G:\newG2works\Gimbal01122016\G2\Gimbal\obj\Debug\Gimbal.pdb
+G:\newG2works\Gimbal01122016\G2\Gimbal\bin\Debug\Gimbal.exe
+G:\newG2works\Gimbal01122016\G2\Gimbal\bin\Debug\Gimbal.pdb
+G:\newG2works\Gimbal01122016\G2\Gimbal\obj\Debug\Gimbal.csprojResolveAssemblyReference.cache
+G:\newG2works\Gimbal01122016\G2\Gimbal\obj\Debug\Gimbal.Form1.resources
+G:\newG2works\Gimbal01122016\G2\Gimbal\obj\Debug\Gimbal.LoginForm.resources
+G:\newG2works\Gimbal01122016\G2\Gimbal\obj\Debug\Gimbal.Properties.Resources.resources
+G:\newG2works\Gimbal01122016\G2\Gimbal\obj\Debug\Gimbal.Tcpsetting.resources
+G:\newG2works\Gimbal01122016\G2\Gimbal\obj\Debug\Gimbal.csproj.GenerateResource.Cache
+E:\newG2works\Gimbal01122016\G2\Gimbal\bin\Debug\Gimbal.exe.config
+E:\newG2works\Gimbal01122016\G2\Gimbal\obj\Debug\Gimbal.exe
+E:\newG2works\Gimbal01122016\G2\Gimbal\obj\Debug\Gimbal.pdb
+E:\newG2works\Gimbal01122016 - 副本\G2\Gimbal\bin\Debug\Gimbal.exe.config
+E:\newG2works\Gimbal01122016 - 副本\G2\Gimbal\obj\Debug\Gimbal.exe
+E:\newG2works\Gimbal01122016 - 副本\G2\Gimbal\obj\Debug\Gimbal.pdb
+E:\newG2works\Gimbal01122016 - 副本\G2\Gimbal\bin\Debug\Gimbal.exe
+E:\newG2works\Gimbal01122016 - 副本\G2\Gimbal\bin\Debug\Gimbal.pdb
+E:\newG2works\Gimbal01122016 - 副本\G2\Gimbal\obj\Debug\Gimbal.csprojResolveAssemblyReference.cache
+E:\newG2works\Gimbal01122016 - 副本\G2\Gimbal\obj\Debug\Gimbal.Form1.resources
+E:\newG2works\Gimbal01122016 - 副本\G2\Gimbal\obj\Debug\Gimbal.LoginForm.resources
+E:\newG2works\Gimbal01122016 - 副本\G2\Gimbal\obj\Debug\Gimbal.Properties.Resources.resources
+E:\newG2works\Gimbal01122016 - 副本\G2\Gimbal\obj\Debug\Gimbal.Tcpsetting.resources
+E:\newG2works\Gimbal01122016 - 副本\G2\Gimbal\obj\Debug\Gimbal.csproj.GenerateResource.Cache
+G:\newG2works\Gimbal01122016 - 副本\G2\Gimbal\bin\Debug\Gimbal.exe.config
+G:\newG2works\Gimbal01122016 - 副本\G2\Gimbal\obj\Debug\Gimbal.exe
+G:\newG2works\Gimbal01122016 - 副本\G2\Gimbal\obj\Debug\Gimbal.pdb
+C:\Users\n\Desktop\Gimbal01122016 - 副本\G2\Gimbal\bin\Debug\Gimbal.exe.config
+C:\Users\n\Desktop\Gimbal01122016 - 副本\G2\Gimbal\obj\Debug\Gimbal.exe
+C:\Users\n\Desktop\Gimbal01122016 - 副本\G2\Gimbal\obj\Debug\Gimbal.pdb
+C:\Users\n\Desktop\Gimbal01122016 - 副本\G2\Gimbal\bin\Debug\Gimbal.exe
+C:\Users\n\Desktop\Gimbal01122016 - 副本\G2\Gimbal\bin\Debug\Gimbal.pdb
+C:\Users\n\Desktop\Gimbal01122016 - 副本\G2\Gimbal\obj\Debug\Gimbal.Form1.resources
+C:\Users\n\Desktop\Gimbal01122016 - 副本\G2\Gimbal\obj\Debug\Gimbal.LoginForm.resources
+C:\Users\n\Desktop\Gimbal01122016 - 副本\G2\Gimbal\obj\Debug\Gimbal.Properties.Resources.resources
+C:\Users\n\Desktop\Gimbal01122016 - 副本\G2\Gimbal\obj\Debug\Gimbal.Tcpsetting.resources
+C:\Users\n\Desktop\Gimbal01122016 - 副本\G2\Gimbal\obj\Debug\Gimbal.csproj.GenerateResource.Cache
+C:\Users\n\Desktop\Gimbal01122016 - 副本\G2\Gimbal\obj\Debug\Gimbal.csprojResolveAssemblyReference.cache
+G:\newG2works\GimbalPlus\Gimbal01122016 - 副本\G2\Gimbal\bin\Debug\Gimbal.exe.config
+G:\newG2works\GimbalPlus\Gimbal01122016 - 副本\G2\Gimbal\obj\Debug\Gimbal.exe
+G:\newG2works\GimbalPlus\Gimbal01122016 - 副本\G2\Gimbal\obj\Debug\Gimbal.pdb
+G:\newG2works\GimbalPlus\Gimbal01122016 - 副本\G2\Gimbal\bin\Debug\Gimbal.exe
+G:\newG2works\GimbalPlus\Gimbal01122016 - 副本\G2\Gimbal\bin\Debug\Gimbal.pdb
+G:\newG2works\GimbalPlus\Gimbal01122016 - 副本\G2\Gimbal\obj\Debug\Gimbal.Form1.resources
+G:\newG2works\GimbalPlus\Gimbal01122016 - 副本\G2\Gimbal\obj\Debug\Gimbal.LoginForm.resources
+G:\newG2works\GimbalPlus\Gimbal01122016 - 副本\G2\Gimbal\obj\Debug\Gimbal.Properties.Resources.resources
+G:\newG2works\GimbalPlus\Gimbal01122016 - 副本\G2\Gimbal\obj\Debug\Gimbal.Tcpsetting.resources
+G:\newG2works\GimbalPlus\Gimbal01122016 - 副本\G2\Gimbal\obj\Debug\Gimbal.csproj.GenerateResource.Cache
+E:\newG2works\GimbalPlus\Gimbal01122016 - 副本\G2\Gimbal\bin\Debug\Gimbal.exe.config
+E:\newG2works\GimbalPlus\Gimbal01122016 - 副本\G2\Gimbal\obj\Debug\Gimbal.exe
+E:\newG2works\GimbalPlus\Gimbal01122016 - 副本\G2\Gimbal\obj\Debug\Gimbal.pdb
+H:\newG2works\GimbalPlus\Gimbal01122016 - 副本\G2\Gimbal\bin\Debug\Gimbal.exe.config
+H:\newG2works\GimbalPlus\Gimbal01122016 - 副本\G2\Gimbal\obj\Debug\Gimbal.exe
+H:\newG2works\GimbalPlus\Gimbal01122016 - 副本\G2\Gimbal\obj\Debug\Gimbal.pdb
+E:\newG2works\GimbalPlus\Gimbal01122016 - 副本\G2\Gimbal\bin\Debug\Gimbal.exe
+E:\newG2works\GimbalPlus\Gimbal01122016 - 副本\G2\Gimbal\bin\Debug\Gimbal.pdb
+E:\newG2works\GimbalPlus\Gimbal01122016 - 副本\G2\Gimbal\obj\Debug\Gimbal.csprojResolveAssemblyReference.cache
+E:\newG2works\GimbalPlus\Gimbal01122016 - 副本\G2\Gimbal\obj\Debug\Gimbal.Form1.resources
+E:\newG2works\GimbalPlus\Gimbal01122016 - 副本\G2\Gimbal\obj\Debug\Gimbal.LoginForm.resources
+E:\newG2works\GimbalPlus\Gimbal01122016 - 副本\G2\Gimbal\obj\Debug\Gimbal.Properties.Resources.resources
+E:\newG2works\GimbalPlus\Gimbal01122016 - 副本\G2\Gimbal\obj\Debug\Gimbal.Tcpsetting.resources
+E:\newG2works\GimbalPlus\Gimbal01122016 - 副本\G2\Gimbal\obj\Debug\Gimbal.csproj.GenerateResource.Cache
+E:\G2\Gimbal\obj\Debug\Gimbal.csprojResolveAssemblyReference.cache
+E:\GIMBAL2.7.0\G2\Gimbal\bin\Debug\Gimbal.exe.config
+E:\GIMBAL2.7.0\G2\Gimbal\obj\Debug\Gimbal.exe
+E:\GIMBAL2.7.0\G2\Gimbal\obj\Debug\Gimbal.pdb
+E:\GIMBAL2.7.0\G2\Gimbal\bin\Debug\Gimbal.exe
+E:\GIMBAL2.7.0\G2\Gimbal\bin\Debug\Gimbal.pdb
+E:\GIMBAL2.7.0\G2\Gimbal\obj\Debug\Gimbal.Form1.resources
+E:\GIMBAL2.7.0\G2\Gimbal\obj\Debug\Gimbal.LoginForm.resources
+E:\GIMBAL2.7.0\G2\Gimbal\obj\Debug\Gimbal.Properties.Resources.resources
+E:\GIMBAL2.7.0\G2\Gimbal\obj\Debug\Gimbal.Tcpsetting.resources
+E:\GIMBAL2.7.0\G2\Gimbal\obj\Debug\Gimbal.csproj.GenerateResource.Cache
+E:\GIMBAL2.7.0\G2\Gimbal\obj\Debug\Gimbal.FrmStart.resources
+E:\GIMBAL2.7.0\G2\Gimbal\obj\Debug\Gimbal.csprojResolveAssemblyReference.cache
+F:\New folder\G2\Gimbal\bin\Debug\Gimbal.exe.config
+F:\New folder\G2\Gimbal\obj\Debug\Gimbal.exe
+F:\New folder\G2\Gimbal\obj\Debug\Gimbal.pdb
+F:\New folder\G2\Gimbal\bin\Debug\Gimbal.exe
+F:\New folder\G2\Gimbal\bin\Debug\Gimbal.pdb
+F:\New folder\G2\Gimbal\obj\Debug\Gimbal.csprojResolveAssemblyReference.cache
+F:\New folder\G2\Gimbal\obj\Debug\Gimbal.Form1.resources
+F:\New folder\G2\Gimbal\obj\Debug\Gimbal.FrmStart.resources
+F:\New folder\G2\Gimbal\obj\Debug\Gimbal.LoginForm.resources
+F:\New folder\G2\Gimbal\obj\Debug\Gimbal.Properties.Resources.resources
+F:\New folder\G2\Gimbal\obj\Debug\Gimbal.Tcpsetting.resources
+F:\New folder\G2\Gimbal\obj\Debug\Gimbal.csproj.GenerateResource.Cache
+E:\gimbal最新代码\G2\Gimbal\bin\Debug\Gimbal.exe.config
+E:\gimbal最新代码\G2\Gimbal\obj\Debug\Gimbal.exe
+E:\gimbal最新代码\G2\Gimbal\obj\Debug\Gimbal.pdb
+E:\gimbal最新代码\G2\Gimbal\bin\Debug\Gimbal.exe
+E:\gimbal最新代码\G2\Gimbal\bin\Debug\Gimbal.pdb
+E:\gimbal最新代码\G2\Gimbal\obj\Debug\Gimbal.Form1.resources
+E:\gimbal最新代码\G2\Gimbal\obj\Debug\Gimbal.FrmStart.resources
+E:\gimbal最新代码\G2\Gimbal\obj\Debug\Gimbal.LoginForm.resources
+E:\gimbal最新代码\G2\Gimbal\obj\Debug\Gimbal.Properties.Resources.resources
+E:\gimbal最新代码\G2\Gimbal\obj\Debug\Gimbal.Tcpsetting.resources
+E:\gimbal最新代码\G2\Gimbal\obj\Debug\Gimbal.csproj.GenerateResource.Cache
+F:\gimbal最新代码\G2\Gimbal\bin\Debug\Gimbal.exe.config
+F:\gimbal最新代码\G2\Gimbal\obj\Debug\Gimbal.exe
+F:\gimbal最新代码\G2\Gimbal\obj\Debug\Gimbal.pdb
+F:\gimbal最新代码\G2\Gimbal\bin\Debug\Gimbal.exe
+F:\gimbal最新代码\G2\Gimbal\bin\Debug\Gimbal.pdb
+F:\gimbal最新代码\G2\Gimbal\obj\Debug\Gimbal.csprojResolveAssemblyReference.cache
+F:\gimbal最新代码\G2\Gimbal\obj\Debug\Gimbal.Form1.resources
+F:\gimbal最新代码\G2\Gimbal\obj\Debug\Gimbal.FrmStart.resources
+F:\gimbal最新代码\G2\Gimbal\obj\Debug\Gimbal.LoginForm.resources
+F:\gimbal最新代码\G2\Gimbal\obj\Debug\Gimbal.Properties.Resources.resources
+F:\gimbal最新代码\G2\Gimbal\obj\Debug\Gimbal.Tcpsetting.resources
+F:\gimbal最新代码\G2\Gimbal\obj\Debug\Gimbal.csproj.GenerateResource.Cache
+E:\GIMBAL2.7.0\最新\G2\Gimbal\bin\Debug\Gimbal.exe.config
+E:\GIMBAL2.7.0\最新\G2\Gimbal\obj\Debug\Gimbal.exe
+E:\GIMBAL2.7.0\最新\G2\Gimbal\obj\Debug\Gimbal.pdb
+E:\GIMBAL2.7.0\最新\G2\Gimbal\bin\Debug\Gimbal.exe
+E:\GIMBAL2.7.0\最新\G2\Gimbal\bin\Debug\Gimbal.pdb
+E:\GIMBAL2.7.0\最新\G2\Gimbal\obj\Debug\Gimbal.Form1.resources
+E:\GIMBAL2.7.0\最新\G2\Gimbal\obj\Debug\Gimbal.FrmStart.resources
+E:\GIMBAL2.7.0\最新\G2\Gimbal\obj\Debug\Gimbal.LoginForm.resources
+E:\GIMBAL2.7.0\最新\G2\Gimbal\obj\Debug\Gimbal.Properties.Resources.resources
+E:\GIMBAL2.7.0\最新\G2\Gimbal\obj\Debug\Gimbal.Tcpsetting.resources
+E:\GIMBAL2.7.0\最新\G2\Gimbal\obj\Debug\Gimbal.csproj.GenerateResource.Cache
+E:\GIMBAL2.7.0\最新\G2\Gimbal\obj\Debug\Gimbal.csprojResolveAssemblyReference.cache
+E:\GIMBAL2.7.0\优化版本\G2\Gimbal\bin\Debug\Gimbal.exe.config
+E:\GIMBAL2.7.0\优化版本\G2\Gimbal\obj\Debug\Gimbal.exe
+E:\GIMBAL2.7.0\优化版本\G2\Gimbal\obj\Debug\Gimbal.pdb
+E:\GIMBAL2.7.0\优化版本\G2\Gimbal\bin\Debug\Gimbal.exe
+E:\GIMBAL2.7.0\优化版本\G2\Gimbal\bin\Debug\Gimbal.pdb
+E:\GIMBAL2.7.0\优化版本\G2\Gimbal\obj\Debug\Gimbal.Form1.resources
+E:\GIMBAL2.7.0\优化版本\G2\Gimbal\obj\Debug\Gimbal.FrmStart.resources
+E:\GIMBAL2.7.0\优化版本\G2\Gimbal\obj\Debug\Gimbal.LoginForm.resources
+E:\GIMBAL2.7.0\优化版本\G2\Gimbal\obj\Debug\Gimbal.Properties.Resources.resources
+E:\GIMBAL2.7.0\优化版本\G2\Gimbal\obj\Debug\Gimbal.Tcpsetting.resources
+E:\GIMBAL2.7.0\优化版本\G2\Gimbal\obj\Debug\Gimbal.csproj.GenerateResource.Cache
+E:\优化版本\G2\Gimbal\bin\Debug\Gimbal.exe.config
+E:\优化版本\G2\Gimbal\obj\Debug\Gimbal.exe
+E:\优化版本\G2\Gimbal\obj\Debug\Gimbal.pdb
+E:\优化版本\G2\Gimbal\bin\Debug\Gimbal.exe
+E:\优化版本\G2\Gimbal\bin\Debug\Gimbal.pdb
+E:\优化版本\G2\Gimbal\obj\Debug\Gimbal.Form1.resources
+E:\优化版本\G2\Gimbal\obj\Debug\Gimbal.FrmStart.resources
+E:\优化版本\G2\Gimbal\obj\Debug\Gimbal.LoginForm.resources
+E:\优化版本\G2\Gimbal\obj\Debug\Gimbal.Properties.Resources.resources
+E:\优化版本\G2\Gimbal\obj\Debug\Gimbal.Tcpsetting.resources
+E:\优化版本\G2\Gimbal\obj\Debug\Gimbal.csproj.GenerateResource.Cache
+E:\GIMBAL2.7.0\优化版本\G2\Gimbal\obj\Debug\Gimbal.csprojResolveAssemblyReference.cache
+E:\GIMBAL2.7.0\优化版本2\G2\Gimbal\bin\Debug\Gimbal.exe.config
+E:\GIMBAL2.7.0\优化版本2\G2\Gimbal\obj\Debug\Gimbal.exe
+E:\GIMBAL2.7.0\优化版本2\G2\Gimbal\obj\Debug\Gimbal.pdb
+E:\GIMBAL2.7.0\优化版本2\G2\Gimbal\bin\Debug\Gimbal.exe
+E:\GIMBAL2.7.0\优化版本2\G2\Gimbal\bin\Debug\Gimbal.pdb
+E:\GIMBAL2.7.0\优化版本2\G2\Gimbal\obj\Debug\Gimbal.Form1.resources
+E:\GIMBAL2.7.0\优化版本2\G2\Gimbal\obj\Debug\Gimbal.FrmStart.resources
+E:\GIMBAL2.7.0\优化版本2\G2\Gimbal\obj\Debug\Gimbal.LoginForm.resources
+E:\GIMBAL2.7.0\优化版本2\G2\Gimbal\obj\Debug\Gimbal.Properties.Resources.resources
+E:\GIMBAL2.7.0\优化版本2\G2\Gimbal\obj\Debug\Gimbal.Tcpsetting.resources
+E:\GIMBAL2.7.0\优化版本2\G2\Gimbal\obj\Debug\Gimbal.csproj.GenerateResource.Cache
+C:\Users\Administrator\Desktop\Gimbal\Gimbal20161217\G2\Gimbal\bin\Debug\Gimbal.exe.config
+C:\Users\Administrator\Desktop\Gimbal\Gimbal20161217\G2\Gimbal\obj\Debug\Gimbal.exe
+C:\Users\Administrator\Desktop\Gimbal\Gimbal20161217\G2\Gimbal\obj\Debug\Gimbal.pdb
+C:\Users\Administrator\Desktop\Gimbal\Gimbal20161217\G2\Gimbal\bin\Debug\Gimbal.exe
+C:\Users\Administrator\Desktop\Gimbal\Gimbal20161217\G2\Gimbal\bin\Debug\Gimbal.pdb
+C:\Users\Administrator\Desktop\Gimbal\Gimbal20161217\G2\Gimbal\obj\Debug\Gimbal.csprojResolveAssemblyReference.cache
+C:\Users\Administrator\Desktop\Gimbal\Gimbal20161217\G2\Gimbal\obj\Debug\Gimbal.Form1.resources
+C:\Users\Administrator\Desktop\Gimbal\Gimbal20161217\G2\Gimbal\obj\Debug\Gimbal.FrmStart.resources
+C:\Users\Administrator\Desktop\Gimbal\Gimbal20161217\G2\Gimbal\obj\Debug\Gimbal.LoginForm.resources
+C:\Users\Administrator\Desktop\Gimbal\Gimbal20161217\G2\Gimbal\obj\Debug\Gimbal.Properties.Resources.resources
+C:\Users\Administrator\Desktop\Gimbal\Gimbal20161217\G2\Gimbal\obj\Debug\Gimbal.Tcpsetting.resources
+C:\Users\Administrator\Desktop\Gimbal\Gimbal20161217\G2\Gimbal\obj\Debug\Gimbal.csproj.GenerateResource.Cache
+C:\Users\Administrator\Desktop\Gimbal\Gimbal20161217\G1\Gimbal\bin\Debug\Gimbal.exe.config
+C:\Users\Administrator\Desktop\Gimbal\Gimbal20161217\G1\Gimbal\obj\Debug\Gimbal.exe
+C:\Users\Administrator\Desktop\Gimbal\Gimbal20161217\G1\Gimbal\obj\Debug\Gimbal.pdb
+C:\Users\Administrator\Desktop\Gimbal\Gimbal20161217\G1\Gimbal\bin\Debug\Gimbal.exe
+C:\Users\Administrator\Desktop\Gimbal\Gimbal20161217\G1\Gimbal\bin\Debug\Gimbal.pdb
+C:\Users\Administrator\Desktop\Gimbal\Gimbal20161217\G1\Gimbal\obj\Debug\Gimbal.Form1.resources
+C:\Users\Administrator\Desktop\Gimbal\Gimbal20161217\G1\Gimbal\obj\Debug\Gimbal.FrmStart.resources
+C:\Users\Administrator\Desktop\Gimbal\Gimbal20161217\G1\Gimbal\obj\Debug\Gimbal.LoginForm.resources
+C:\Users\Administrator\Desktop\Gimbal\Gimbal20161217\G1\Gimbal\obj\Debug\Gimbal.Properties.Resources.resources
+C:\Users\Administrator\Desktop\Gimbal\Gimbal20161217\G1\Gimbal\obj\Debug\Gimbal.Tcpsetting.resources
+C:\Users\Administrator\Desktop\Gimbal\Gimbal20161217\G1\Gimbal\obj\Debug\Gimbal.csproj.GenerateResource.Cache
+E:\优化版本2\G2\Gimbal\bin\Debug\Gimbal.exe.config
+E:\优化版本2\G2\Gimbal\obj\Debug\Gimbal.exe
+E:\优化版本2\G2\Gimbal\obj\Debug\Gimbal.pdb
+E:\优化版本2\G2\Gimbal\bin\Debug\Gimbal.exe
+E:\优化版本2\G2\Gimbal\bin\Debug\Gimbal.pdb
+E:\优化版本2\G2\Gimbal\obj\Debug\Gimbal.Form1.resources
+E:\优化版本2\G2\Gimbal\obj\Debug\Gimbal.FrmStart.resources
+E:\优化版本2\G2\Gimbal\obj\Debug\Gimbal.LoginForm.resources
+E:\优化版本2\G2\Gimbal\obj\Debug\Gimbal.Properties.Resources.resources
+E:\优化版本2\G2\Gimbal\obj\Debug\Gimbal.Tcpsetting.resources
+E:\优化版本2\G2\Gimbal\obj\Debug\Gimbal.csproj.GenerateResource.Cache
+G:\刘志鹏\程序\优化版2\G1\Gimbal\bin\Debug\Gimbal.exe.config
+G:\刘志鹏\程序\优化版2\G1\Gimbal\obj\Debug\Gimbal.exe
+G:\刘志鹏\程序\优化版2\G1\Gimbal\obj\Debug\Gimbal.pdb
+G:\刘志鹏\程序\优化版2\G1\Gimbal\bin\Debug\Gimbal.exe
+G:\刘志鹏\程序\优化版2\G1\Gimbal\bin\Debug\Gimbal.pdb
+G:\刘志鹏\程序\优化版2\G1\Gimbal\obj\Debug\Gimbal.csprojResolveAssemblyReference.cache
+G:\刘志鹏\程序\优化版2\G1\Gimbal\obj\Debug\Gimbal.Form1.resources
+G:\刘志鹏\程序\优化版2\G1\Gimbal\obj\Debug\Gimbal.FrmStart.resources
+G:\刘志鹏\程序\优化版2\G1\Gimbal\obj\Debug\Gimbal.LoginForm.resources
+G:\刘志鹏\程序\优化版2\G1\Gimbal\obj\Debug\Gimbal.Properties.Resources.resources
+G:\刘志鹏\程序\优化版2\G1\Gimbal\obj\Debug\Gimbal.Tcpsetting.resources
+G:\刘志鹏\程序\优化版2\G1\Gimbal\obj\Debug\Gimbal.csproj.GenerateResource.Cache
+C:\Users\Administrator\Desktop\Gimbal\Gimbal20161220\G1\Gimbal\bin\Debug\Gimbal.exe.config
+C:\Users\Administrator\Desktop\Gimbal\Gimbal20161220\G1\Gimbal\obj\Debug\Gimbal.exe
+C:\Users\Administrator\Desktop\Gimbal\Gimbal20161220\G1\Gimbal\obj\Debug\Gimbal.pdb
+C:\Users\Administrator\Desktop\Gimbal\Gimbal20161220\G1\Gimbal\bin\Debug\Gimbal.exe
+C:\Users\Administrator\Desktop\Gimbal\Gimbal20161220\G1\Gimbal\bin\Debug\Gimbal.pdb
+C:\Users\Administrator\Desktop\Gimbal\Gimbal20161220\G1\Gimbal\obj\Debug\Gimbal.Form1.resources
+C:\Users\Administrator\Desktop\Gimbal\Gimbal20161220\G1\Gimbal\obj\Debug\Gimbal.FrmStart.resources
+C:\Users\Administrator\Desktop\Gimbal\Gimbal20161220\G1\Gimbal\obj\Debug\Gimbal.LoginForm.resources
+C:\Users\Administrator\Desktop\Gimbal\Gimbal20161220\G1\Gimbal\obj\Debug\Gimbal.Properties.Resources.resources
+C:\Users\Administrator\Desktop\Gimbal\Gimbal20161220\G1\Gimbal\obj\Debug\Gimbal.Tcpsetting.resources
+C:\Users\Administrator\Desktop\Gimbal\Gimbal20161220\G1\Gimbal\obj\Debug\Gimbal.csproj.GenerateResource.Cache
+C:\Users\Administrator\Desktop\Gimbal\Gimbal20161220\G1\Gimbal\obj\Debug\Gimbal.csprojResolveAssemblyReference.cache
+C:\Users\Administrator\Desktop\Gimbal\IPC程序\Gimbal20161220\G1\Gimbal\bin\Debug\Gimbal.exe.config
+C:\Users\Administrator\Desktop\Gimbal\IPC程序\Gimbal20161220\G1\Gimbal\obj\Debug\Gimbal.exe
+C:\Users\Administrator\Desktop\Gimbal\IPC程序\Gimbal20161220\G1\Gimbal\obj\Debug\Gimbal.pdb
+C:\Users\Administrator\Desktop\Gimbal\IPC程序\Gimbal20161220\G1\Gimbal\bin\Debug\Gimbal.exe
+C:\Users\Administrator\Desktop\Gimbal\IPC程序\Gimbal20161220\G1\Gimbal\bin\Debug\Gimbal.pdb
+C:\Users\Administrator\Desktop\Gimbal\IPC程序\Gimbal20161220\G1\Gimbal\obj\Debug\Gimbal.csprojResolveAssemblyReference.cache
+C:\Users\Administrator\Desktop\Gimbal\IPC程序\Gimbal20161220\G1\Gimbal\obj\Debug\Gimbal.Form1.resources
+C:\Users\Administrator\Desktop\Gimbal\IPC程序\Gimbal20161220\G1\Gimbal\obj\Debug\Gimbal.FrmStart.resources
+C:\Users\Administrator\Desktop\Gimbal\IPC程序\Gimbal20161220\G1\Gimbal\obj\Debug\Gimbal.LoginForm.resources
+C:\Users\Administrator\Desktop\Gimbal\IPC程序\Gimbal20161220\G1\Gimbal\obj\Debug\Gimbal.Properties.Resources.resources
+C:\Users\Administrator\Desktop\Gimbal\IPC程序\Gimbal20161220\G1\Gimbal\obj\Debug\Gimbal.Tcpsetting.resources
+C:\Users\Administrator\Desktop\Gimbal\IPC程序\Gimbal20161220\G1\Gimbal\obj\Debug\Gimbal.csproj.GenerateResource.Cache
+C:\Users\Administrator\Desktop\Gimbal\IPC程序\Gimbal20161222\G1\Gimbal\bin\Debug\Gimbal.exe.config
+C:\Users\Administrator\Desktop\Gimbal\IPC程序\Gimbal20161222\G1\Gimbal\obj\Debug\Gimbal.exe
+C:\Users\Administrator\Desktop\Gimbal\IPC程序\Gimbal20161222\G1\Gimbal\obj\Debug\Gimbal.pdb
+C:\Users\Administrator\Desktop\Gimbal\IPC程序\Gimbal20161222\G1\Gimbal\bin\Debug\Gimbal.exe
+C:\Users\Administrator\Desktop\Gimbal\IPC程序\Gimbal20161222\G1\Gimbal\bin\Debug\Gimbal.pdb
+C:\Users\Administrator\Desktop\Gimbal\IPC程序\Gimbal20161222\G1\Gimbal\obj\Debug\Gimbal.Form1.resources
+C:\Users\Administrator\Desktop\Gimbal\IPC程序\Gimbal20161222\G1\Gimbal\obj\Debug\Gimbal.FrmStart.resources
+C:\Users\Administrator\Desktop\Gimbal\IPC程序\Gimbal20161222\G1\Gimbal\obj\Debug\Gimbal.LoginForm.resources
+C:\Users\Administrator\Desktop\Gimbal\IPC程序\Gimbal20161222\G1\Gimbal\obj\Debug\Gimbal.Properties.Resources.resources
+C:\Users\Administrator\Desktop\Gimbal\IPC程序\Gimbal20161222\G1\Gimbal\obj\Debug\Gimbal.Tcpsetting.resources
+C:\Users\Administrator\Desktop\Gimbal\IPC程序\Gimbal20161222\G1\Gimbal\obj\Debug\Gimbal.csproj.GenerateResource.Cache
+C:\Users\Administrator\Desktop\Gimbal\IPC程序\Gimbal20161222\G1\Gimbal\obj\Debug\Gimbal.EndLot.resources
+C:\Users\Administrator\Desktop\Gimbal\IPC程序\Gimbal20161222\G1\Gimbal\obj\Debug\Gimbal.New_Lot.resources
+C:\Users\Administrator\Desktop\Gimbal\IPC程序\Gimbal20161222\G2\Gimbal\bin\Debug\Gimbal.exe.config
+C:\Users\Administrator\Desktop\Gimbal\IPC程序\Gimbal20161222\G2\Gimbal\obj\Debug\Gimbal.exe
+C:\Users\Administrator\Desktop\Gimbal\IPC程序\Gimbal20161222\G2\Gimbal\obj\Debug\Gimbal.pdb
+C:\Users\Administrator\Desktop\Gimbal\IPC程序\Gimbal20161222\G2\Gimbal\bin\Debug\Gimbal.exe
+C:\Users\Administrator\Desktop\Gimbal\IPC程序\Gimbal20161222\G2\Gimbal\bin\Debug\Gimbal.pdb
+C:\Users\Administrator\Desktop\Gimbal\IPC程序\Gimbal20161222\G2\Gimbal\obj\Debug\Gimbal.csprojResolveAssemblyReference.cache
+C:\Users\Administrator\Desktop\Gimbal\IPC程序\Gimbal20161222\G2\Gimbal\obj\Debug\Gimbal.EndLot.resources
+C:\Users\Administrator\Desktop\Gimbal\IPC程序\Gimbal20161222\G2\Gimbal\obj\Debug\Gimbal.Form1.resources
+C:\Users\Administrator\Desktop\Gimbal\IPC程序\Gimbal20161222\G2\Gimbal\obj\Debug\Gimbal.FrmStart.resources
+C:\Users\Administrator\Desktop\Gimbal\IPC程序\Gimbal20161222\G2\Gimbal\obj\Debug\Gimbal.LoginForm.resources
+C:\Users\Administrator\Desktop\Gimbal\IPC程序\Gimbal20161222\G2\Gimbal\obj\Debug\Gimbal.New_Lot.resources
+C:\Users\Administrator\Desktop\Gimbal\IPC程序\Gimbal20161222\G2\Gimbal\obj\Debug\Gimbal.Properties.Resources.resources
+C:\Users\Administrator\Desktop\Gimbal\IPC程序\Gimbal20161222\G2\Gimbal\obj\Debug\Gimbal.Tcpsetting.resources
+C:\Users\Administrator\Desktop\Gimbal\IPC程序\Gimbal20161222\G2\Gimbal\obj\Debug\Gimbal.csproj.GenerateResource.Cache
+E:\NEW\G2\Gimbal\bin\Debug\Gimbal.exe.config
+E:\NEW\G2\Gimbal\obj\Debug\Gimbal.exe
+E:\NEW\G2\Gimbal\obj\Debug\Gimbal.pdb
+E:\NEW\G2\Gimbal\bin\Debug\Gimbal.exe
+E:\NEW\G2\Gimbal\bin\Debug\Gimbal.pdb
+E:\NEW\G2\Gimbal\obj\Debug\Gimbal.csprojResolveAssemblyReference.cache
+E:\NEW\G2\Gimbal\obj\Debug\Gimbal.EndLot.resources
+E:\NEW\G2\Gimbal\obj\Debug\Gimbal.Form1.resources
+E:\NEW\G2\Gimbal\obj\Debug\Gimbal.FrmStart.resources
+E:\NEW\G2\Gimbal\obj\Debug\Gimbal.LoginForm.resources
+E:\NEW\G2\Gimbal\obj\Debug\Gimbal.New_Lot.resources
+E:\NEW\G2\Gimbal\obj\Debug\Gimbal.Properties.Resources.resources
+E:\NEW\G2\Gimbal\obj\Debug\Gimbal.Tcpsetting.resources
+E:\NEW\G2\Gimbal\obj\Debug\Gimbal.csproj.GenerateResource.Cache
+H:\Gimbal时间缩短升级版\G1\Gimbal\bin\Debug\Gimbal.exe.config
+H:\Gimbal时间缩短升级版\G1\Gimbal\obj\Debug\Gimbal.exe
+H:\Gimbal时间缩短升级版\G1\Gimbal\obj\Debug\Gimbal.pdb
+H:\Gimbal时间缩短升级版\G1\Gimbal\bin\Debug\Gimbal.exe
+H:\Gimbal时间缩短升级版\G1\Gimbal\bin\Debug\Gimbal.pdb
+H:\Gimbal时间缩短升级版\G1\Gimbal\obj\Debug\Gimbal.csprojResolveAssemblyReference.cache
+H:\Gimbal时间缩短升级版\G1\Gimbal\obj\Debug\Gimbal.EndLot.resources
+H:\Gimbal时间缩短升级版\G1\Gimbal\obj\Debug\Gimbal.Form1.resources
+H:\Gimbal时间缩短升级版\G1\Gimbal\obj\Debug\Gimbal.FrmStart.resources
+H:\Gimbal时间缩短升级版\G1\Gimbal\obj\Debug\Gimbal.LoginForm.resources
+H:\Gimbal时间缩短升级版\G1\Gimbal\obj\Debug\Gimbal.New_Lot.resources
+H:\Gimbal时间缩短升级版\G1\Gimbal\obj\Debug\Gimbal.Properties.Resources.resources
+H:\Gimbal时间缩短升级版\G1\Gimbal\obj\Debug\Gimbal.Tcpsetting.resources
+H:\Gimbal时间缩短升级版\G1\Gimbal\obj\Debug\Gimbal.csproj.GenerateResource.Cache
+G:\Gimbal时间缩短升级版\G1\Gimbal\bin\Debug\Gimbal.exe.config
+G:\Gimbal时间缩短升级版\G1\Gimbal\obj\Debug\Gimbal.exe
+G:\Gimbal时间缩短升级版\G1\Gimbal\obj\Debug\Gimbal.pdb
+G:\Gimbal时间缩短升级版\G1\Gimbal\bin\Debug\Gimbal.exe
+G:\Gimbal时间缩短升级版\G1\Gimbal\bin\Debug\Gimbal.pdb
+G:\Gimbal时间缩短升级版\G1\Gimbal\obj\Debug\Gimbal.csprojResolveAssemblyReference.cache
+G:\Gimbal时间缩短升级版\G1\Gimbal\obj\Debug\Gimbal.EndLot.resources
+G:\Gimbal时间缩短升级版\G1\Gimbal\obj\Debug\Gimbal.Form1.resources
+G:\Gimbal时间缩短升级版\G1\Gimbal\obj\Debug\Gimbal.FrmStart.resources
+G:\Gimbal时间缩短升级版\G1\Gimbal\obj\Debug\Gimbal.LoginForm.resources
+G:\Gimbal时间缩短升级版\G1\Gimbal\obj\Debug\Gimbal.New_Lot.resources
+G:\Gimbal时间缩短升级版\G1\Gimbal\obj\Debug\Gimbal.Properties.Resources.resources
+G:\Gimbal时间缩短升级版\G1\Gimbal\obj\Debug\Gimbal.Tcpsetting.resources
+G:\Gimbal时间缩短升级版\G1\Gimbal\obj\Debug\Gimbal.csproj.GenerateResource.Cache
+F:\G1\Gimbal\bin\Debug\Gimbal.exe.config
+F:\G1\Gimbal\obj\Debug\Gimbal.exe
+F:\G1\Gimbal\obj\Debug\Gimbal.pdb
+F:\G1\Gimbal\bin\Debug\Gimbal.exe
+F:\G1\Gimbal\bin\Debug\Gimbal.pdb
+F:\G1\Gimbal\obj\Debug\Gimbal.csprojResolveAssemblyReference.cache
+F:\G1\Gimbal\obj\Debug\Gimbal.EndLot.resources
+F:\G1\Gimbal\obj\Debug\Gimbal.Form1.resources
+F:\G1\Gimbal\obj\Debug\Gimbal.FrmStart.resources
+F:\G1\Gimbal\obj\Debug\Gimbal.LoginForm.resources
+F:\G1\Gimbal\obj\Debug\Gimbal.New_Lot.resources
+F:\G1\Gimbal\obj\Debug\Gimbal.Properties.Resources.resources
+F:\G1\Gimbal\obj\Debug\Gimbal.Tcpsetting.resources
+F:\G1\Gimbal\obj\Debug\Gimbal.csproj.GenerateResource.Cache
+H:\Gimbal 3.0.0\G1\Gimbal\bin\Debug\Gimbal.exe.config
+H:\Gimbal 3.0.0\G1\Gimbal\obj\Debug\Gimbal.exe
+H:\Gimbal 3.0.0\G1\Gimbal\obj\Debug\Gimbal.pdb
+G:\Gimbal 3.0.0\G1\Gimbal\bin\Debug\Gimbal.exe.config
+G:\Gimbal 3.0.0\G1\Gimbal\obj\Debug\Gimbal.exe
+G:\Gimbal 3.0.0\G1\Gimbal\obj\Debug\Gimbal.pdb
+G:\Gimbal 3.0.0\G1\Gimbal\bin\Debug\Gimbal.exe
+G:\Gimbal 3.0.0\G1\Gimbal\bin\Debug\Gimbal.pdb
+G:\Gimbal 3.0.0\G1\Gimbal\obj\Debug\Gimbal.EndLot.resources
+G:\Gimbal 3.0.0\G1\Gimbal\obj\Debug\Gimbal.Form1.resources
+G:\Gimbal 3.0.0\G1\Gimbal\obj\Debug\Gimbal.FrmStart.resources
+G:\Gimbal 3.0.0\G1\Gimbal\obj\Debug\Gimbal.LoginForm.resources
+G:\Gimbal 3.0.0\G1\Gimbal\obj\Debug\Gimbal.New_Lot.resources
+G:\Gimbal 3.0.0\G1\Gimbal\obj\Debug\Gimbal.Properties.Resources.resources
+G:\Gimbal 3.0.0\G1\Gimbal\obj\Debug\Gimbal.Tcpsetting.resources
+G:\Gimbal 3.0.0\G1\Gimbal\obj\Debug\Gimbal.csproj.GenerateResource.Cache
+E:\Gimbal 3.0.0\G1\Gimbal\bin\Debug\Gimbal.exe.config
+E:\Gimbal 3.0.0\G1\Gimbal\obj\Debug\Gimbal.exe
+E:\Gimbal 3.0.0\G1\Gimbal\obj\Debug\Gimbal.pdb
+D:\Gimbal 3.0.0 - 副本bf\G1\Gimbal\bin\Debug\Gimbal.exe.config
+D:\Gimbal 3.0.0 - 副本bf\G1\Gimbal\obj\Debug\Gimbal.exe
+D:\Gimbal 3.0.0 - 副本bf\G1\Gimbal\obj\Debug\Gimbal.pdb
+C:\Users\as007\Desktop\G1\Gimbal\bin\Debug\Gimbal.exe.config
+C:\Users\as007\Desktop\G1\Gimbal\obj\Debug\Gimbal.exe
+C:\Users\as007\Desktop\G1\Gimbal\obj\Debug\Gimbal.pdb
+C:\Users\as007\Desktop\G1\Gimbal\bin\Debug\Gimbal.exe
+C:\Users\as007\Desktop\G1\Gimbal\bin\Debug\Gimbal.pdb
+C:\Users\as007\Desktop\G1\Gimbal\obj\Debug\Gimbal.EndLot.resources
+C:\Users\as007\Desktop\G1\Gimbal\obj\Debug\Gimbal.Form1.resources
+C:\Users\as007\Desktop\G1\Gimbal\obj\Debug\Gimbal.FrmStart.resources
+C:\Users\as007\Desktop\G1\Gimbal\obj\Debug\Gimbal.LoginForm.resources
+C:\Users\as007\Desktop\G1\Gimbal\obj\Debug\Gimbal.New_Lot.resources
+C:\Users\as007\Desktop\G1\Gimbal\obj\Debug\Gimbal.Properties.Resources.resources
+C:\Users\as007\Desktop\G1\Gimbal\obj\Debug\Gimbal.Tcpsetting.resources
+C:\Users\as007\Desktop\G1\Gimbal\obj\Debug\Gimbal.csproj.GenerateResource.Cache
+C:\Users\as007\Desktop\G1\Gimbal\obj\Debug\Gimbal.csprojResolveAssemblyReference.cache
+C:\Users\as007\Desktop\转两次角度程序\G1\Gimbal\bin\Debug\Gimbal.exe.config
+C:\Users\as007\Desktop\转两次角度程序\G1\Gimbal\obj\Debug\Gimbal.exe
+C:\Users\as007\Desktop\转两次角度程序\G1\Gimbal\obj\Debug\Gimbal.pdb
+C:\Users\as007\Desktop\转两次角度程序\G1\Gimbal\bin\Debug\Gimbal.exe
+C:\Users\as007\Desktop\转两次角度程序\G1\Gimbal\bin\Debug\Gimbal.pdb
+C:\Users\as007\Desktop\转两次角度程序\G1\Gimbal\obj\Debug\Gimbal.csprojResolveAssemblyReference.cache
+C:\Users\as007\Desktop\转两次角度程序\G1\Gimbal\obj\Debug\Gimbal.EndLot.resources
+C:\Users\as007\Desktop\转两次角度程序\G1\Gimbal\obj\Debug\Gimbal.Form1.resources
+C:\Users\as007\Desktop\转两次角度程序\G1\Gimbal\obj\Debug\Gimbal.FrmStart.resources
+C:\Users\as007\Desktop\转两次角度程序\G1\Gimbal\obj\Debug\Gimbal.LoginForm.resources
+C:\Users\as007\Desktop\转两次角度程序\G1\Gimbal\obj\Debug\Gimbal.New_Lot.resources
+C:\Users\as007\Desktop\转两次角度程序\G1\Gimbal\obj\Debug\Gimbal.Properties.Resources.resources
+C:\Users\as007\Desktop\转两次角度程序\G1\Gimbal\obj\Debug\Gimbal.Tcpsetting.resources
+C:\Users\as007\Desktop\转两次角度程序\G1\Gimbal\obj\Debug\Gimbal.csproj.GenerateResource.Cache
+C:\Users\as007\Desktop\转两次角度程序4.0.1\G1\Gimbal\bin\Debug\Gimbal.exe.config
+C:\Users\as007\Desktop\转两次角度程序4.0.1\G1\Gimbal\obj\Debug\Gimbal.exe
+C:\Users\as007\Desktop\转两次角度程序4.0.1\G1\Gimbal\obj\Debug\Gimbal.pdb
+C:\Users\as007\Desktop\转两次角度程序4.0.1\G1\Gimbal\bin\Debug\Gimbal.exe
+C:\Users\as007\Desktop\转两次角度程序4.0.1\G1\Gimbal\bin\Debug\Gimbal.pdb
+C:\Users\as007\Desktop\转两次角度程序4.0.1\G1\Gimbal\obj\Debug\Gimbal.csprojResolveAssemblyReference.cache
+C:\Users\as007\Desktop\转两次角度程序4.0.1\G1\Gimbal\obj\Debug\Gimbal.EndLot.resources
+C:\Users\as007\Desktop\转两次角度程序4.0.1\G1\Gimbal\obj\Debug\Gimbal.Form1.resources
+C:\Users\as007\Desktop\转两次角度程序4.0.1\G1\Gimbal\obj\Debug\Gimbal.FrmStart.resources
+C:\Users\as007\Desktop\转两次角度程序4.0.1\G1\Gimbal\obj\Debug\Gimbal.LoginForm.resources
+C:\Users\as007\Desktop\转两次角度程序4.0.1\G1\Gimbal\obj\Debug\Gimbal.New_Lot.resources
+C:\Users\as007\Desktop\转两次角度程序4.0.1\G1\Gimbal\obj\Debug\Gimbal.Properties.Resources.resources
+C:\Users\as007\Desktop\转两次角度程序4.0.1\G1\Gimbal\obj\Debug\Gimbal.Tcpsetting.resources
+C:\Users\as007\Desktop\转两次角度程序4.0.1\G1\Gimbal\obj\Debug\Gimbal.csproj.GenerateResource.Cache
+C:\Users\as007\Desktop\转两次角度程序4.0.2\G1\Gimbal\bin\Debug\Gimbal.exe.config
+C:\Users\as007\Desktop\转两次角度程序4.0.2\G1\Gimbal\obj\Debug\Gimbal.exe
+C:\Users\as007\Desktop\转两次角度程序4.0.2\G1\Gimbal\obj\Debug\Gimbal.pdb
+C:\Users\as007\Desktop\转两次角度程序4.0.2\G1\Gimbal\bin\Debug\Gimbal.exe
+C:\Users\as007\Desktop\转两次角度程序4.0.2\G1\Gimbal\bin\Debug\Gimbal.pdb
+C:\Users\as007\Desktop\转两次角度程序4.0.2\G1\Gimbal\obj\Debug\Gimbal.EndLot.resources
+C:\Users\as007\Desktop\转两次角度程序4.0.2\G1\Gimbal\obj\Debug\Gimbal.Form1.resources
+C:\Users\as007\Desktop\转两次角度程序4.0.2\G1\Gimbal\obj\Debug\Gimbal.FrmStart.resources
+C:\Users\as007\Desktop\转两次角度程序4.0.2\G1\Gimbal\obj\Debug\Gimbal.LoginForm.resources
+C:\Users\as007\Desktop\转两次角度程序4.0.2\G1\Gimbal\obj\Debug\Gimbal.New_Lot.resources
+C:\Users\as007\Desktop\转两次角度程序4.0.2\G1\Gimbal\obj\Debug\Gimbal.Properties.Resources.resources
+C:\Users\as007\Desktop\转两次角度程序4.0.2\G1\Gimbal\obj\Debug\Gimbal.Tcpsetting.resources
+C:\Users\as007\Desktop\转两次角度程序4.0.2\G1\Gimbal\obj\Debug\Gimbal.csproj.GenerateResource.Cache
+C:\Users\as007\Desktop\转两次角度程序4.0.2\G1\Gimbal\obj\Debug\Gimbal.csprojResolveAssemblyReference.cache
+C:\Users\as007\Desktop\转两次角度程序4.0.3\G1\Gimbal\bin\Debug\Gimbal.exe.config
+C:\Users\as007\Desktop\转两次角度程序4.0.3\G1\Gimbal\obj\Debug\Gimbal.exe
+C:\Users\as007\Desktop\转两次角度程序4.0.3\G1\Gimbal\obj\Debug\Gimbal.pdb
+C:\Users\as007\Desktop\转两次角度程序4.0.3\G1\Gimbal\bin\Debug\Gimbal.exe
+C:\Users\as007\Desktop\转两次角度程序4.0.3\G1\Gimbal\bin\Debug\Gimbal.pdb
+C:\Users\as007\Desktop\转两次角度程序4.0.3\G1\Gimbal\obj\Debug\Gimbal.csprojResolveAssemblyReference.cache
+C:\Users\as007\Desktop\转两次角度程序4.0.3\G1\Gimbal\obj\Debug\Gimbal.EndLot.resources
+C:\Users\as007\Desktop\转两次角度程序4.0.3\G1\Gimbal\obj\Debug\Gimbal.Form1.resources
+C:\Users\as007\Desktop\转两次角度程序4.0.3\G1\Gimbal\obj\Debug\Gimbal.FrmStart.resources
+C:\Users\as007\Desktop\转两次角度程序4.0.3\G1\Gimbal\obj\Debug\Gimbal.LoginForm.resources
+C:\Users\as007\Desktop\转两次角度程序4.0.3\G1\Gimbal\obj\Debug\Gimbal.New_Lot.resources
+C:\Users\as007\Desktop\转两次角度程序4.0.3\G1\Gimbal\obj\Debug\Gimbal.Properties.Resources.resources
+C:\Users\as007\Desktop\转两次角度程序4.0.3\G1\Gimbal\obj\Debug\Gimbal.Tcpsetting.resources
+C:\Users\as007\Desktop\转两次角度程序4.0.3\G1\Gimbal\obj\Debug\Gimbal.csproj.GenerateResource.Cache
+C:\Users\as007\Desktop\转两次角度程序4.0.4\G1\Gimbal\bin\Debug\Gimbal.exe.config
+C:\Users\as007\Desktop\转两次角度程序4.0.4\G1\Gimbal\obj\Debug\Gimbal.exe
+C:\Users\as007\Desktop\转两次角度程序4.0.4\G1\Gimbal\obj\Debug\Gimbal.pdb
+C:\Users\as007\Desktop\转两次角度程序4.0.4\G1\Gimbal\bin\Debug\Gimbal.exe
+C:\Users\as007\Desktop\转两次角度程序4.0.4\G1\Gimbal\bin\Debug\Gimbal.pdb
+C:\Users\as007\Desktop\转两次角度程序4.0.4\G1\Gimbal\obj\Debug\Gimbal.csprojResolveAssemblyReference.cache
+C:\Users\as007\Desktop\转两次角度程序4.0.4\G1\Gimbal\obj\Debug\Gimbal.EndLot.resources
+C:\Users\as007\Desktop\转两次角度程序4.0.4\G1\Gimbal\obj\Debug\Gimbal.Form1.resources
+C:\Users\as007\Desktop\转两次角度程序4.0.4\G1\Gimbal\obj\Debug\Gimbal.FrmStart.resources
+C:\Users\as007\Desktop\转两次角度程序4.0.4\G1\Gimbal\obj\Debug\Gimbal.LoginForm.resources
+C:\Users\as007\Desktop\转两次角度程序4.0.4\G1\Gimbal\obj\Debug\Gimbal.New_Lot.resources
+C:\Users\as007\Desktop\转两次角度程序4.0.4\G1\Gimbal\obj\Debug\Gimbal.Properties.Resources.resources
+C:\Users\as007\Desktop\转两次角度程序4.0.4\G1\Gimbal\obj\Debug\Gimbal.Tcpsetting.resources
+C:\Users\as007\Desktop\转两次角度程序4.0.4\G1\Gimbal\obj\Debug\Gimbal.csproj.GenerateResource.Cache
+C:\Users\as007\Desktop\转两次角度程序4.0.4\G2\Gimbal\bin\Debug\Gimbal.exe.config
+C:\Users\as007\Desktop\转两次角度程序4.0.4\G2\Gimbal\obj\Debug\Gimbal.exe
+C:\Users\as007\Desktop\转两次角度程序4.0.4\G2\Gimbal\obj\Debug\Gimbal.pdb
+C:\Users\as007\Desktop\转两次角度程序4.0.4\G2\Gimbal\bin\Debug\Gimbal.exe
+C:\Users\as007\Desktop\转两次角度程序4.0.4\G2\Gimbal\bin\Debug\Gimbal.pdb
+C:\Users\as007\Desktop\转两次角度程序4.0.4\G2\Gimbal\obj\Debug\Gimbal.csprojResolveAssemblyReference.cache
+C:\Users\as007\Desktop\转两次角度程序4.0.4\G2\Gimbal\obj\Debug\Gimbal.EndLot.resources
+C:\Users\as007\Desktop\转两次角度程序4.0.4\G2\Gimbal\obj\Debug\Gimbal.Form1.resources
+C:\Users\as007\Desktop\转两次角度程序4.0.4\G2\Gimbal\obj\Debug\Gimbal.FrmStart.resources
+C:\Users\as007\Desktop\转两次角度程序4.0.4\G2\Gimbal\obj\Debug\Gimbal.LoginForm.resources
+C:\Users\as007\Desktop\转两次角度程序4.0.4\G2\Gimbal\obj\Debug\Gimbal.New_Lot.resources
+C:\Users\as007\Desktop\转两次角度程序4.0.4\G2\Gimbal\obj\Debug\Gimbal.Properties.Resources.resources
+C:\Users\as007\Desktop\转两次角度程序4.0.4\G2\Gimbal\obj\Debug\Gimbal.Tcpsetting.resources
+C:\Users\as007\Desktop\转两次角度程序4.0.4\G2\Gimbal\obj\Debug\Gimbal.csproj.GenerateResource.Cache
+C:\Users\as007\Desktop\转两次角度程序4.0.5\G2\Gimbal\bin\Debug\Gimbal.exe.config
+C:\Users\as007\Desktop\转两次角度程序4.0.5\G2\Gimbal\obj\Debug\Gimbal.exe
+C:\Users\as007\Desktop\转两次角度程序4.0.5\G2\Gimbal\obj\Debug\Gimbal.pdb
+C:\Users\as007\Desktop\转两次角度程序4.0.5\G2\Gimbal\bin\Debug\Gimbal.exe
+C:\Users\as007\Desktop\转两次角度程序4.0.5\G2\Gimbal\bin\Debug\Gimbal.pdb
+C:\Users\as007\Desktop\转两次角度程序4.0.5\G2\Gimbal\obj\Debug\Gimbal.EndLot.resources
+C:\Users\as007\Desktop\转两次角度程序4.0.5\G2\Gimbal\obj\Debug\Gimbal.Form1.resources
+C:\Users\as007\Desktop\转两次角度程序4.0.5\G2\Gimbal\obj\Debug\Gimbal.FrmStart.resources
+C:\Users\as007\Desktop\转两次角度程序4.0.5\G2\Gimbal\obj\Debug\Gimbal.LoginForm.resources
+C:\Users\as007\Desktop\转两次角度程序4.0.5\G2\Gimbal\obj\Debug\Gimbal.New_Lot.resources
+C:\Users\as007\Desktop\转两次角度程序4.0.5\G2\Gimbal\obj\Debug\Gimbal.Properties.Resources.resources
+C:\Users\as007\Desktop\转两次角度程序4.0.5\G2\Gimbal\obj\Debug\Gimbal.Tcpsetting.resources
+C:\Users\as007\Desktop\转两次角度程序4.0.5\G2\Gimbal\obj\Debug\Gimbal.csproj.GenerateResource.Cache
+C:\Users\as007\Desktop\转两次角度程序4.0.6\G2\Gimbal\bin\Debug\Gimbal.exe.config
+C:\Users\as007\Desktop\转两次角度程序4.0.6\G2\Gimbal\obj\Debug\Gimbal.exe
+C:\Users\as007\Desktop\转两次角度程序4.0.6\G2\Gimbal\obj\Debug\Gimbal.pdb
+C:\Users\as007\Desktop\转两次角度程序4.0.6\G2\Gimbal\bin\Debug\Gimbal.exe
+C:\Users\as007\Desktop\转两次角度程序4.0.6\G2\Gimbal\bin\Debug\Gimbal.pdb
+C:\Users\as007\Desktop\转两次角度程序4.0.6\G2\Gimbal\obj\Debug\Gimbal.csprojResolveAssemblyReference.cache
+C:\Users\as007\Desktop\转两次角度程序4.0.6\G2\Gimbal\obj\Debug\Gimbal.EndLot.resources
+C:\Users\as007\Desktop\转两次角度程序4.0.6\G2\Gimbal\obj\Debug\Gimbal.Form1.resources
+C:\Users\as007\Desktop\转两次角度程序4.0.6\G2\Gimbal\obj\Debug\Gimbal.FrmStart.resources
+C:\Users\as007\Desktop\转两次角度程序4.0.6\G2\Gimbal\obj\Debug\Gimbal.LoginForm.resources
+C:\Users\as007\Desktop\转两次角度程序4.0.6\G2\Gimbal\obj\Debug\Gimbal.New_Lot.resources
+C:\Users\as007\Desktop\转两次角度程序4.0.6\G2\Gimbal\obj\Debug\Gimbal.Properties.Resources.resources
+C:\Users\as007\Desktop\转两次角度程序4.0.6\G2\Gimbal\obj\Debug\Gimbal.Tcpsetting.resources
+C:\Users\as007\Desktop\转两次角度程序4.0.6\G2\Gimbal\obj\Debug\Gimbal.csproj.GenerateResource.Cache
+C:\Users\as007\Desktop\转两次角度程序4.0.7\G2\Gimbal\bin\Debug\Gimbal.exe.config
+C:\Users\as007\Desktop\转两次角度程序4.0.7\G2\Gimbal\obj\Debug\Gimbal.exe
+C:\Users\as007\Desktop\转两次角度程序4.0.7\G2\Gimbal\obj\Debug\Gimbal.pdb
+C:\Users\as007\Desktop\转两次角度程序4.0.7\G2\Gimbal\bin\Debug\Gimbal.exe
+C:\Users\as007\Desktop\转两次角度程序4.0.7\G2\Gimbal\bin\Debug\Gimbal.pdb
+C:\Users\as007\Desktop\转两次角度程序4.0.7\G2\Gimbal\obj\Debug\Gimbal.csprojResolveAssemblyReference.cache
+C:\Users\as007\Desktop\转两次角度程序4.0.7\G2\Gimbal\obj\Debug\Gimbal.EndLot.resources
+C:\Users\as007\Desktop\转两次角度程序4.0.7\G2\Gimbal\obj\Debug\Gimbal.Form1.resources
+C:\Users\as007\Desktop\转两次角度程序4.0.7\G2\Gimbal\obj\Debug\Gimbal.FrmStart.resources
+C:\Users\as007\Desktop\转两次角度程序4.0.7\G2\Gimbal\obj\Debug\Gimbal.LoginForm.resources
+C:\Users\as007\Desktop\转两次角度程序4.0.7\G2\Gimbal\obj\Debug\Gimbal.New_Lot.resources
+C:\Users\as007\Desktop\转两次角度程序4.0.7\G2\Gimbal\obj\Debug\Gimbal.Properties.Resources.resources
+C:\Users\as007\Desktop\转两次角度程序4.0.7\G2\Gimbal\obj\Debug\Gimbal.Tcpsetting.resources
+C:\Users\as007\Desktop\转两次角度程序4.0.7\G2\Gimbal\obj\Debug\Gimbal.csproj.GenerateResource.Cache
+C:\Users\as007\Desktop\转两次角度程序4.1.0\G2\Gimbal\bin\Debug\Gimbal.exe.config
+C:\Users\as007\Desktop\转两次角度程序4.1.0\G2\Gimbal\obj\Debug\Gimbal.exe
+C:\Users\as007\Desktop\转两次角度程序4.1.0\G2\Gimbal\obj\Debug\Gimbal.pdb
+C:\Users\as007\Desktop\转两次角度程序4.1.0\G2\Gimbal\bin\Debug\Gimbal.exe
+C:\Users\as007\Desktop\转两次角度程序4.1.0\G2\Gimbal\bin\Debug\Gimbal.pdb
+C:\Users\as007\Desktop\转两次角度程序4.1.0\G2\Gimbal\obj\Debug\Gimbal.csprojResolveAssemblyReference.cache
+C:\Users\as007\Desktop\转两次角度程序4.1.0\G2\Gimbal\obj\Debug\Gimbal.EndLot.resources
+C:\Users\as007\Desktop\转两次角度程序4.1.0\G2\Gimbal\obj\Debug\Gimbal.Form1.resources
+C:\Users\as007\Desktop\转两次角度程序4.1.0\G2\Gimbal\obj\Debug\Gimbal.FrmStart.resources
+C:\Users\as007\Desktop\转两次角度程序4.1.0\G2\Gimbal\obj\Debug\Gimbal.LoginForm.resources
+C:\Users\as007\Desktop\转两次角度程序4.1.0\G2\Gimbal\obj\Debug\Gimbal.New_Lot.resources
+C:\Users\as007\Desktop\转两次角度程序4.1.0\G2\Gimbal\obj\Debug\Gimbal.Properties.Resources.resources
+C:\Users\as007\Desktop\转两次角度程序4.1.0\G2\Gimbal\obj\Debug\Gimbal.Tcpsetting.resources
+C:\Users\as007\Desktop\转两次角度程序4.1.0\G2\Gimbal\obj\Debug\Gimbal.csproj.GenerateResource.Cache
+C:\Users\as007\Desktop\转两次角度程序4.2.0\G2\Gimbal\bin\Debug\Gimbal.exe.config
+C:\Users\as007\Desktop\转两次角度程序4.2.0\G2\Gimbal\obj\Debug\Gimbal.exe
+C:\Users\as007\Desktop\转两次角度程序4.2.0\G2\Gimbal\obj\Debug\Gimbal.pdb
+C:\Users\as007\Desktop\转两次角度程序4.2.0\G2\Gimbal\bin\Debug\Gimbal.exe
+C:\Users\as007\Desktop\转两次角度程序4.2.0\G2\Gimbal\bin\Debug\Gimbal.pdb
+C:\Users\as007\Desktop\转两次角度程序4.2.0\G2\Gimbal\obj\Debug\Gimbal.csprojResolveAssemblyReference.cache
+C:\Users\as007\Desktop\转两次角度程序4.2.0\G2\Gimbal\obj\Debug\Gimbal.EndLot.resources
+C:\Users\as007\Desktop\转两次角度程序4.2.0\G2\Gimbal\obj\Debug\Gimbal.Form1.resources
+C:\Users\as007\Desktop\转两次角度程序4.2.0\G2\Gimbal\obj\Debug\Gimbal.FrmStart.resources
+C:\Users\as007\Desktop\转两次角度程序4.2.0\G2\Gimbal\obj\Debug\Gimbal.LoginForm.resources
+C:\Users\as007\Desktop\转两次角度程序4.2.0\G2\Gimbal\obj\Debug\Gimbal.New_Lot.resources
+C:\Users\as007\Desktop\转两次角度程序4.2.0\G2\Gimbal\obj\Debug\Gimbal.Properties.Resources.resources
+C:\Users\as007\Desktop\转两次角度程序4.2.0\G2\Gimbal\obj\Debug\Gimbal.Tcpsetting.resources
+C:\Users\as007\Desktop\转两次角度程序4.2.0\G2\Gimbal\obj\Debug\Gimbal.csproj.GenerateResource.Cache
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.0\G2\Gimbal\bin\Debug\Gimbal.exe.config
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.0\G2\Gimbal\obj\Debug\Gimbal.exe
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.0\G2\Gimbal\obj\Debug\Gimbal.pdb
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.1\G2\Gimbal\bin\Debug\Gimbal.exe.config
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.1\G2\Gimbal\obj\Debug\Gimbal.exe
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.1\G2\Gimbal\obj\Debug\Gimbal.pdb
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.1\G2\Gimbal\bin\Debug\Gimbal.exe
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.1\G2\Gimbal\bin\Debug\Gimbal.pdb
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.1\G2\Gimbal\obj\Debug\Gimbal.csprojResolveAssemblyReference.cache
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.1\G2\Gimbal\obj\Debug\Gimbal.EndLot.resources
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.1\G2\Gimbal\obj\Debug\Gimbal.Form1.resources
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.1\G2\Gimbal\obj\Debug\Gimbal.FrmStart.resources
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.1\G2\Gimbal\obj\Debug\Gimbal.LoginForm.resources
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.1\G2\Gimbal\obj\Debug\Gimbal.New_Lot.resources
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.1\G2\Gimbal\obj\Debug\Gimbal.Properties.Resources.resources
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.1\G2\Gimbal\obj\Debug\Gimbal.Tcpsetting.resources
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.1\G2\Gimbal\obj\Debug\Gimbal.csproj.GenerateResource.Cache
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.2\G2\Gimbal\bin\Debug\Gimbal.exe.config
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.2\G2\Gimbal\obj\Debug\Gimbal.exe
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.2\G2\Gimbal\obj\Debug\Gimbal.pdb
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.2\G2\Gimbal\bin\Debug\Gimbal.exe
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.2\G2\Gimbal\bin\Debug\Gimbal.pdb
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.2\G2\Gimbal\obj\Debug\Gimbal.csprojResolveAssemblyReference.cache
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.2\G2\Gimbal\obj\Debug\Gimbal.EndLot.resources
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.2\G2\Gimbal\obj\Debug\Gimbal.Form1.resources
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.2\G2\Gimbal\obj\Debug\Gimbal.FrmStart.resources
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.2\G2\Gimbal\obj\Debug\Gimbal.LoginForm.resources
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.2\G2\Gimbal\obj\Debug\Gimbal.New_Lot.resources
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.2\G2\Gimbal\obj\Debug\Gimbal.Properties.Resources.resources
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.2\G2\Gimbal\obj\Debug\Gimbal.Tcpsetting.resources
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.2\G2\Gimbal\obj\Debug\Gimbal.csproj.GenerateResource.Cache
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.3\G2\Gimbal\bin\Debug\Gimbal.exe.config
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.3\G2\Gimbal\obj\Debug\Gimbal.exe
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.3\G2\Gimbal\obj\Debug\Gimbal.pdb
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.3\G2\Gimbal\bin\Debug\Gimbal.exe
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.3\G2\Gimbal\bin\Debug\Gimbal.pdb
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.3\G2\Gimbal\obj\Debug\Gimbal.csprojResolveAssemblyReference.cache
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.3\G2\Gimbal\obj\Debug\Gimbal.EndLot.resources
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.3\G2\Gimbal\obj\Debug\Gimbal.Form1.resources
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.3\G2\Gimbal\obj\Debug\Gimbal.FrmStart.resources
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.3\G2\Gimbal\obj\Debug\Gimbal.LoginForm.resources
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.3\G2\Gimbal\obj\Debug\Gimbal.New_Lot.resources
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.3\G2\Gimbal\obj\Debug\Gimbal.Properties.Resources.resources
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.3\G2\Gimbal\obj\Debug\Gimbal.Tcpsetting.resources
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.3\G2\Gimbal\obj\Debug\Gimbal.csproj.GenerateResource.Cache
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.4\G2\Gimbal\bin\Debug\Gimbal.exe.config
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.4\G2\Gimbal\obj\Debug\Gimbal.exe
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.4\G2\Gimbal\obj\Debug\Gimbal.pdb
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.4\G2\Gimbal\bin\Debug\Gimbal.exe
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.4\G2\Gimbal\bin\Debug\Gimbal.pdb
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.4\G2\Gimbal\obj\Debug\Gimbal.csprojResolveAssemblyReference.cache
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.4\G2\Gimbal\obj\Debug\Gimbal.EndLot.resources
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.4\G2\Gimbal\obj\Debug\Gimbal.Form1.resources
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.4\G2\Gimbal\obj\Debug\Gimbal.FrmStart.resources
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.4\G2\Gimbal\obj\Debug\Gimbal.LoginForm.resources
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.4\G2\Gimbal\obj\Debug\Gimbal.New_Lot.resources
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.4\G2\Gimbal\obj\Debug\Gimbal.Properties.Resources.resources
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.4\G2\Gimbal\obj\Debug\Gimbal.Tcpsetting.resources
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.4\G2\Gimbal\obj\Debug\Gimbal.csproj.GenerateResource.Cache
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.5\G2\Gimbal\bin\Debug\Gimbal.exe.config
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.5\G2\Gimbal\obj\Debug\Gimbal.exe
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.5\G2\Gimbal\obj\Debug\Gimbal.pdb
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.5\G2\Gimbal\bin\Debug\Gimbal.exe
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.5\G2\Gimbal\bin\Debug\Gimbal.pdb
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.5\G2\Gimbal\obj\Debug\Gimbal.csprojResolveAssemblyReference.cache
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.5\G2\Gimbal\obj\Debug\Gimbal.EndLot.resources
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.5\G2\Gimbal\obj\Debug\Gimbal.Form1.resources
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.5\G2\Gimbal\obj\Debug\Gimbal.FrmStart.resources
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.5\G2\Gimbal\obj\Debug\Gimbal.LoginForm.resources
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.5\G2\Gimbal\obj\Debug\Gimbal.New_Lot.resources
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.5\G2\Gimbal\obj\Debug\Gimbal.Properties.Resources.resources
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.5\G2\Gimbal\obj\Debug\Gimbal.Tcpsetting.resources
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.5\G2\Gimbal\obj\Debug\Gimbal.csproj.GenerateResource.Cache
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.6\G2\Gimbal\bin\Debug\Gimbal.exe.config
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.6\G2\Gimbal\obj\Debug\Gimbal.exe
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.6\G2\Gimbal\obj\Debug\Gimbal.pdb
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.6\G2\Gimbal\bin\Debug\Gimbal.exe
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.6\G2\Gimbal\bin\Debug\Gimbal.pdb
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.6\G2\Gimbal\obj\Debug\Gimbal.csprojResolveAssemblyReference.cache
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.6\G2\Gimbal\obj\Debug\Gimbal.EndLot.resources
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.6\G2\Gimbal\obj\Debug\Gimbal.Form1.resources
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.6\G2\Gimbal\obj\Debug\Gimbal.FrmStart.resources
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.6\G2\Gimbal\obj\Debug\Gimbal.LoginForm.resources
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.6\G2\Gimbal\obj\Debug\Gimbal.New_Lot.resources
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.6\G2\Gimbal\obj\Debug\Gimbal.Properties.Resources.resources
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.6\G2\Gimbal\obj\Debug\Gimbal.Tcpsetting.resources
+C:\Users\as007\Desktop\Gimbal4.0后版本\转两次角度程序4.2.6\G2\Gimbal\obj\Debug\Gimbal.csproj.GenerateResource.Cache
+\\Mac\Home\Desktop\Program\菲律宾\转两次角度程序4.2.6\G2\Gimbal\bin\Debug\Gimbal.exe.config
+\\Mac\Home\Desktop\Program\菲律宾\转两次角度程序4.2.6\G2\Gimbal\obj\Debug\Gimbal.exe
+\\Mac\Home\Desktop\Program\菲律宾\转两次角度程序4.2.6\G2\Gimbal\obj\Debug\Gimbal.pdb
+\\Mac\Home\Desktop\Program\菲律宾\转两次角度程序4.2.6\G2\Gimbal\bin\Debug\Gimbal.exe
+\\Mac\Home\Desktop\Program\菲律宾\转两次角度程序4.2.6\G2\Gimbal\bin\Debug\Gimbal.pdb
+\\Mac\Home\Desktop\Program\菲律宾\转两次角度程序4.2.6\G2\Gimbal\obj\Debug\Gimbal.csprojResolveAssemblyReference.cache
+\\Mac\Home\Desktop\Program\菲律宾\转两次角度程序4.2.6\G2\Gimbal\obj\Debug\Gimbal.EndLot.resources
+\\Mac\Home\Desktop\Program\菲律宾\转两次角度程序4.2.6\G2\Gimbal\obj\Debug\Gimbal.Form1.resources
+\\Mac\Home\Desktop\Program\菲律宾\转两次角度程序4.2.6\G2\Gimbal\obj\Debug\Gimbal.FrmStart.resources
+\\Mac\Home\Desktop\Program\菲律宾\转两次角度程序4.2.6\G2\Gimbal\obj\Debug\Gimbal.LoginForm.resources
+\\Mac\Home\Desktop\Program\菲律宾\转两次角度程序4.2.6\G2\Gimbal\obj\Debug\Gimbal.New_Lot.resources
+\\Mac\Home\Desktop\Program\菲律宾\转两次角度程序4.2.6\G2\Gimbal\obj\Debug\Gimbal.Properties.Resources.resources
+\\Mac\Home\Desktop\Program\菲律宾\转两次角度程序4.2.6\G2\Gimbal\obj\Debug\Gimbal.Tcpsetting.resources
+\\Mac\Home\Desktop\Program\菲律宾\转两次角度程序4.2.6\G2\Gimbal\obj\Debug\Gimbal.csproj.GenerateResource.Cache
+\\Mac\Home\Desktop\Program\菲律宾\Gimbal 4.2.6\G2\Gimbal\bin\Debug\Gimbal.exe.config
+\\Mac\Home\Desktop\Program\菲律宾\Gimbal 4.2.6\G2\Gimbal\obj\Debug\Gimbal.exe
+\\Mac\Home\Desktop\Program\菲律宾\Gimbal 4.2.6\G2\Gimbal\obj\Debug\Gimbal.pdb
+\\Mac\Home\Desktop\Program\菲律宾\Gimbal 4.2.6\G2\Gimbal\bin\Debug\Gimbal.exe
+\\Mac\Home\Desktop\Program\菲律宾\Gimbal 4.2.6\G2\Gimbal\bin\Debug\Gimbal.pdb
+\\Mac\Home\Desktop\Program\菲律宾\Gimbal 4.2.6\G2\Gimbal\obj\Debug\Gimbal.csprojResolveAssemblyReference.cache
+\\Mac\Home\Desktop\Program\菲律宾\Gimbal 4.2.6\G2\Gimbal\obj\Debug\Gimbal.EndLot.resources
+\\Mac\Home\Desktop\Program\菲律宾\Gimbal 4.2.6\G2\Gimbal\obj\Debug\Gimbal.Form1.resources
+\\Mac\Home\Desktop\Program\菲律宾\Gimbal 4.2.6\G2\Gimbal\obj\Debug\Gimbal.FrmStart.resources
+\\Mac\Home\Desktop\Program\菲律宾\Gimbal 4.2.6\G2\Gimbal\obj\Debug\Gimbal.LoginForm.resources
+\\Mac\Home\Desktop\Program\菲律宾\Gimbal 4.2.6\G2\Gimbal\obj\Debug\Gimbal.New_Lot.resources
+\\Mac\Home\Desktop\Program\菲律宾\Gimbal 4.2.6\G2\Gimbal\obj\Debug\Gimbal.Properties.Resources.resources
+\\Mac\Home\Desktop\Program\菲律宾\Gimbal 4.2.6\G2\Gimbal\obj\Debug\Gimbal.Tcpsetting.resources
+\\Mac\Home\Desktop\Program\菲律宾\Gimbal 4.2.6\G2\Gimbal\obj\Debug\Gimbal.csproj.GenerateResource.Cache
+\\Mac\Home\Desktop\Program\菲律宾\Gimbal\G2\Gimbal\bin\Debug\Gimbal.exe.config
+\\Mac\Home\Desktop\Program\菲律宾\Gimbal\G2\Gimbal\obj\Debug\Gimbal.exe
+\\Mac\Home\Desktop\Program\菲律宾\Gimbal\G2\Gimbal\obj\Debug\Gimbal.pdb
+\\Mac\Home\Desktop\Program\菲律宾\Gimbal\G2\Gimbal\bin\Debug\Gimbal.exe
+\\Mac\Home\Desktop\Program\菲律宾\Gimbal\G2\Gimbal\bin\Debug\Gimbal.pdb
+\\Mac\Home\Desktop\Program\菲律宾\Gimbal\G2\Gimbal\obj\Debug\Gimbal.csprojResolveAssemblyReference.cache
+\\Mac\Home\Desktop\Program\菲律宾\Gimbal\G2\Gimbal\obj\Debug\Gimbal.EndLot.resources
+\\Mac\Home\Desktop\Program\菲律宾\Gimbal\G2\Gimbal\obj\Debug\Gimbal.Form1.resources
+\\Mac\Home\Desktop\Program\菲律宾\Gimbal\G2\Gimbal\obj\Debug\Gimbal.FrmStart.resources
+\\Mac\Home\Desktop\Program\菲律宾\Gimbal\G2\Gimbal\obj\Debug\Gimbal.LoginForm.resources
+\\Mac\Home\Desktop\Program\菲律宾\Gimbal\G2\Gimbal\obj\Debug\Gimbal.New_Lot.resources
+\\Mac\Home\Desktop\Program\菲律宾\Gimbal\G2\Gimbal\obj\Debug\Gimbal.Properties.Resources.resources
+\\Mac\Home\Desktop\Program\菲律宾\Gimbal\G2\Gimbal\obj\Debug\Gimbal.Tcpsetting.resources
+\\Mac\Home\Desktop\Program\菲律宾\Gimbal\G2\Gimbal\obj\Debug\Gimbal.csproj.GenerateResource.Cache
+\\Mac\Home\Desktop\Program\Gimbal\G2\Gimbal\bin\Debug\Gimbal.exe.config
+\\Mac\Home\Desktop\Program\Gimbal\G2\Gimbal\obj\Debug\Gimbal.exe
+\\Mac\Home\Desktop\Program\Gimbal\G2\Gimbal\obj\Debug\Gimbal.pdb
+\\Mac\Home\Desktop\Program\Gimbal\G2\Gimbal\bin\Debug\Gimbal.exe
+\\Mac\Home\Desktop\Program\Gimbal\G2\Gimbal\bin\Debug\Gimbal.pdb
+\\Mac\Home\Desktop\Program\Gimbal\G2\Gimbal\obj\Debug\Gimbal.EndLot.resources
+\\Mac\Home\Desktop\Program\Gimbal\G2\Gimbal\obj\Debug\Gimbal.Form1.resources
+\\Mac\Home\Desktop\Program\Gimbal\G2\Gimbal\obj\Debug\Gimbal.FrmStart.resources
+\\Mac\Home\Desktop\Program\Gimbal\G2\Gimbal\obj\Debug\Gimbal.LoginForm.resources
+\\Mac\Home\Desktop\Program\Gimbal\G2\Gimbal\obj\Debug\Gimbal.New_Lot.resources
+\\Mac\Home\Desktop\Program\Gimbal\G2\Gimbal\obj\Debug\Gimbal.Properties.Resources.resources
+\\Mac\Home\Desktop\Program\Gimbal\G2\Gimbal\obj\Debug\Gimbal.Tcpsetting.resources
+\\Mac\Home\Desktop\Program\Gimbal\G2\Gimbal\obj\Debug\Gimbal.csproj.GenerateResource.Cache
+\\Mac\Home\Desktop\Program\Gimbal\G2\Gimbal\obj\Debug\Gimbal.csprojResolveAssemblyReference.cache

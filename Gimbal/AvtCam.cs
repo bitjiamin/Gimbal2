@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using AVT.VmbAPINET;
 using HalconDotNet;
+using System.Threading;
 
 namespace Gimbal
 {
@@ -12,6 +13,8 @@ namespace Gimbal
         Vimba sys = new Vimba();
         CameraCollection cameras = null;
         private Camera camera;
+        private bool isCaptureFinished = false;
+        private HObject sourceImage = new HObject();
         
         //private API.IniHelper IniHelper = new API.IniHelper();
         private bool isOpen = false;
@@ -19,6 +22,13 @@ namespace Gimbal
      //   private double gain;
         public delegate void ErrorHandle();
        // public event ErrorHandle OnErrorHandle;
+
+        private bool isOneHardwareTrigger = true;
+        public bool IsOneHardwareTrigger
+        {
+            get { return isOneHardwareTrigger; }
+            set { isOneHardwareTrigger = value; }
+        }
         public AvtCam()
         {
             sys.Startup();
@@ -55,6 +65,59 @@ namespace Gimbal
         }
         private AVT.VmbAPINET.Feature m_SensorDigitizationTapsFeature = null;
 
+        public void StartContinuousImageAcquisition(int frameCount)
+        {
+            camera.StartContinuousImageAcquisition(frameCount);
+        }
+
+        public bool OneShotNew(out HObject image, int timeOut)
+        {
+            image = null;
+            HOperatorSet.GenEmptyObj(out image);
+            image.Dispose();
+            try
+            {
+                isCaptureFinished = false;
+                camera.StartContinuousImageAcquisition(1);
+                while (!isCaptureFinished)
+                {
+                    Thread.Sleep(10);
+                    Application.DoEvents();
+                }
+                HOperatorSet.CopyImage(sourceImage, out image);
+                sourceImage.Dispose();
+                camera.StopContinuousImageAcquisition();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+            return false;
+        }
+
+        private void camera_OnFrameReceived(Frame frame)
+        {
+            //if (isOneHardwareTrigger)
+            //{
+            sourceImage = null;
+            HOperatorSet.GenEmptyObj(out sourceImage);
+            sourceImage.Dispose();
+            GCHandle hObject = GCHandle.Alloc(frame.Buffer, GCHandleType.Pinned);
+            IntPtr pObject = hObject.AddrOfPinnedObject();
+            HOperatorSet.GenImage1(out sourceImage, "uint2", 3296, 2472, pObject);
+            if (hObject.IsAllocated)
+                hObject.Free();
+            camera.QueueFrame(frame);
+            isCaptureFinished = true;
+            isOneHardwareTrigger = false;
+            //}
+            //else
+            //{
+            //    camera.QueueFrame(frame);
+            //}
+        }
+
         public bool Open(double exposureTimeAbs)
         {
             isOpen = false;
@@ -67,18 +130,17 @@ namespace Gimbal
                 camera.Features["PixelFormat"].EnumValue = "Mono14";
                 camera.Features["ExposureTimeAbs"].FloatValue = exposureTimeAbs;
 
-                camera.Features["TriggerDelayAbs"].FloatValue = 1000;
+                //camera.Features["TriggerDelayAbs"].FloatValue = 1000;
                 camera.Features["TriggerActivation"].EnumIntValue = 0;
                 camera.Features["TriggerMode"].EnumIntValue = 1;
                 camera.Features["TriggerSource"].EnumIntValue = 2;
                 camera.Features["SyncInSelector"].EnumIntValue = 1;
                 camera.Features["SyncInGlitchFilter"].IntValue = 1000;
-                
-                //camera.OnFrameReceived+=camera_OnFrameReceived;
-
-                //camera.StartContinuousImageAcquisition(1);
                 camera.Features["SensorDigitizationTaps"].EnumIntValue = (int)SensorDigitizationTapsEnum.One;
+                camera.OnFrameReceived += camera_OnFrameReceived;
+                camera.StartContinuousImageAcquisition(3);
                 isOpen = true;
+                isCaptureFinished = true;
             }
             catch
             {
@@ -87,7 +149,7 @@ namespace Gimbal
             }
             return isOpen;
         }
-        public bool Open_NoTrigger(double exposureTimeAbs)
+        public bool Open_TriggerPositionZero(double exposureTimeAbs)
         {
             isOpen = false;
             Vimba sys = new Vimba();
@@ -102,15 +164,14 @@ namespace Gimbal
                 camera.Features["PixelFormat"].EnumValue = "Mono14";
                 camera.Features["ExposureTimeAbs"].FloatValue = exposureTimeAbs;
                 camera.Features["TriggerActivation"].EnumIntValue = 0;
-                camera.Features["TriggerMode"].EnumIntValue = 0;
+                camera.Features["TriggerMode"].EnumIntValue = 1;
                 camera.Features["TriggerSource"].EnumIntValue = 2;
-                camera.Features["SyncInGlitchFilter"].IntValue = 500;
+                camera.Features["SyncInGlitchFilter"].IntValue = 1000;
                 camera.Features["SyncInSelector"].EnumIntValue = 1;
-
-                //camera.OnFrameReceived+=camera_OnFrameReceived;
-
-                //camera.StartContinuousImageAcquisition(1);
+                
                 camera.Features["SensorDigitizationTaps"].EnumIntValue = (int)SensorDigitizationTapsEnum.One;
+                camera.OnFrameReceived += camera_OnFrameReceived;
+                camera.StartContinuousImageAcquisition(3);
                 isOpen = true;
             }
             catch
@@ -120,28 +181,41 @@ namespace Gimbal
             }
             return isOpen;
         }
-        void camera_OnFrameReceived(Frame frame)
 
+        public bool OneShotTrigger(out HObject image, int timeOut)
         {
-            HObject image;
-            GCHandle hObject = GCHandle.Alloc(frame.Buffer, GCHandleType.Pinned);
-            IntPtr pObject = hObject.AddrOfPinnedObject();
-            HOperatorSet.GenImage1(out image, "uint2", frame.Width, frame.Height, pObject);
-            if (hObject.IsAllocated)
-                hObject.Free();
-            //camera.OnFrameReceived += camera_OnFrameReceived;
-            //camera.StopContinuousImageAcquisition();
-            //camera.StartContinuousImageAcquisition(1);
-            Close();
+            int _timeOut = 0;
+            image = null;
+            HOperatorSet.GenEmptyObj(out image);
+            image.Dispose();
+            try
+            {
+                isCaptureFinished = false;
+                while (!isCaptureFinished && timeOut>_timeOut)
+                {
+                    Thread.Sleep(10);
+                    _timeOut += 10;
+                    Application.DoEvents();
+                }
+                HOperatorSet.CopyImage(sourceImage, out image);
+                sourceImage.Dispose();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+            return false;
         }
+     
         public void Close()
         {
             if (isOpen)
             {
                 this.camera.Close();
-                sys.Shutdown();
-            }
                 
+            }
+            sys.Shutdown();
         }
 
         public bool OneShot(ref HObject image)

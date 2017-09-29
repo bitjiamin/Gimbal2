@@ -26,20 +26,21 @@ namespace Gimbal
         [DllImport("GimbalDll.dll")]
         extern static int MTCP_OPEN(string ip, int port, int timeout);
 
-        [DllImport("GimbalDll.dll")]
-        extern static int MTCP_TSCR(string dutsn, string socketsn, string sw, int mode, int slotid, int station);
 
         [DllImport("GimbalDll.dll")]
-        extern static int MTCP_INIT(string sw, string tn, string lot, int v);
+        extern static int MTCP_TSCR(string dutsn, string socketsn, string sw, int mode, int slotid, int station, float dcr);
+
+        [DllImport("GimbalDll.dll")]
+        extern static int MTCP_INIT(string sw, string tn, string lot, int v, uint lotsize, string diffuserlotid, string username);
+
+        [DllImport("GimbalDll.dll")]
+        extern static int MTCP_ALPH(string[] path, ushort img_cnt, ushort width, ushort height, uint size, float dcr, string i_dr, string v_for);
 
         [DllImport("GimbalDll.dll")]
         extern static int MTCP_VDCR(float[] rsp);
 
         [DllImport("GimbalDll.dll")]
         extern static int MTCP_ALPR(float[] rsp);
-
-        [DllImport("GimbalDll.dll")]
-        extern static int MTCP_ALPH(string[] path, ushort img_cnt, ushort width, ushort height, uint size, string i_dr, string v_for);
 
         [DllImport("GimbalDll.dll")]
         extern static int MTCP_POST();
@@ -49,20 +50,25 @@ namespace Gimbal
 
         [DllImport("GimbalDll.dll")]
         extern static int MTCP_CLOSE();
+
+        [DllImport("GimbalDll.dll")]
+        public extern static void MTCP_GENL(string path, int direction);
+
         int ItemIndex = 0;
         DriverBoard __DriverBoard = new DriverBoard();
         Stopwatch stopwatch = new Stopwatch();
+        Stopwatch sensorjudge = new Stopwatch();
         TxtHelper txtHelper = new TxtHelper();
         private string folderName = string.Empty;
         private SerialPort commcu = new SerialPort();
         private SerialPort comtec = new SerialPort();
-        private SerialPort comscan = new SerialPort();
         AvtCam Avt = new AvtCam();
         Serial Com = new Serial();
         ImageProcess pro = new ImageProcess();
-        TCPClient Tcp = new TCPClient();
-        TCPClient Tcp1 = new TCPClient();
-        ScannerCommunications scanner = new ScannerCommunications();
+        ScannerCommunications TCPScanner = new ScannerCommunications();
+        TCPClient TcpPLC = new TCPClient();
+        SMU TcpSMUReset = new SMU();
+        SMU TcpSMUProcess = new SMU();
         BaumerSDK BM = new BaumerSDK();
         ProcessTif tif = new ProcessTif();
         Operxml file = new Operxml();
@@ -72,6 +78,7 @@ namespace Gimbal
         Thread Process, TecP;
         bool livestate = false;
         bool exit = false;
+        bool anglejudge;
         string barcode = null;
         Int32 X;   //X轴旋转角度
         Int32 Y;   //Y轴旋转角度
@@ -79,133 +86,249 @@ namespace Gimbal
         Int32 T;   //等待TEC稳定时间
         string voltage;
         string current;
+        string voltagePeaks;
+        string currentPeaks;
+        int ControlChoose;
+        int Controltime;
+        int SmuTwice;
         double meani;  //smu回采电流平均值
         double meanv;  //smu回采电压平均值
-        string barcodeCom = "com1";
         string SourceCom = "com8";
         string TecCom = "com5";
-        string power = @"reset()
-                        smua.source.output = smua.OUTPUT_OFF
-                        digio.writebit(2, 1)
-                        period_timer = trigger.timer[1]
-                        pulse_timer = trigger.timer[2]
-                        smua.trigger.source.listi({1})    
-                        smua.source.rangei = 1
-                        smua.source.limitv = 3
-                        smua.trigger.measure.action = smua.DISABLE
-                        period_timer.delay = 0.033
-                        period_timer.count = 10 
-                        period_timer.stimulus = smua.trigger.ARMED_EVENT_ID
-                        period_timer.passthrough = true
-                        pulse_timer.delay = 0.0036
-                        pulse_timer.stimulus = period_timer.EVENT_ID
-                        pulse_timer.count = 1
-                        pulse_timer.passthrough=false
-                        digio.trigger[1].mode = digio.TRIG_FALLING
-                        digio.trigger[1].pulsewidth = 0.0006
-                        digio.trigger[1].stimulus =  smua.trigger.ARMED_EVENT_ID
-                        smua.trigger.count = 1
-                        smua.trigger.arm.count = 200
-                        smua.trigger.arm.stimulus = 0
-                        smua.trigger.source.stimulus = period_timer.EVENT_ID
-                        smua.trigger.source.action = smua.ENABLE
-                        smua.trigger.endpulse.stimulus = pulse_timer.EVENT_ID
-                        smua.trigger.endpulse.action = smua.SOURCE_IDLE
-                        smua.trigger.endsweep.action = smua.SOURCE_IDLE
-                        smua.source.output = smua.OUTPUT_ON
-                        smua.trigger.initiate()
-                        waitcomplete()";
         string openTEC = @"$W" + "\r\n";
         string closeTEC = @"$Q" + "\r\n";
-        string TECTemp = @"$R100?" + "\r\n";
+        string TECTemp = @"$R101?" + "\r\n";
+        public static string UserName = "Admin";
+        public static string Password = "123456";
+        public static string enterUserName;
+        public static string enterPassword;
+        public static string enterdiffuserlotID;
+        float dcrRead;
+        public static int total = 0;
+        public static int pass = 0;
+        public static int fail = 0;
+        public static double passpercent = 0;
+        public static double failpercent = 0;
+        public static bool t=false;
+        public static bool NewLotBool = false;
+        public static string DeviceName="B800";
+        public static int StepNameIndex=0;
+        public static int TestModeIndex=0;
+        public static string LotID="";
+        public static string DiffusionLotID="";
+        public static decimal LotSize=0;
+        public static string OperatorName="";
+        public static string TesterID="TIDI002";
+        DateTime beginT;
+        DateTime loadT;
+        DateTime scanT;
+        DateTime cylinT;
+        DateTime tecT;
+        DateTime enableT;
+        DateTime firstT;
+        DateTime rotateT;
+        DateTime secondT;
+        DateTime rotateT2;
+        DateTime thirdT;
+        DateTime lastT;
 
+        CSV_File csvcontrol = new CSV_File();
+        DataTable st = new DataTable("Table_AX");
+        DataTable et = new DataTable("Table_AX");
 
-
-        string __pathLogDir = "Log";
-        string __pathBlackImagePath = "BlackImage";
-        string __pathNormalImagePath = "NormalImage";
+        string __pathLogDir_1 = "";
+        string __pathLogDir="";
+        string __pathLogDir_2 = "";
+        string __pathLot="";
+        string exposureTimeAbs = "";
 
         public Form1()
         {
             InitializeComponent();
-            btnsnap.Enabled = true;
-            btnlive.Text = "Live";
+            Program.FrmStartShow.Close();
 
-            ListViewItem item = new ListViewItem();
-            item.SubItems.Add("Hi");
-            __DriverBoard.Connect("192.168.0.66", "7600");
+                LoginForm loginform = new LoginForm();
+                loginform.ShowDialog();
+            while(true)
+            {
+                if(!t)
+                this.Close();
+                else
+                {
+                  //  if (enterdiffuserlotID == "")
+                    if(false)                               //客户不想登入的时候输入ID号
+                    {
+                        MessageBox.Show("Please enter Slot ID");
+                        t = false;
+                        loginform.ShowDialog();
+                    }
+                    else
+                    {
+                      //  ID.Text = enterdiffuserlotID;
+                        labelUserName.Text = enterUserName;
+                        //  Diffuser_lotid = Convert.ToInt32(enterdiffuserlotID);
+                        if (Password == enterPassword && UserName == enterUserName)
+                        {
+                            txtBarcode.Enabled = true;
+                            xpos.Enabled = true;
+                            ypos.Enabled = true;
+                            ExposureTime.Enabled = true;
+                            CurrentDefault.Enabled = true;
+                            ManualPosition.Enabled = true;
+                            LabelLoginMode.Text = "Administrator";
+                        }
+                        else
+                        {
+                            LabelLoginMode.Text = "Operator";
+                        }
 
-            Control.CheckForIllegalCrossThreadCalls = false;
-            comboProduct.SelectedIndex = 0;
-            comboCamera.SelectedIndex = 0;
-            BM.Initialize();
-            BM.Play();
+                        string DCRpath = @"d:\\vault\\intelli_Gimbal\\DCRdata.txt";
+                        string DCR = "0";
+                        if (File.Exists(DCRpath))
+                        {
+                            DCR = System.IO.File.ReadAllText(DCRpath);
+                        }
+                        //var dcr = Convert.ToUInt64(DCR, 16);
+                        //   dcrRead = dcr / 1000000;
+                        dcrRead = ((float)Convert.ToDouble(DCR)) * 1000;
+                        //btnsnap.Enabled = true;
+                        //btnlive.Text = "Live";
 
-            Com.serial_open(comtec, TecCom, 115200);  //打开TEC
-            // Com.serial_send(comtec, openTEC);
-            //Com.serial_send(comtec, TECTemp);
-            //Thread.Sleep(500);
-            //txtTECTemp.Text = Com.serial_read(comtec);
-            //Com.serial_close(comtec);
+                        string IPdb = file.ReadXmlFile("DriverBoard", "IP");
+                        string Portdb = file.ReadXmlFile("DriverBoard", "Port");
+                        __DriverBoard.Connect(IPdb, Portdb);
 
-            Com.serial_open(comscan, barcodeCom, 115200);
+                        Control.CheckForIllegalCrossThreadCalls = false;
+                        comboProduct.SelectedIndex = 0;
+                        BM.Initialize();
+                        BM.Play();
 
-            string IP = file.ReadXmlFile("IP");
-            string Port = file.ReadXmlFile("Port");
+                        Com.serial_open(comtec, TecCom, 115200);
 
-            Tcp.tcpconnect(IP, Port);
+                        string IP = file.ReadXmlFile("TCPconfig", "IP");
+                        string Port = file.ReadXmlFile("TCPconfig", "Port");
 
-            //string IP1 = "169.254.1.99";
-            //string Port1 = "49211";
-            //Tcp1.tcpconnect(IP1, Port1);
-            
-            string IPScanner = "169.254.1.99";
-            string PortScanner = "49211";
-            scanner.Connect(IPScanner, PortScanner);
+                        TcpPLC.tcpconnect(IP, Port);
 
-            Process = new Thread(new ThreadStart(Processthread));
-            Process.IsBackground = true;
-            Process.Start();
+                        //string IPScanner = "169.254.1.99";
+                        //string PortScanner = "49211";
+                        string IPScanner = file.ReadXmlFile("Scannerconfig", "IP");
+                        string PortScanner = file.ReadXmlFile("Scannerconfig", "Port");
+                        TCPScanner.Connect(IPScanner, PortScanner);
 
-            TecP = new Thread(new ThreadStart(ReadTecTemp));
-            TecP.IsBackground = true;
-            TecP.Start();
+                        string IPSMU = file.ReadXmlFile("TcpSMUReset", "IP");
+                        string PortSMU = file.ReadXmlFile("TcpSMUReset", "Port");
+                        TcpSMUReset.Connect(IPSMU, PortSMU);
+                        Thread.Sleep(500);
+                        TcpSMUReset.PowerOff();
+
+                        string IPSMU1 = file.ReadXmlFile("TcpSMUProcess", "IP");
+                        string PortSMU1 = file.ReadXmlFile("TcpSMUProcess", "Port");
+                        TcpSMUProcess.Connect(IPSMU1, PortSMU1);
+
+                        __pathLogDir_1 = file.ReadXmlFile("Filepath", "path");
+                        exposureTimeAbs = file.ReadXmlFile("Exposetime", "time");
 
 
+                        Process = new Thread(new ThreadStart(Processthread));
+                        Process.IsBackground = true;
+                        Process.Start();
 
-            //AVT Read image
-            /*
-            HTuple hv_Window = hWindowControl1.HalconWindow;
-            HObject ho_image;
-            HTuple width, height;
-            HOperatorSet.GenEmptyObj(out ho_image);
-            Avt.Open();
-            Avt.OneShot(ref ho_image);
-            HOperatorSet.GetImageSize(ho_image, out width, out height);
-            HOperatorSet.SetPart(hv_Window, 0, 0, width - 1, height - 1);
-            HOperatorSet.DispObj(ho_image, hv_Window);
-            Avt.Close();
-             * */
+                        TecP = new Thread(new ThreadStart(ReadTecTemp));
+                        TecP.IsBackground = true;
+                        TecP.Start();
+
+                        this.cleartotal.Enabled = false;
+                        //添加列
+                        st.Columns.Add("Cloum0", typeof(string));
+                        st.Columns.Add("Cloum1", System.Type.GetType("System.String"));
+                        st.Columns.Add("Cloum2", System.Type.GetType("System.String"));
+                        st.Columns.Add("Cloum3", System.Type.GetType("System.String"));
+                        st.Columns.Add("Cloum4", System.Type.GetType("System.String"));
+                        st.Columns.Add("Cloum5", System.Type.GetType("System.String"));
+                        st.Columns.Add("Cloum6", System.Type.GetType("System.String"));
+                        st.Columns.Add("Cloum7", System.Type.GetType("System.String"));
+                        st.Columns.Add("Cloum8", System.Type.GetType("System.String"));
+                        st.Columns.Add("Cloum9", System.Type.GetType("System.String"));
+                        st.Columns.Add("Cloum10", System.Type.GetType("System.String"));
+                        st.Columns.Add("Cloum11", System.Type.GetType("System.String"));
+                        et.Columns.Add("Cloum0", typeof(string));
+                        et.Columns.Add("Cloum1", System.Type.GetType("System.String"));
+                        et.Columns.Add("Cloum2", System.Type.GetType("System.String"));
+                        et.Columns.Add("Cloum3", System.Type.GetType("System.String"));
+                        et.Columns.Add("Cloum4", System.Type.GetType("System.String"));
+                        et.Columns.Add("Cloum5", System.Type.GetType("System.String"));
+                        et.Columns.Add("Cloum6", System.Type.GetType("System.String"));
+                        et.Columns.Add("Cloum7", System.Type.GetType("System.String"));
+                        et.Columns.Add("Cloum8", System.Type.GetType("System.String"));
+                        et.Columns.Add("Cloum9", System.Type.GetType("System.String"));
+                        et.Columns.Add("Cloum10", System.Type.GetType("System.String"));
+                        et.Columns.Add("Cloum11", System.Type.GetType("System.String"));
+                        DataRow dr = st.NewRow();
+                        DataRow de = et.NewRow();
+
+                        //添加行
+                        for (int i = 0; i < 9; i++)
+                        {
+                            st.Rows.Add();
+                        }
+                        for (int i = 0; i < 10; i++)
+                        {
+                            et.Rows.Add();
+                        }
+
+                        break;
+                    }
+                }
+            }
+             
         }
 
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            comboCamera.SelectedIndex = 1;
+            TcpSMUProcess.resultdata = null;
+            string text = System.IO.File.ReadAllText(Application.StartupPath + "\\pulseinterface.txt");
+            TcpSMUProcess.PowerOn(text);
+            this.Total.Text = "0";
+            this.Pass.Text = "0";
+            this.Fail.Text = "0";
+            this.PassPercent.Text = "0";
+            this.FailPercent.Text = "0";
+
+            this.VERSION.Text = "4.2.7";
+
+          //  double exposureTimeAbsPosition0 = Convert.ToInt32(ExposureTime.Text);//500000;
+            double exposureTimeAbsPosition0 = Convert.ToInt32(exposureTimeAbs);
+            Avt.Open_TriggerPositionZero(exposureTimeAbsPosition0);
+            ExposureTime.Text = exposureTimeAbs;
             //Add item
             AddRow("Scan Barcode");
             AddRow("MTCP Current");
             AddRow("MTCP Steady Time");
             AddRow("MTCP Position X");
             AddRow("MTCP Position Y");
-            AddRow("Black Image Capture");
             AddRow("SMU Power On");
-            AddRow("Image Capture");
-            AddRow("SMU Current");
-            AddRow("SMU Voltage");
+            AddRow("Zero Position Image Capture");
+            AddRow("Zero Position SMU Current");
+            AddRow("Zero Position SMU Voltage");
+            AddRow("SMU Power On");
+            AddRow("Target Position1 Image Capture");
+            AddRow("Target Position1 SMU Current");
+            AddRow("Target Position1 SMU Voltage");
+            AddRow("MTCP Position X_2");
+            AddRow("MTCP Position Y_2");
+            AddRow("SMU Power On");
+            AddRow("Target Position2 Image Capture");
+            AddRow("Target Position2 SMU Current");
+            AddRow("Target Position2 SMU Voltage");
             AddRow("MTCP Post");
+           // TestResult.Text = "Pass";
+            TestResult.Text = "TEST";
+            TestResult.BackColor = Color.Silver;
+            Thread.Sleep(2000);
+            var receive = TcpSMUProcess.resultdata;
         }
-
 
         void ResetListView()
         {
@@ -215,6 +338,22 @@ namespace Gimbal
                 lvi.SubItems[3].Text = " ";
             }
             ItemIndex = 0;
+        }
+
+        private Decimal ChangeDataToD(string strData)
+        {
+            Decimal dData = 0.0M;
+            if (strData.Contains("e") || strData.Contains("E"))
+            {
+                dData = Convert.ToDecimal(Decimal.Parse(strData.ToString(), System.Globalization.NumberStyles.Float));
+            }
+            return dData;
+        }
+
+        private string StrToStr(string oriData)
+        {
+            Decimal endVal=ChangeDataToD(oriData);
+            return endVal.ToString("f2");
         }
 
         void AddValueAndStatus(int rowIndex, int colIndex, string value)
@@ -254,8 +393,7 @@ namespace Gimbal
 
         void InitialTest()
         {
-            InitialLogPath();
-            Log("Initial Testing...");
+         //   Log("Initial Testing...");
 
             if (checkboxScan.Checked)
             {
@@ -263,44 +401,68 @@ namespace Gimbal
             }
 
             stopwatch.Reset();
-            
+            sensorjudge.Reset();
+            ResetHWindow();
+            ResetListView();
+        }
+
+        void ResetHWindow()
+        {
             HTuple hv_Window = hWindowControl1.HalconWindow;
             HObject ho_image;
             HOperatorSet.GenEmptyObj(out ho_image);
             HOperatorSet.DispObj(ho_image, hv_Window);
-            ResetListView();
         }
 
-        void CaptureImage(string time, ref string imagefile)
+        void PictureNameByBarcodeAndXY(string time, ref string picname, ref string Sx, ref string Sy, bool isblack)
+        {
+            float x, y;
+            x = (float)X / 1000;
+            y = (float)Y / 1000;
+            Sx = x.ToString();
+            Sy = y.ToString();
+            string cutbarcode;
+            cutbarcode = barcode.Replace("\r", "").Replace("\n", "");
+            if (isblack == true)
+            {
+                picname = cutbarcode + " X" + Sx + " Y" + Sy + " " + time + "_" + "Black";
+            }
+            else
+            {
+                picname = cutbarcode + " X" + Sx + " Y" + Sy + " " + time +"_"+"Light";
+            }
+        }
+
+        void HalconWriteImage(HObject ho_image, string imagefile)
+        {
+            HTuple width, height;
+            HTuple hv_Window = hWindowControl1.HalconWindow;
+            HOperatorSet.WriteImage(ho_image, "tiff", 0, imagefile);
+            HOperatorSet.GetImageSize(ho_image, out width, out height);
+            HOperatorSet.SetPart(hv_Window, 0, 0, height - 1, width - 1);
+            HOperatorSet.DispObj(ho_image, hv_Window);
+        }
+        void CaptureBlackImage(string time, ref string imagefile)
         {
             string CaptureBlackstatus = "failed";
             try
             {
                 Log("Black image capturing...");
-                HTuple hv_Window = hWindowControl1.HalconWindow;
+                
                 HObject ho_image;
-                HTuple width, height;
                 HOperatorSet.GenEmptyObj(out ho_image);
+                string PicName = null;
+                string Sx = null;
+                string Sy = null;
                 Avt.OneShot(ref ho_image);
-
-                string Sx, Sy;
-                float x, y;
-                x = (float)X / 1000;
-                y = (float)Y / 1000;
-                Sx = x.ToString();
-                Sy = y.ToString();
-                string PicName;
-                string cutbarcode;
-                cutbarcode = barcode.Replace("\r", "").Replace("\n", "");
-                PicName = cutbarcode + " X" + Sx + " Y" + Sy + " " + time + "Black";
-
+                
+                PictureNameByBarcodeAndXY(time, ref PicName, ref Sx, ref Sy, true);
                 imagefile = __pathLogDir + PicName + ".tif";
-                HOperatorSet.WriteImage(ho_image, "tiff", 0, imagefile);
-                HOperatorSet.GetImageSize(ho_image, out width, out height);
-                HOperatorSet.SetPart(hv_Window, 0, 0, height - 1, width - 1);
-                HOperatorSet.DispObj(ho_image, hv_Window);
+
+                HalconWriteImage(ho_image, imagefile);
                 CaptureBlackstatus = "pass";
                 Log("Black image capture finished!\r\n"+"X="+Sx+"\r\n"+"Y=" +Sy+"\r\n");
+                ho_image.Dispose();
             }
             catch (Exception ex)
             {
@@ -310,328 +472,587 @@ namespace Gimbal
             AddValueAndStatus(5, 3, CaptureBlackstatus);
         }
 
-        private void Processthread()
+        void Baumer()
         {
-            while(true)
+            string result = "1";
+            if (result == "1")
             {
-                switch(Tcp.result)
-                {
-                    //产品上料防呆
-                    case("0100bb00bb000000"):
-                        InitialTest();
-                        stopwatch.Start();
-                        Tcp.result = null;
-                        HTuple hv_window = hWindowControl1.HalconWindow;
-                        Thread.Sleep(200);
-                      //  string result = action_Diffuser(hv_window);
-                        string result = "1";
-                        if (result == "1")
-                        {
-                            byte[] data = { 0x02, 0x00, 0xdd, 0x00, 0xdd, 0x00, 0x00, 0x00 };
-                            Tcp.sendbytes(data);
-                            
-                        }
-                        else if (result == "-1")
-                        {
-                            byte[] data = { 0x02, 0x00, 0xde, 0x00, 0xde, 0x00, 0x00, 0x00 };
-                            Tcp.sendbytes(data);
-                            MessageBox.Show("Product is not correct in DUT", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        }
-                        Log("Loading DUT" + Tcp.result);
-                        break;
-                    //产品扫条码
-                    case("0300bb00bb000000"):
-                        Log("Start to scan SN!");
-                        Tcp.result = null;
-                        Thread.Sleep(200);
+                byte[] data = { 0x02, 0x00, 0xdd, 0x00, 0xdd, 0x00, 0x00, 0x00 };
+                TcpPLC.sendbytes(data);
 
-                        if (checkboxScan.Checked)
-                        {
-                            //scan from camera
-                            //  Com.serial_send(comscan,"S");
-                            scanner.Send("T");
-                            Thread.Sleep(1500);
-
-                            barcode = scanner.result();
-
-                            //  barcode = Com.serial_read(comscan);
-                        }
-                        else
-                        {
-                            //barcode = "FWP638701S2H6CWC5";
-                            barcode = txtBarcode.Text;
-                        }
-
-                        string statusBarcode = "pass";
-                        string statusMTCP = "failed";
-                       
-                        if (barcode.ToUpper() == "<ERROR>") //"ERROR"\r\n
-                        {
-                            statusBarcode = "failed";
-                            barcode = "ERROR";
-                            byte[] data = { 0x03, 0x00, 0xee, 0x00, 0xee, 0x00, 0x00, 0x00 };
-                            Tcp.sendbytes(data);
-                            MessageBox.Show("Barcode is invalid", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            stopwatch.Stop();
-                        }
-                        else
-                        {
-                            //与MTCP通讯
-                            statusBarcode = "pass";
-                            try
-                            {
-                                MTCP_OPEN("169.254.1.111", 61808, 5000);
-                                string barcodecut;
-                                barcodecut = barcode.Replace("\r", "").Replace("\n", "");
-                                MTCP_TSCR(barcodecut, "123456", "1.0", 0, 1, 1);
-                                MTCP_INIT("1.0", "GimbalTest", "Gimballot", 10);
-                                float[] vdcr_rsp = new float[2];
-                                MTCP_VDCR(vdcr_rsp);
-                                I = vdcr_rsp[0].ToString();      //SMU电流值
-                                T = (Int32)vdcr_rsp[1];          //等待TEC稳定时间
-                                float[] alpr_rsp = new float[2];
-                                MTCP_ALPR(alpr_rsp);
-                                X = (Int32)(alpr_rsp[0] * 1000);    //X轴旋转角度
-                                Y = (Int32)(alpr_rsp[1] * 1000);    //Y轴旋转角度
-                                statusMTCP = "pass";
-                                
-                            }
-                            catch
-                            {
-                                I = "1";
-                                T = 5;
-                                X = 0;
-                                Y = 0;
-                                statusMTCP = "failed";
-                            }
-
-                            string msg = string.Format("MTCP Response:T={0},I={1},X={2},Y={3}",I,T,X,Y);
-                            Log(msg);
-                            //与beckhoff通讯
-                            byte[] data = { 0x03, 0x00, 0xdd, 0x00, 0xdd, 0x00, 0x00, 0x00 };
-                            Tcp.sendbytes(data);
-                        }
-
-                        txtBarcode.Text = barcode;
-                        Log("Scan Finished!");
-                        AddValueAndStatus(0, 2, barcode);
-                        AddValueAndStatus(0, 3, statusBarcode);
-                        AddValueAndStatus(1, 2, I);
-                        AddValueAndStatus(1, 3, statusMTCP);
-                        AddValueAndStatus(2, 2, T.ToString());
-                        AddValueAndStatus(2, 3, statusMTCP);
-                        AddValueAndStatus(3, 2, X.ToString());
-                        AddValueAndStatus(3, 3, statusMTCP);
-                        AddValueAndStatus(4, 2, Y.ToString());
-                        AddValueAndStatus(4, 3, statusMTCP);
-                       
-                        break;
-
-                    //发送X、Y坐标
-                    case ("1000dd00dd000000"):
-                        Tcp.result = null;
-                        //send position x
-                        //Int32 X=002000;           //前3位是角度整数部分，后3位是角度小数部分
-                        X = GetPosition(xpos.Value);
-                        byte[] arryX2=new byte[4];
-                        ConvertIntToByteArray(X,ref arryX2);             //整数转字节数组
-                        byte[] arryX1={ 0x20, 0x00, 0x00, 0x00 };        //定义第一个字节数组
-                        byte[] dataX = arryX1.Concat(arryX2).ToArray();  //连接两个字节数组
-                        // byte[] dataX = { 0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };  //最终发送数据形式
-                        Tcp.sendbytes(dataX);
-                        //send position y
-                        //Int32 Y=002000;         //前3位是角度整数部分，后3位是角度小数部分
-                        Y = GetPosition(ypos.Value);
-                        byte[] arryY2=new byte[4];
-                        ConvertIntToByteArray(Y,ref arryY2);             //整数转字节数组
-                        byte[] arryY1={ 0x20, 0x00, 0x01, 0x00 };        //定义第一个字节数组
-                        byte[] dataY = arryY1.Concat(arryY2).ToArray();  //连接两个字节数组
-                        // byte[] dataY = { 0x20, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00 };   //最终发送数据形式
-                        Tcp.sendbytes(dataY);
-                        Log("Send x,y to PLC");
-                        break;
-                     //X坐标超出范围报警
-                    case("20000000ee000000"):
-                        Tcp.result = null;
-                        MessageBox.Show("X angle out of range", "Alarm", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        break;
-                    //Y坐标超出范围报警
-                    case ("20000100ee000000"):
-                        Tcp.result = null;
-                        MessageBox.Show("Y angle out of range", "Alarm", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        break;
-                    //AVT相机采集数据
-                    case ("2000dd00dd000000"):
-                        Log("Start to capture...");
-                        Tcp.result = null;
-                
-                        HTuple hv_Window = hWindowControl1.HalconWindow;
-                        HObject ho_image;
-                        HTuple width, height;
-                        HOperatorSet.GenEmptyObj(out ho_image);
-
-                        double exposureTimeAbs = Convert.ToInt32(ExposureTime.Text);//500000;
-               
-                        Avt.Open_NoTrigger(exposureTimeAbs);
-                        ushort[,] rawdata = new ushort[tif.height, tif.width];
-                      
-                        string time1;
-                        time1 = DateTime.Now.ToString("yyyyMMddHHmmss");
-                        //Capture black image
-                        string pathblack = string.Empty;
-                        CaptureImage(time1, ref pathblack);
-                        //打开TEC
-                        Com.serial_send(comtec, openTEC);
-                        Thread.Sleep(T*1000);   //TEC稳定时间
-
-#if true
-                        Log("Enable DUT Yogi...");
-                        __DriverBoard.PowerVDD();
-                        __DriverBoard.InitYogi();
-                        __DriverBoard.BypassYogi();
-                        __DriverBoard.ReadYogi();
-                        Log("Enable Yogi finished!");
-#endif
-                     
-
-                        Log("Turn on unit...");     
-                        Process = new Thread(new ThreadStart(OperateMCU));
-                        Process.IsBackground = true;
-                        Process.Start();
-                        
-                        Thread.Sleep(400);
-                        Avt.Open(exposureTimeAbs);
-                        Log("Start to capture image with unit power on...");
-                        Avt.OneShot(ref ho_image);
-                        Tb_graymax.Text=pro.getmax(ho_image).ToString();
-
-                        //关闭TEC
-                        Com.serial_send(comtec, closeTEC);
-
-                        
-                        string Sx, Sy;
-                        float x, y;
-                        x = (float)X / 1000;
-                        y = (float)Y / 1000;
-                        Sx = x.ToString();
-                        Sy = y.ToString();
-                        string PicName;
-                        string cutbarcode;
-                        cutbarcode = barcode.Replace("\r", "").Replace("\n", "");
-                        PicName = cutbarcode + " X" + Sx + " Y" + Sy + " " + time1;
-                        HOperatorSet.WriteImage(ho_image, "tiff", 0, __pathLogDir+PicName);
-                        HOperatorSet.GetImageSize(ho_image, out width, out height);
-                        HOperatorSet.SetPart(hv_Window, 0, 0, height - 1, width - 1);
-                        HOperatorSet.DispObj(ho_image, hv_Window);
-                        Avt.Close();
-                        Log("Capture finished!...");
-                        AddValueAndStatus(7, 2, "");
-                        AddValueAndStatus(7, 3, "pass");
-                        //与MTCP通讯
-                        Thread.Sleep(2500);//等待smu计算平均电流和电压值3
-                        string statusMTCPSendData = "failed";
-                        try
-                        {
-                            Log("Send data to MTCP...");
-                            uint size = (uint)(width * height);
-                            string[] path = { __pathLogDir + PicName + ".tif", pathblack};//{ pathimage + PicName + ".tif", pathblack };
-                            ushort img_cnt = 2;//2;
-                            float meaniI = (float)meani;
-                            float meanvV = (float)meanv;
-                            int ret = MTCP_ALPH(path, img_cnt, (ushort)width, (ushort)height, 0, current, voltage);
-                            Log(string.Format("ALPH Return Value : {0}", ret));
-                            MTCP_POST();
-                            MTCP_TSED();
-                            MTCP_CLOSE();
-
-                            __DriverBoard.Reset();
-                            SMU_PowerOff();
-                            stopwatch.Stop();
-                            Log("MTCP Send Completed!\r\n"+"meanI="+meani+"\r\n"+"meanV="+meanvV+"\r\n");
-                            statusMTCPSendData = "pass";
-                        }
-                        catch(Exception exp)
-                        {
-                            statusMTCPSendData = "failed";
-                            MessageBox.Show(exp.Message);
-                        }
-                        AddValueAndStatus(8, 2, meani.ToString());
-                        AddValueAndStatus(8, 3, statusMTCPSendData);
-                        AddValueAndStatus(9, 2, meanv.ToString());
-                        AddValueAndStatus(9, 3, statusMTCPSendData);
-                        AddValueAndStatus(10, 2, " ");
-                        AddValueAndStatus(10, 3, "OK");
-                        //与Beckhoff通讯
-                        byte[] dataState = { 0x30, 0x00, 0xdd, 0x00, 0xdd, 0x00, 0x00, 0x00 };
-                        Tcp.sendbytes(dataState);    
-                        break;
-                    //产品下料
-                    case("4000dd00dd000000"):
-                        Tcp.result = null;
-                         __DriverBoard.Reset();
-                         SMU_PowerOff();
-                         stopwatch.Stop();
-                      //  MessageBox.Show("Test Finished", "State", MessageBoxButtons.OK);
-                        break;
-                    //机器报错
-                    case("ee00ee00ee000000"):
-                         __DriverBoard.Reset();
-                         SMU_PowerOff();
-                         stopwatch.Stop();
-                        Tcp.result = null;
-                        double t = (double)stopwatch.ElapsedMilliseconds/1000.0;
-                        lblTime.Text = t.ToString("f3");
-                        MessageBox.Show("Machine Error", "Alarm", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        break;
-                    default:
-                        break;
-                }
+            }
+            else if (result == "-1")
+            {
+                byte[] data = { 0x02, 0x00, 0xde, 0x00, 0xde, 0x00, 0x00, 0x00 };
+                TcpPLC.sendbytes(data);
+                MessageBox.Show("Product is not correct in DUT", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
+        void GetBarcode()
+        {
+            if (checkboxScan.Checked)
+            {
+                TCPScanner.Send("T");
+                Thread.Sleep(150);
+                barcode = TCPScanner.result();
+            }
+            else
+            {
+                barcode = "FWP638701S2H6CWC5";
+                //barcode = txtBarcode.Text;
+            }
+        }
 
-        void ParseMCUResponse(string vi, out double meanC, out double meanV,out string voltage, out string current)
+        void MTCPCommunication()
+        {
+            string statusBarcode = "pass";
+            string statusMTCP = "failed";
+
+            if (barcode.ToUpper() == "<ERROR>") //"ERROR"\r\n
+            {
+                statusBarcode = "failed";
+                barcode = "ERROR";
+                byte[] data = { 0x03, 0x00, 0xee, 0x00, 0xee, 0x00, 0x00, 0x00 };
+                TcpPLC.sendbytes(data);
+                MessageBox.Show("Barcode is invalid", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                stopwatch.Stop();
+            }
+            else
+            {
+                //与MTCP通讯
+                statusBarcode = "pass";
+                try
+                {
+                    string IP = file.ReadXmlFile("MTCP", "IP");
+                    int Port = Convert.ToInt32(file.ReadXmlFile("MTCP", "Port"));
+                    MTCP_OPEN(IP, Port, 5000);
+                    //MTCP_OPEN("169.254.1.111", 61808, 5000);
+                    string barcodecut;
+                    barcodecut = barcode.Replace("\r", "").Replace("\n", "");
+                    MTCP_TSCR(barcodecut, "123456", "1.0", 0, 1, 1, dcrRead);
+                    MTCP_INIT("1.0", "TIDI", "Gimballot", 10, 002, LotID, enterUserName);
+                    float[] vdcr_rsp = new float[2];
+                    MTCP_VDCR(vdcr_rsp);
+                    I = vdcr_rsp[0].ToString();      //SMU电流值
+                    if (CurrentDefault.Checked == true)
+                    {
+                        I = "0.82";
+                    }
+                    T = (Int32)vdcr_rsp[1];          //等待TEC稳定时间
+                    float[] alpr_rsp = new float[2];
+                    MTCP_ALPR(alpr_rsp);
+                    X = (Int32)(alpr_rsp[0] * 1000);    //X轴旋转角度
+                    Y = -(Int32)(alpr_rsp[1] * 1000);    //Y轴旋转角度
+                   // Y = -(Int32)(Math.Atan(Math.Tan(Y) * Math.Cos(X)) * 180*1000 / Math.PI);      //尹总公式
+                    statusMTCP = "pass";
+
+                }
+                catch
+                {
+                    I = "1";
+                    T = 5;
+                    X = 0;
+                    Y = 0;
+                    statusMTCP = "failed";
+                }
+
+                string msg = string.Format("MTCP Response:T={0},I={1},X={2},Y={3}", T, I, X, Y);
+                Log(msg);
+                /*
+                //与beckhoff通讯
+                byte[] data = { 0x03, 0x00, 0xdd, 0x00, 0xdd, 0x00, 0x00, 0x00 };
+                TcpPLC.sendbytes(data);
+                 * */
+            }
+            MTCPStatus(statusBarcode, statusMTCP);
+        }
+
+        void MTCPStatus(string statusBarcode, string statusMTCP)
+        {
+            AddValueAndStatus(0, 2, barcode);
+            AddValueAndStatus(0, 3, statusBarcode);
+            AddValueAndStatus(1, 2, I);
+            AddValueAndStatus(1, 3, statusMTCP);
+            AddValueAndStatus(2, 2, T.ToString());
+            AddValueAndStatus(2, 3, statusMTCP);
+            AddValueAndStatus(3, 2, (X/1000.0).ToString());
+            AddValueAndStatus(4, 2, (-Y/1000.0).ToString());
+            if (X > 50000 || Y > 50000 || X < -50000 || Y < -50000)
+            {
+                AddValueAndStatus(3, 3, "fail");
+                AddValueAndStatus(4, 3, "fail");
+            }
+            else
+            {
+                AddValueAndStatus(3, 3, statusMTCP);
+                AddValueAndStatus(4, 3, statusMTCP);
+            }
+        }
+
+        void XYPosition()
+        {
+            //send position x
+            //Int32 X=002000;           //前3位是角度整数部分，后3位是角度小数部分
+            if (ManualPosition.Checked == true)
+            {
+                X = GetPosition(xpos.Value);
+            }
+            byte[] arryX2 = new byte[4];
+            ConvertIntToByteArray(X, ref arryX2);             //整数转字节数组
+            byte[] arryX1 = { 0x20, 0x00, 0x00, 0x00 };        //定义第一个字节数组
+            byte[] dataX = arryX1.Concat(arryX2).ToArray();  //连接两个字节数组
+            // byte[] dataX = { 0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };  //最终发送数据形式
+            TcpPLC.sendbytes(dataX);
+
+            //send position y
+            //Int32 Y=002000;         //前3位是角度整数部分，后3位是角度小数部分
+            if (ManualPosition.Checked == true)
+            {
+                Y = GetPosition(ypos.Value);
+            }
+            byte[] arryY2 = new byte[4];
+            ConvertIntToByteArray(Y, ref arryY2);             //整数转字节数组
+            byte[] arryY1 = { 0x20, 0x00, 0x01, 0x00 };        //定义第一个字节数组
+            byte[] dataY = arryY1.Concat(arryY2).ToArray();  //连接两个字节数组
+            // byte[] dataY = { 0x20, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00 };   //最终发送数据形式
+            TcpPLC.sendbytes(dataY);
+        }
+
+        void EnableDUTYogi()
+        {
+            Log("Enable DUT Yogi...");
+            __DriverBoard.PowerVDD();
+            Thread.Sleep(10);
+            __DriverBoard.InitYogi();
+            Thread.Sleep(1700);
+            __DriverBoard.BypassYogi();
+            __DriverBoard.ReadYogi();
+            __DriverBoard.SetYogiActiMode();
+           // __DriverBoard.ReadYogiNVM();
+            Log("Enable Yogi finished!");
+        }
+
+        void SendDataToMTCP(HTuple width, HTuple height, string picname, string pathblack)
+        {
+            string statusMTCPSendData = "failed";
+            try
+            {
+                Log("Send data to MTCP...");
+                uint size = (uint)(width * height);
+                string[] path = { __pathLogDir + pathblack + ".tif" , __pathLogDir + picname + ".tif"};//{ pathimage + PicName + ".tif", pathblack };
+                ushort img_cnt = 2;//2;
+                float meaniI = (float)meani;
+                float meanvV = (float)meanv;
+                //int ret = MTCP_ALPH(path, img_cnt, (ushort)width, (ushort)height, 0, current, voltage);  //voltagePeaks
+                int ret = MTCP_ALPH(path, img_cnt, (ushort)width, (ushort)height, 100, dcrRead,currentPeaks, voltagePeaks);
+                Log(string.Format("ALPH Return Value : {0}", ret));
+                Log("MTCP Send Completed!\r\n" + "meanI=" + meani + "\r\n" + "meanV=" + meanvV + "\r\n");
+                statusMTCPSendData = "pass";
+            }
+            catch (Exception exp)
+            {
+                statusMTCPSendData = "failed";
+                MessageBox.Show(exp.Message);
+            }
+
+            AddValueAndStatus(10, 3, statusMTCPSendData);
+            AddValueAndStatus(11, 3, statusMTCPSendData);
+           // AddValueAndStatus(17, 2, " ");
+           // AddValueAndStatus(17, 3, "OK");
+        }
+
+        void SendDataToMTCP_2(HTuple width, HTuple height, string picname)
+        {
+            string statusMTCPSendData = "failed";
+            try
+            {
+                Log("Send data to MTCP...");
+                uint size = (uint)(width * height);
+                string[] path = { __pathLogDir + picname + ".tif" };
+                ushort img_cnt = 1;//2;
+                float meaniI = (float)meani;
+                float meanvV = (float)meanv;
+                int ret = MTCP_ALPH(path, img_cnt, (ushort)width, (ushort)height, 100, dcrRead, currentPeaks, voltagePeaks);
+                Log(string.Format("ALPH Return Value : {0}", ret));
+                Log("MTCP Send Completed!\r\n" + "meanI=" + meani + "\r\n" + "meanV=" + meanvV + "\r\n");
+                statusMTCPSendData = "pass";
+            }
+            catch (Exception exp)
+            {
+                statusMTCPSendData = "failed";
+                MessageBox.Show(exp.Message);
+            }
+
+            AddValueAndStatus(10, 3, statusMTCPSendData);
+            AddValueAndStatus(11, 3, statusMTCPSendData);
+            AddValueAndStatus(19, 2, " ");
+            AddValueAndStatus(19, 3, "OK");
+        }
+        private void Processthread()
+        {
+            string time1 = string.Empty;
+            string picname_zero = null;
+            while (true)
+            {
+                try
+                {
+                    switch (TcpPLC.result)
+                    {
+                        //产品上料防呆
+                        case ("0100bb00bb000000"):
+                            beginT = DateTime.Now;
+                            TestResult.Text = "Testing...";
+                            TestResult.BackColor = Color.Yellow;
+                            InitialTest();
+                            ControlChoose = 0;
+                            Controltime = 0;
+                            SmuTwice = 0;
+                            anglejudge = true;
+                            stopwatch.Start();
+                            TcpPLC.result = null;
+                            Baumer();
+                         //   Log("Loading DUT" + TcpPLC.result);
+                            break;
+                        //产品扫条码
+                        case ("0300bb00bb000000"):
+                            loadT = DateTime.Now;
+                        //    Log("Start to scan SN!");
+                            TcpPLC.result = null;
+                            Thread.Sleep(200);
+
+                            GetBarcode();
+                            scanT = DateTime.Now;
+                            InitialLogPath(); //by barcode
+                            Log("Initial Testing...");
+                            Log("Loading DUT" + TcpPLC.result);
+                            Log("Start to scan SN!");
+                            MTCPCommunication();
+                            txtBarcode.Text = barcode;
+                            Log("Scan Finished!" +" "+"SN:"+ barcode.Replace("\r", "").Replace("\n", ""));
+                            //判断是否有产品bin文件
+                            if ( T == 0 && X == 0 && Y == 0 && checkboxScan.Checked)
+                            {
+                                //与beckhoff通讯
+                                byte[] data = { 0x03, 0x00, 0xee, 0x00, 0xee, 0x00, 0x00, 0x00 };
+                                TcpPLC.sendbytes(data);
+                                MessageBox.Show("NoBinfileExist!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            }
+                            else
+                            {
+                                //与beckhoff通讯
+                                byte[] data = { 0x03, 0x00, 0xdd, 0x00, 0xdd, 0x00, 0x00, 0x00 };
+                                TcpPLC.sendbytes(data);
+                            }
+                            //判断读的角度是否大于50度
+                            if (X > 50000 || Y > 50000 || X < -50000 || Y < -50000)
+                            {
+                                anglejudge = false;
+                                X = 0;
+                                Y = 0;
+                            }
+                            Com.serial_send(comtec, openTEC);
+                            break;
+
+                        //发送X、Y坐标
+                        case ("1000dd00dd000000"):
+                            TcpPLC.result = null; 
+                            HTuple hv_Window_Zero = hWindowControl1.HalconWindow;
+                            HObject ho_image_zero;
+                            HTuple width_zero, height_zero;
+                            HOperatorSet.GenEmptyObj(out ho_image_zero);
+                            cylinT = DateTime.Now;
+                            Thread.Sleep(T * 1000);   //TEC稳定时间
+                            tecT = DateTime.Now;
+#if true
+                            EnableDUTYogi();
+#endif
+                                                       
+                            Log("Turn on unit...");
+                            enableT = DateTime.Now;
+                           
+                            Process = new Thread(new ThreadStart(OperateSMU));
+                            Process.IsBackground = true;
+                            Process.Start();
+
+                            AddValueAndStatus(5, 2, "");
+                            AddValueAndStatus(5, 3, "pass");
+                            Avt.OneShotTrigger(out ho_image_zero, 10000);
+
+                            time1 = DateTime.Now.ToString("yyyyMMddHHmmss");
+                            string Sx_zero = null;
+                            string Sy_zero = null;
+
+                            PictureNameByBarcodeAndXY(time1, ref picname_zero, ref Sx_zero, ref Sy_zero, false);
+                            HalconWriteImage(ho_image_zero, __pathLogDir + picname_zero+"ZeroPosition");
+                            HOperatorSet.GetImageSize(ho_image_zero, out width_zero, out height_zero);
+                            ho_image_zero.Dispose();
+                           
+                            AddValueAndStatus(6, 2, "");
+                            AddValueAndStatus(6, 3, "pass");
+
+                            while (SmuTwice == 0)
+                            {
+                                Thread.Sleep(100);//等待smu第一个线程结束
+                            }
+                            firstT = DateTime.Now;
+                            XYPosition();
+                            sensorjudge.Start();
+                            Log("Send x,y to PLC");
+                            break;
+                        //X坐标超出范围报警
+                        case ("20000000ee000000"):
+                            TcpPLC.result = null;
+                            MessageBox.Show("X angle out of range", "Alarm", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            break;
+                        //Y坐标超出范围报警
+                        case ("20000100ee000000"):
+                            TcpPLC.result = null;
+                            MessageBox.Show("Y angle out of range", "Alarm", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            break;
+                        //AVT相机采集数据
+                        case ("2000dd00dd000000"):
+                            if (ControlChoose==1)
+                            {
+                                sensorjudge.Stop();
+                                rotateT = DateTime.Now;
+                                Log("Start to capture...");
+                                TcpPLC.result = null;
+
+                                HTuple hv_Window = hWindowControl1.HalconWindow;
+                                HObject ho_image;
+                                HTuple width, height;
+                                HOperatorSet.GenEmptyObj(out ho_image);
+
+                                Log("Start to capture image until unit power on...");
+
+                                Log("Turn on unit...");                          
+
+                                Process = new Thread(new ThreadStart(OperateSMU));
+                                Process.IsBackground = true;
+                                Process.Start();
+
+                                AddValueAndStatus(9, 2, "");
+                                AddValueAndStatus(9, 3, "pass");
+                   
+                                Avt.OneShotTrigger(out ho_image, 10000);
+
+                               // Tb_graymax.Text = pro.getmax(ho_image).ToString();
+
+                                string Sx = null;
+                                string Sy = null;
+                                string picname = null;
+
+                                PictureNameByBarcodeAndXY(time1, ref picname, ref Sx, ref Sy, false);
+                                HalconWriteImage(ho_image, __pathLogDir + picname);
+                                HOperatorSet.GetImageSize(ho_image, out width, out height);
+                                ho_image.Dispose();
+                                AddValueAndStatus(10, 2, "");
+                                AddValueAndStatus(10, 3, "pass");
+
+                                Log("Capture finished!...");
+                                while (Controltime==0)
+                                {
+                                    Thread.Sleep(100);//等待smu计算平均电流和电压值2
+                                }
+                                secondT = DateTime.Now;
+                                //与MTCP通讯
+                                SendDataToMTCP(width, height, picname, picname_zero + "ZeroPosition");
+                                float[] alpr_rsp = new float[2];
+                                MTCP_ALPR(alpr_rsp);
+                                X = (Int32)(alpr_rsp[0] * 1000);    //X轴旋转角度
+                                Y = -(Int32)(alpr_rsp[1] * 1000);    //Y轴旋转角度
+                                AddValueAndStatus(13, 2, (X / 1000.0).ToString());
+
+                                AddValueAndStatus(14, 2, (-Y / 1000.0).ToString());
+
+                                if (X > 50000 || Y > 50000 || X < -50000 || Y < -50000)
+                                {
+                                    anglejudge = false;
+                                    X = 0;
+                                    Y = 0;
+                                    AddValueAndStatus(13, 3, "pass");
+                                    AddValueAndStatus(14, 3, "pass");
+                                }
+                                else
+                                {
+                                    AddValueAndStatus(13, 3, "pass");
+                                    AddValueAndStatus(14, 3, "pass");
+                                }
+                                XYPosition();
+                                Log("Send x,y to PLC");
+                            }
+                          else
+                            {
+                                rotateT2 = DateTime.Now;
+                                Log("Start to capture...");
+                                TcpPLC.result = null;
+
+                                HTuple hv_Window = hWindowControl1.HalconWindow;
+                                HObject ho_image;
+                                HTuple width, height;
+                                HOperatorSet.GenEmptyObj(out ho_image);
+
+                                Log("Start to capture image until unit power on...");
+
+                                Log("Turn on unit...");
+
+                                Process = new Thread(new ThreadStart(OperateSMU));
+                                Process.IsBackground = true;
+                                Process.Start();
+
+                                AddValueAndStatus(15, 2, "");
+                                AddValueAndStatus(15, 3, "pass");
+
+                                Avt.OneShotTrigger(out ho_image, 10000);
+
+                                // Tb_graymax.Text = pro.getmax(ho_image).ToString();
+                                time1 = DateTime.Now.ToString("yyyyMMddHHmmss");
+                                string Sx = null;
+                                string Sy = null;
+                                string picname = null;
+
+                                PictureNameByBarcodeAndXY(time1, ref picname, ref Sx, ref Sy, false);
+                                HalconWriteImage(ho_image, __pathLogDir + picname);
+                                HOperatorSet.GetImageSize(ho_image, out width, out height);
+                                ho_image.Dispose();
+                                AddValueAndStatus(16, 2, "");
+                                AddValueAndStatus(16, 3, "pass");
+
+                                Log("Capture finished!...");
+                                while (Controltime == 1)
+                                {
+                                    Thread.Sleep(100);//等待smu计算平均电流和电压值3
+                                }
+                                thirdT = DateTime.Now;
+                                //与MTCP通讯
+                                SendDataToMTCP_2(width, height, picname);
+                                //与Beckhoff通讯
+                                byte[] dataState = { 0x30, 0x00, 0xdd, 0x00, 0xdd, 0x00, 0x00, 0x00 };
+                                TcpPLC.sendbytes(dataState);
+                                total = total + 1;
+                                this.Total.Text = total.ToString();
+                                if (MTCP_POST() == 0)
+                                {
+                                    if (anglejudge)
+                                    {
+                                        TestResult.Text = "Pass";
+                                        TestResult.BackColor = Color.Lime;
+                                    }
+                                    else
+                                    {
+                                        TestResult.Text = "Fail";
+                                        TestResult.BackColor = Color.AliceBlue;
+                                    }
+                                    pass = pass + 1;
+                                    this.Pass.Text=pass.ToString();
+                                }
+                                else
+                                {
+                                    TestResult.Text = "Fail";
+                                    TestResult.BackColor = Color.Red;
+                                }
+                                fail = total - pass;
+                                this.Fail.Text = fail.ToString();
+                                passpercent = (pass / (total*1.0))*100;
+                                this.PassPercent.Text = passpercent.ToString("0.00");
+                                failpercent =((total - pass) / (total*1.0))*100;
+                                this.FailPercent.Text = failpercent.ToString("0.00");
+                                       MTCP_TSED();
+                                       MTCP_CLOSE();
+                                lastT = DateTime.Now;
+                                Log("time   stamp:start  "+beginT.ToString("yyyy-MM-dd HH:mm:ss.fff") );
+                                Log("load    time:  " + loadT.Subtract(beginT).TotalSeconds.ToString("f2"));
+                                Log("scan    time:  " + scanT.Subtract(loadT).TotalSeconds.ToString("f2"));
+                                Log("cylin   time:  " + cylinT.Subtract(scanT).TotalSeconds.ToString("f2"));
+                                Log("tec     time:  " + tecT.Subtract(cylinT).TotalSeconds.ToString("f2"));
+                                Log("enable  time:  " + enableT.Subtract(tecT).TotalSeconds.ToString("f2"));
+                                Log("first   time:  " + firstT.Subtract(enableT).TotalSeconds.ToString("f2"));
+                                Log("rotate  time:  " + rotateT.Subtract(firstT).TotalSeconds.ToString("f2"));
+                                Log("second  time:  " + secondT.Subtract(rotateT).TotalSeconds.ToString("f2"));
+                                Log("rotate2 time:  " + rotateT2.Subtract(secondT).TotalSeconds.ToString("f2"));
+                                Log("third   time:  " + thirdT.Subtract(rotateT2).TotalSeconds.ToString("f2"));
+                                Log("cylout  time:  " + lastT.Subtract(thirdT).TotalSeconds.ToString("f2"));
+                                Log("total   time:  " + lastT.Subtract(beginT).TotalSeconds.ToString("f2"));
+                                Log("time   stamp:end  " + lastT.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+                                //更改文件夹名称
+                                movefolder(__pathLogDir, __pathLogDir_2);
+                                //删除本地图片文件夹
+                                if (SaveImage.Checked == false)
+                                {
+                                    if (Directory.Exists(__pathLogDir_2))
+                                    {
+                                        Directory.Delete(__pathLogDir_2, true);
+                                    }
+                                }
+
+                                Com.serial_send(comtec, closeTEC);
+                                stopwatch.Stop();
+                            }
+                            break;
+                        //产品下料
+                        case ("4000dd00dd000000"):
+
+                            TcpPLC.result = null;
+                            __DriverBoard.Reset();
+                            TcpSMUReset.PowerOff();
+                            stopwatch.Stop();
+
+                            break;
+                        //机器报错
+                        case ("ee00ee00ee000000"):
+                            sensorjudge.Stop();
+                            __DriverBoard.Reset();
+                            TcpSMUReset.PowerOff();
+                            stopwatch.Stop();
+                            TcpPLC.result = null;
+                            double t = (double)stopwatch.ElapsedMilliseconds / 1000.0;
+                            lblTime.Text = t.ToString("f3");
+                            MessageBox.Show("Machine Error", "Alarm", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            break;
+                        default:
+                            break;
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                }
+                if (sensorjudge.ElapsedMilliseconds > 10000)
+                {
+                    sensorjudge.Stop();
+                    sensorjudge.Reset();
+                    MessageBox.Show("Can't get the signal from PLC,Please cheack the sensor of cylinder.", "Alarm", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+        }
+      
+        void ParseMCUResponse(string vi, out string voltage, out string current, out string voltagepeaks, out string currentpeaks)
         {
             string match_current = "Current:(.*)Voltage";
             string match_volt = "Voltage:(.*)Time";
-
-            Regex regexCurrent = new Regex(match_current, RegexOptions.Singleline);
-
+            string match_currentPeaks = "CurrentPeaks:(.*)VoltPeaks";
+            string match_voltPeaks = "VoltPeaks:(.*)PeaksEnd";
             //current
+            current = RegexData(vi, match_current);
+            currentpeaks = RegexData(vi, match_currentPeaks);
+            //voltage
+            voltage = RegexData(vi, match_volt);
+            voltagepeaks = RegexData(vi, match_voltPeaks);
+             
+            Log(vi+"\r\n");
+        }
+
+        string RegexData(string vi, string match_current)
+        {
+            string current;
+            Regex regexCurrent = new Regex(match_current, RegexOptions.Singleline);
             Match mc = regexCurrent.Match(vi);
             string vc = mc.Groups[1].ToString();
             vc = vc.Trim();
-            string[] arr = vc.Split(",".ToCharArray());
             current = vc;
-            ArrayList arrayCurrent = new ArrayList();
-
-            double sumC = 0;
-            foreach (var i in arr)
-            {
-                var value = Convert.ToDouble(i);
-                arrayCurrent.Add(value);
-                sumC = sumC + value;
-            }
-            meanC = sumC / arrayCurrent.Count;
-
-            //voltage
-            Regex regexVolt = new Regex(match_volt, RegexOptions.Singleline);
-            Match mv = regexVolt.Match(vi);
-            string vv = mv.Groups[1].ToString();
-            vv = vv.Trim();
-            string[] arr1 = vv.Split(",".ToCharArray());
-            voltage = vv;
-            ArrayList arrayVolt = new ArrayList();
-            double sumV = 0;
-            foreach (var i in arr1)
-            {
-                var value = Convert.ToDouble(i);
-                arrayVolt.Add(Convert.ToDouble(i));
-                sumV = sumV + value;
-            }
-            meanV = sumV / arrayVolt.Count;
-
-            Log(vi+"\r\n");
+            return current;
         }
 
 
@@ -650,31 +1071,49 @@ namespace Gimbal
 
             Com.serial_close(commcu);
         }
-        private void OperateMCU()
-        { 
-           // Thread.Sleep(1000);
-           /*
-            string para = @"num_of_pulses=10
-                            leveli=1.0
-                            script.user.scripts.smu_pulse()
-                            ";
-            * */
-            string para = "num_of_pulses=100" + "\r\n" + "leveli=" + I + "\r\n" + "script.user.scripts.smu_pulse()" + "\r\n";
-            Com.serial_open(commcu, SourceCom, 9600);  //打开源表
-            Com.serial_send(commcu, para);
+        private void OperateSMU()
+        {
+            TcpSMUProcess.resultdata = null;
+            string para_light_up = "abort\r\n" + "smua.reset()\r\n" + "pulse_current_N(10,0.009,4.5," + I + ",0.001,0.001,2000,0.001,1,1,0)\r\n";
+            TcpSMUProcess.PowerOn(para_light_up);
+            Thread.Sleep(4200);
+            var vi = TcpSMUProcess.resultdata;
+            TcpSMUProcess.resultdata = null;
 
-            string vi = Com.serial_readmcu(commcu);
             Console.WriteLine("~~~~~~~~~~~~~~~SMU Response:");
             Console.WriteLine(vi);
-           
 
-            Com.serial_close(commcu);
-
-            ParseMCUResponse(vi, out meani, out meanv,out voltage, out current);
+            ParseMCUResponse(vi, out voltage, out current, out voltagePeaks, out currentPeaks);
             Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-            AddValueAndStatus(6, 2, "");
-            AddValueAndStatus(6, 3, "pass");
-            Log(para);
+            
+             if (ControlChoose == 0)
+            {
+                AddValueAndStatus(7, 2,StrToStr(current));
+                AddValueAndStatus(7, 3, "pass");
+                AddValueAndStatus(8, 2, StrToStr(voltage));
+                AddValueAndStatus(8, 3, "pass");
+                ControlChoose++;
+                SmuTwice = 1;
+            }
+             else if (ControlChoose == 1)
+            {
+                AddValueAndStatus(11, 2, StrToStr(current));
+                AddValueAndStatus(11, 3, "pass");
+                AddValueAndStatus(12, 2, StrToStr(voltage));
+                AddValueAndStatus(12, 3, "pass");
+                ControlChoose++;
+                Controltime = 1;
+            }
+            else
+             {
+                 AddValueAndStatus(17, 2, StrToStr(current));
+                 AddValueAndStatus(17, 3, "pass");
+                 AddValueAndStatus(18, 2, StrToStr(voltage));
+                 AddValueAndStatus(18, 3, "pass");
+                 Controltime = 2;
+             }
+
+             Log(para_light_up);
         }
 
         private Int32 GetPosition(decimal pos)
@@ -696,21 +1135,26 @@ namespace Gimbal
   
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
+            timer1.Dispose();
+            txtTECTemp.Dispose();
+       
+            TecP.Abort();
+            Avt.Close();
+            if (Process.IsAlive)
+            {
+                Process.Abort();
+            }
+            Com.serial_close(comtec);
             exit = true;
             BM.Exit();
-            Avt.Close();
-            //Com.serial_open(comtec, TecCom, 115200);  //关闭TEC
-           // Com.serial_send(comtec, closeTEC);
-            Com.serial_close(comtec);
-            Com.serial_close(comscan);
-            txtTECTemp.Dispose();
+            
         }
 
         private void livethread()
         {
             HTuple hv_Subsampling = new HTuple(), hv_Sharpness = new HTuple();
             hv_Subsampling = 3;
-            if(comboCamera.SelectedIndex==0)
+            if(true)
             {
                 HTuple hv_window = hWindowControl1.HalconWindow;
                 HTuple hv_WidthWin, hv_HeightWin;
@@ -750,7 +1194,7 @@ namespace Gimbal
                 bool AVTOpen;
                 if (livestate)
                 {
-                    Avt.Open_NoTrigger(1000);
+                    Avt.Open_TriggerPositionZero(1000);
                     AVTOpen = true;
                 }
                 else
@@ -822,12 +1266,12 @@ namespace Gimbal
                     txtTECTemp.Text = "0";
                 }
                 Thread.Sleep(500);
-            }
+            }   
         }
 
         private void btnsnap_Click(object sender, EventArgs e)
         {
-            if (comboCamera.SelectedIndex == 0)
+            if (true)
             {
                 HObject ho_image;
                 HTuple hv_WidthWin, hv_HeightWin;
@@ -859,7 +1303,7 @@ namespace Gimbal
             }
             else
             {
-                Avt.Open_NoTrigger(1000);
+                Avt.Open_TriggerPositionZero(1000);
                 HObject ho_image;
                 HTuple width, height;
                 HOperatorSet.GenEmptyObj(out ho_image);
@@ -877,23 +1321,23 @@ namespace Gimbal
 
         }
 
-        private void btnlive_Click(object sender, EventArgs e)
-        {
-            livestate = !livestate;
-            live = new Thread(new ThreadStart(livethread));
-            live.IsBackground = true;
-            live.Start();
-            if(livestate)
-            {
-                btnsnap.Enabled = false;
-                btnlive.Text = "Stop";
-            }
-            else
-            {
-                btnsnap.Enabled = true;
-                btnlive.Text = "Live";
-            }
-        }
+        //private void btnlive_Click(object sender, EventArgs e)
+        //{
+        //    livestate = !livestate;
+        //    live = new Thread(new ThreadStart(livethread));
+        //    live.IsBackground = true;
+        //    live.Start();
+        //    if(livestate)
+        //    {
+        //        btnsnap.Enabled = false;
+        //        btnlive.Text = "Stop";
+        //    }
+        //    else
+        //    {
+        //        btnsnap.Enabled = true;
+        //        btnlive.Text = "Live";
+        //    }
+        //}
 
         private void btnTECTemp_Click(object sender, EventArgs e)
         {
@@ -909,9 +1353,6 @@ namespace Gimbal
 
         public void disp_message(HTuple hv_WindowHandle, HTuple hv_String, HTuple hv_CoordSystem, HTuple hv_Row, HTuple hv_Column, HTuple hv_Color, HTuple hv_Box)
         {
-
-
-
             // Local iconic variables 
 
             // Local control variables 
@@ -1220,9 +1661,15 @@ namespace Gimbal
         {
             try
             {
-                this.folderName = DateTime.Now.ToString("yyyyMMdd-hhmmss");
-
-                __pathLogDir = Application.StartupPath + "\\Log\\" + this.folderName+"\\";
+                string cutbarcode =barcode;
+                this.folderName = DateTime.Now.ToString("yyyyMMdd-HHmmss");
+                if (barcode.ToUpper() == "<ERROR>") //"ERROR"\r\n
+                {
+                    cutbarcode = "ERROR";
+                }
+              //  __pathLogDir = Application.StartupPath + "\\Log\\" + this.folderName + "_" + cutbarcode + "\\";
+                __pathLogDir = __pathLogDir_1 + "\\Log\\" + this.folderName + "_" + cutbarcode +"\\";
+                __pathLogDir_2 = __pathLogDir_1 + "\\Log\\" + this.folderName + "_" + cutbarcode + ".done\\";
                 if (!File.Exists(__pathLogDir))
                     Directory.CreateDirectory(__pathLogDir);
             }
@@ -1232,9 +1679,11 @@ namespace Gimbal
             }
             
         }
+
         private void SaveLog(string msg)
         {
-            txtHelper.WriteText(__pathLogDir + "\\Gimbal.log", msg);
+            txtHelper.WriteText(__pathLogDir_1 + "\\Log\\" + "\\Gimbal.log", DateTime.Now.ToString("yyyyMMdd-hhmmss") + ":" + msg);
+            txtHelper.WriteText(__pathLogDir + "\\Gimbal.log", DateTime.Now.ToString("yyyyMMdd-hhmmss") + ":" + msg);
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -1243,35 +1692,267 @@ namespace Gimbal
             lblTime.Text = t.ToString("f3");
         }
 
-        private void label6_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void txtBarcode_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label5_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void txtTECTemp_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void btDefaultSN_Click(object sender, EventArgs e)
         {
             txtBarcode.Text = "FWP638701S2H6CWC5";
         }
 
+ 
+        private void cleartotal_Click(object sender, EventArgs e)
+        {
+            if (__pathLot == "")
+                MessageBox.Show("Please click New Lot button first!");
+            else
+            {
+
+                //填数据
+                string lotdata2 = DateTime.Now.ToString("dd-MMM-yyyy_HHmmss");
+                string __pathLot2 = "E:\\LotSummary\\" + TesterID + "_" + DeviceName + "_" + Form1_StepName.SelectedText + "_" + LotID + "_" + DiffusionLotID + "_" + Form1_TestMode.SelectedText + "_" + lotdata2 + "_end" + ".csv";
+
+                et.Rows[0][0] = "index";
+                et.Rows[0][1] = "group";
+                et.Rows[0][2] = "groupinfo";
+                et.Rows[0][3] = "item";
+                et.Rows[0][4] = "starttime";
+                et.Rows[0][5] = "endtime";
+                et.Rows[0][6] = "testtime";
+                et.Rows[0][7] = "low";
+                et.Rows[0][8] = "high";
+                et.Rows[0][9] = "unit";
+                et.Rows[0][10] = "value";
+                et.Rows[0][11] = "result";
+                et.Rows[1][0] = "1";
+                et.Rows[1][1] = "LOTE";
+                et.Rows[1][3] = "#PASS_BIN_1";
+                et.Rows[1][4] = "st";
+                et.Rows[1][5] = "et";
+                et.Rows[1][6] = "0";
+                et.Rows[1][10] = "0";
+                et.Rows[1][11] = "PASS";
+                et.Rows[2][0] = "2";
+                et.Rows[2][1] = "LOTE";
+                et.Rows[2][3] = "#PASS_BIN_2";
+                et.Rows[2][4] = "st";
+                et.Rows[2][5] = "et";
+                et.Rows[2][6] = "0";
+                et.Rows[2][10] = "0";
+                et.Rows[2][11] = "PASS";
+                et.Rows[3][0] = "3";
+                et.Rows[3][1] = "LOTE";
+                et.Rows[3][3] = "#PASS_BIN_3";
+                et.Rows[3][4] = "st";
+                et.Rows[3][5] = "et";
+                et.Rows[3][6] = "0";
+                et.Rows[3][10] = "0";
+                et.Rows[3][11] = "PASS";
+                et.Rows[4][0] = "4";
+                et.Rows[4][1] = "LOTE";
+                et.Rows[4][3] = "#FAIL_BIN_5";
+                et.Rows[4][4] = "st";
+                et.Rows[4][5] = "et";
+                et.Rows[4][6] = "0";
+                et.Rows[4][10] = "0";
+                et.Rows[4][11] = "PASS";
+                et.Rows[5][0] = "5";
+                et.Rows[5][1] = "LOTE";
+                et.Rows[5][3] = "#FAIL_BIN_6";
+                et.Rows[5][4] = "st";
+                et.Rows[5][5] = "et";
+                et.Rows[5][6] = "0";
+                et.Rows[5][10] = "0";
+                et.Rows[5][11] = "PASS";
+                et.Rows[6][0] = "6";
+                et.Rows[6][1] = "LOTE";
+                et.Rows[6][3] = "#FAIL_BIN_7";
+                et.Rows[6][4] = "st";
+                et.Rows[6][5] = "et";
+                et.Rows[6][6] = "0";
+                et.Rows[6][10] = "0";
+                et.Rows[6][11] = "PASS";
+                et.Rows[7][0] = "7";
+                et.Rows[7][1] = "LOTE";
+                et.Rows[7][3] = "#FAIL_BIN_2D";
+                et.Rows[7][4] = "st";
+                et.Rows[7][5] = "et";
+                et.Rows[7][6] = "0";
+                et.Rows[7][10] = "0";
+                et.Rows[7][11] = "PASS";
+                et.Rows[8][0] = "8";
+                et.Rows[8][1] = "LOTE";
+                et.Rows[8][3] = "#OVERRALL_YIELD";
+                et.Rows[8][4] = "st";
+                et.Rows[8][5] = "et";
+                et.Rows[8][6] = "0";
+                et.Rows[8][10] = "0";
+                et.Rows[8][11] = "PASS";
+                et.Rows[9][0] = "9";
+                et.Rows[9][1] = "LOTE";
+                et.Rows[9][3] = "#TOTAL_INPUT";
+                et.Rows[9][4] = "st";
+                et.Rows[9][5] = "et";
+                et.Rows[9][6] = "0";
+                et.Rows[9][10] = "0";
+                et.Rows[9][11] = "PASS";
+                csvcontrol.SaveCSV(et, __pathLot2);
+                Thread.Sleep(2000);
+                string IP = file.ReadXmlFile("MTCP", "IP");
+                int Port = Convert.ToInt32(file.ReadXmlFile("MTCP", "Port"));
+                MTCP_OPEN(IP, Port, 5000);
+                MTCP_GENL(__pathLot2, 1);
+                MTCP_CLOSE();
+                __pathLot = "";
+
+                EndLot endlot = new EndLot();
+                endlot.ShowDialog();
+
+                    total = 0;
+                    pass = 0;
+                    fail = 0;
+                    this.Total.Text = "0";
+                    this.Pass.Text = "0";
+                    this.Fail.Text = "0";
+                    this.PassPercent.Text = "0.00";
+                    this.FailPercent.Text = "0.00";
+                    this.Form1_StepName.SelectedIndex = 0;
+                    this.Form1_TestMode.SelectedIndex = 0;
+                    this.Form1_LotID.Text = "";
+                    this.Form1_DiffusionLotID.Text = "";
+                    this.Form1_LotSize.Value = 0;
+                    this.Form1_OperatorName.Text = "";
+
+                    this.cleartotal.Enabled = false;
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (__pathLot == "")
+            {
+                New_Lot newlot = new New_Lot();
+                newlot.ShowDialog();
+                if (NewLotBool)
+                {
+                    this.Form1_DeviceName.Text = DeviceName;
+                    this.Form1_StepName.SelectedIndex = StepNameIndex;
+                    this.Form1_TestMode.SelectedIndex = TestModeIndex;
+                    this.Form1_LotID.Text = LotID;
+                    this.Form1_DiffusionLotID.Text = DiffusionLotID;
+                    this.Form1_LotSize.Value = LotSize;
+                    this.Form1_OperatorName.Text = OperatorName;
+                    this.Form1_TesterID.Text = TesterID;
+                    string lotdata = DateTime.Now.ToString("dd-MMM-yyyy_HHmmss");
+                    __pathLot = "E:\\LotSummary\\" + TesterID + "_" + DeviceName + "_" + Form1_StepName.SelectedText + "_" + LotID + "_" + DiffusionLotID + "_" + Form1_TestMode.SelectedText + "_" + lotdata + "_start" + ".csv";
+                    st.Rows[0][0] = "index";
+                    st.Rows[0][1] = "group";
+                    st.Rows[0][2] = "groupinfo";
+                    st.Rows[0][3] = "item";
+                    st.Rows[0][4] = "starttime";
+                    st.Rows[0][5] = "endtime";
+                    st.Rows[0][6] = "testtime";
+                    st.Rows[0][7] = "low";
+                    st.Rows[0][8] = "high";
+                    st.Rows[0][9] = "unit";
+                    st.Rows[0][10] = "value";
+                    st.Rows[0][11] = "result";
+                    st.Rows[1][0] = "1";
+                    st.Rows[1][1] = "LOTS";
+                    st.Rows[1][3] = "#TESTER_NAME";
+                    st.Rows[1][4] = "st";
+                    st.Rows[1][5] = "et";
+                    st.Rows[1][6] = "0";
+                    st.Rows[1][10] = "TIDI";
+                    st.Rows[1][11] = "PASS";
+                    st.Rows[2][0] = "2";
+                    st.Rows[2][1] = "LOTS";
+                    st.Rows[2][3] = "#TESTER_ID";
+                    st.Rows[2][4] = "st";
+                    st.Rows[2][5] = "et";
+                    st.Rows[2][6] = "0";
+                    st.Rows[2][10] = "2";
+                    st.Rows[2][11] = "PASS";
+                    st.Rows[3][0] = "3";
+                    st.Rows[3][1] = "LOTS";
+                    st.Rows[3][3] = "#LOT_NAME";
+                    st.Rows[3][4] = "st";
+                    st.Rows[3][5] = "et";
+                    st.Rows[3][6] = "0";
+                    st.Rows[3][10] = LotID;
+                    st.Rows[3][11] = "PASS";
+                    st.Rows[4][0] = "4";
+                    st.Rows[4][1] = "LOTS";
+                    st.Rows[4][3] = "#LOT_SIZE";
+                    st.Rows[4][4] = "st";
+                    st.Rows[4][5] = "et";
+                    st.Rows[4][6] = "0";
+                    st.Rows[4][10] = LotSize.ToString();
+                    st.Rows[4][11] = "PASS";
+                    st.Rows[5][0] = "5";
+                    st.Rows[5][1] = "LOTS";
+                    st.Rows[5][3] = "#D_LOT_NAME";
+                    st.Rows[5][4] = "st";
+                    st.Rows[5][5] = "et";
+                    st.Rows[5][6] = "0";
+                    st.Rows[5][10] = DiffusionLotID;
+                    st.Rows[5][11] = "PASS";
+                    st.Rows[6][0] = "6";
+                    st.Rows[6][1] = "LOTS";
+                    st.Rows[6][3] = "#OPERATOR";
+                    st.Rows[6][4] = "st";
+                    st.Rows[6][5] = "et";
+                    st.Rows[6][6] = "0";
+                    st.Rows[6][10] = OperatorName;
+                    st.Rows[6][11] = "PASS";
+                    st.Rows[7][0] = "7";
+                    st.Rows[7][1] = "LOTS";
+                    st.Rows[7][3] = "#AM_SW_VER";
+                    st.Rows[7][4] = "st";
+                    st.Rows[7][5] = "et";
+                    st.Rows[7][6] = "0";
+                    st.Rows[7][10] = this.VERSION.Text;
+                    st.Rows[7][11] = "PASS";
+                    st.Rows[8][0] = "8";
+                    st.Rows[8][1] = "LOTS";
+                    st.Rows[8][3] = "#TEST_MODE";
+                    st.Rows[8][4] = "st";
+                    st.Rows[8][5] = "et";
+                    st.Rows[8][6] = "0";
+                    st.Rows[8][10] = TestModeIndex.ToString();
+                    st.Rows[8][11] = "PASS";
+                    csvcontrol.SaveCSV(st, __pathLot);
+                    total = 0;
+                    pass = 0;
+                    fail = 0;
+                    this.Total.Text = "0";
+                    this.Pass.Text = "0";
+                    this.Fail.Text = "0";
+                    this.PassPercent.Text = "0.00";
+                    this.FailPercent.Text = "0.00";
+                    Thread.Sleep(2000);
+                    string IP = file.ReadXmlFile("MTCP", "IP");
+                    int Port = Convert.ToInt32(file.ReadXmlFile("MTCP", "Port"));
+                    MTCP_OPEN(IP, Port, 5000);
+                    MTCP_GENL(__pathLot, 1);
+                    MTCP_CLOSE();
+                    this.cleartotal.Enabled = true;
+                }
+                NewLotBool = false;
+            }
+            else
+                MessageBox.Show("Please End Lot first!");
+        }
+
+        public bool movefolder(string SourceFolderName,string TargetFolderName)
+        {
+            try
+            {
+                Directory.Move(SourceFolderName, TargetFolderName);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }
+

@@ -8,6 +8,7 @@ namespace Gimbal
 {
     static class Program
     {
+        public static FrmStart FrmStartShow;
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -16,6 +17,9 @@ namespace Gimbal
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            FrmStartShow = new FrmStart();
+            FrmStartShow.Show();
+            Application.DoEvents();
             Application.Run(new Form1());
         }
     }

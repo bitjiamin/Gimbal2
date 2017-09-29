@@ -14,13 +14,12 @@ namespace Gimbal
         TcpClient TCP = new TcpClient();
         string __SN;
         NetworkStream sendStream;
-        private const int bufferSize = 100;
-
+        private const int bufferSize = 50;
+     
+        string buffer;
         public ScannerCommunications()
         {
-
         }
-
       
         public bool Connect(string ip, string port)
         {
@@ -49,56 +48,65 @@ namespace Gimbal
                     MessageBox.Show("Connect Fail!", "Error", MessageBoxButtons.OK);
                     return false;
                 }
-            
                 return true;
             }
 
         }
-        public void Scan(string data)
+        public void Scan()
         {
-            //TCP..tcpsend(data);
-            //Thread.Sleep(1500);
-            //__SN = TCP.result;
         }
-
-  
 
         public void Send(string sendmsg)
         {
+            buffer = null;
             if (TCP != null)
             {
-                //要发送的信息
+
                 if (sendmsg.Trim() == string.Empty)
                     return;
                 string msg = sendmsg.Trim();
                 //将信息存入缓存中
-                byte[] buffer = Encoding.Default.GetBytes(msg);
+                byte[] bufferSend = Encoding.Default.GetBytes(msg);
                 //lock (sendStream)
                 //{
-                sendStream.Write(buffer, 0, buffer.Length);
+                sendStream.Write(bufferSend, 0, bufferSend.Length);
                 //}
                 //rtbtxtShowData.AppendText("发送给服务端的数据:" + msg + "\n");
                 sendmsg = string.Empty;
+
             }
         }
 
         public string result()
         {
-            Thread.Sleep(1500);
-            int readSize;
-            byte[] buffer = new byte[bufferSize];
-            lock (sendStream)
+            try
             {
-                readSize = sendStream.Read(buffer, 0, bufferSize);
+                Thread.Sleep(1500);
+                int readSize;
+                byte[] buffer = new byte[bufferSize];
+                lock (sendStream)
+                {
+                    readSize = sendStream.Read(buffer, 0, bufferSize);
+                }
+
+                UTF8Encoding encoding = new UTF8Encoding();
+                __SN = encoding.GetString(buffer);
+
+                __SN = __SN.Substring(0, readSize);
+                __SN = __SN.Trim("\r\n".ToCharArray());
+                return __SN;
             }
-
-            UTF8Encoding encoding = new UTF8Encoding();
-            __SN = encoding.GetString(buffer);
-
-            __SN = __SN.Substring(0, readSize);
-            __SN = __SN.Trim("\r\n".ToCharArray());
-            return __SN;
+            catch(Exception ex)
+            {
+                MessageBox.Show("Error");
+                return "ERROR";
+            }
         
+        }
+
+        public void Close()
+        {
+            TCP.Close();
         }
     
     }

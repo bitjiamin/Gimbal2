@@ -14,22 +14,64 @@ namespace Gimbal
         string basepath = System.IO.Directory.GetCurrentDirectory();
         public double getmax(HObject img)
         {
+            // Local iconic variables 
+
             HObject ho_ROI_0, ho_ImageReduced;
+            HObject ho_Region;
 
             // Local control variables 
 
+            HTuple hv_Pointer = null, hv_Type = null, hv_Width = null;
+            HTuple hv_Height = null, hv_Rows = null, hv_Columns = null;
+            HTuple hv_Length = null, hv_Grayval = null;
             HTuple hv_Value = null;
             // Initialize local and output iconic variables 
             HOperatorSet.GenEmptyObj(out ho_ROI_0);
             HOperatorSet.GenEmptyObj(out ho_ImageReduced);
+            HOperatorSet.GenEmptyObj(out ho_Region);
             ho_ROI_0.Dispose();
-            HOperatorSet.GenRectangle1(out ho_ROI_0, 719.572, 948.489, 1907.32, 2267.81);
+            HOperatorSet.GenRectangle1(out ho_ROI_0, 246.084, 179.5, 2163.27, 3091.5);
             ho_ImageReduced.Dispose();
-            HOperatorSet.ReduceDomain(img, ho_ROI_0,out ho_ImageReduced);
-            HOperatorSet.GrayFeatures(ho_ROI_0, ho_ImageReduced, "max", out hv_Value);
-            ho_ROI_0.Dispose();
-            ho_ImageReduced.Dispose();
-            return hv_Value;
+            try
+            {
+                HOperatorSet.ReduceDomain(img, ho_ROI_0, out ho_ImageReduced);
+                ho_Region.Dispose();
+                HOperatorSet.Threshold(ho_ImageReduced, out ho_Region, 4000, 16383);
+
+                HOperatorSet.GetImagePointer1(ho_ImageReduced, out hv_Pointer, out hv_Type, out hv_Width, out hv_Height);
+                HOperatorSet.GetRegionPoints(ho_Region, out hv_Rows, out hv_Columns);
+                HOperatorSet.TupleLength(hv_Rows, out hv_Length);
+                HOperatorSet.GetGrayval(ho_ImageReduced, hv_Rows, hv_Columns, out hv_Grayval);
+                insertion_sort(ref hv_Grayval, hv_Length);
+                hv_Grayval = hv_Grayval.TupleSelectRange(hv_Length - 100, hv_Length - 1);
+                hv_Value = hv_Grayval.TupleMean();
+                ho_ROI_0.Dispose();
+                ho_ImageReduced.Dispose();
+                ho_Region.Dispose();
+                return hv_Value;
+            }
+            catch (Exception ex)
+            {
+                return 0;
+            }
+          
+        }
+
+        public void insertion_sort(ref HTuple arr, int len)
+        {
+            int i, j;
+            int temp;
+            for (i = 1; i < len; i++)
+            {
+                temp = arr[i]; //與已排序的數逐一比較，大於temp時，該數向後移
+                j = i - 1;  // 如果将赋值放到下一行的for循环内, 会导致在第10行出现j未声明的错误
+                for (; j >= 0 && arr[j] > temp; j--)
+                {
+                    //j循环到-1时，由于[[短路求值]]，不会运算array[-1]
+                    arr[j + 1] = arr[j];
+                }
+                arr[j + 1] = temp; //被排序数放到正确的位置
+            }
         }
         public void disp_message(HTuple hv_WindowHandle, HTuple hv_String, HTuple hv_CoordSystem, HTuple hv_Row, HTuple hv_Column, HTuple hv_Color, HTuple hv_Box)
         {

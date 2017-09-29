@@ -21,14 +21,14 @@ namespace Gimbal
 
         private void Tcpsetting_Load(object sender, EventArgs e)
         {
-            IP.Text=file.ReadXmlFile("IP");
-            Port.Text = file.ReadXmlFile("Port");
+            IP.Text=file.ReadXmlFile("/TCPconfig","IP");
+            Port.Text = file.ReadXmlFile("/TCPconfig","Port");
         }
 
         private void Read_Click(object sender, EventArgs e)
         {
-            IP.Text = file.ReadXmlFile("IP");
-            Port.Text = file.ReadXmlFile("Port");
+            IP.Text = file.ReadXmlFile("/TCPconfig","IP");
+            Port.Text = file.ReadXmlFile("/TCPconfig","Port");
         }
 
         private void write_Click(object sender, EventArgs e)

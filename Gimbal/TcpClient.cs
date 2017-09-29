@@ -25,12 +25,16 @@ namespace Gimbal
                 {
                     int readSize;
                     byte[] buffer = new byte[bufferSize];
+
                     lock (sendStream)
                     {
+
                         readSize = sendStream.Read(buffer, 0, bufferSize);
+
                     }
                     if (readSize == 0)
                         return;
+                    
                     //result = Encoding.Default.GetString(buffer, 0, readSize);
                     char[] c_result = new char[8];
                     string s_result;

@@ -52,15 +52,35 @@ namespace Gimbal
             //Console.ReadLine();
         }
 
-            public string ReadXmlFile(string key)
+            public string ReadXmlFile(string parent, string key)
            {
+            string strData=null;
             XmlDocument doc = new XmlDocument();
             //加载Xml文件
             doc.Load(basepath+@"\TCPconfig.xml");
             //获取节点
+            //XmlNode xmlNode1 = doc.SelectSingleNode("/config");
             XmlNode xmlNode1 = doc.SelectSingleNode("/config");
             //获取IP属性值
-            string strData = xmlNode1[key].InnerText;
+           // string strData = xmlNode1[key].InnerText;
+            var nodes = xmlNode1.FirstChild;
+            while(nodes != null )
+            {
+                if (nodes.Name == parent)
+                {
+                   
+                    var childnode = nodes.FirstChild;
+                    if (childnode.Name == key)
+                    {
+                        strData = childnode.InnerText;
+                    }
+                    else if (childnode.NextSibling.Name == key) {
+                        strData = childnode.NextSibling.InnerText;
+                    }
+                }
+                nodes =nodes.NextSibling;
+            }
+          
            
             return strData;
            }
